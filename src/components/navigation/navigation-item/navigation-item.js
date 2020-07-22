@@ -6,7 +6,6 @@ const NavigationItem = props => {
   const parsedUrl = props.blok.link.cached_url.replace("home", "") || '/';
   return (
     <SbEditable content={props.blok}>
-      {console.log(props.blok.link.cached_url)}
       <li className="nav-item active">
         <Link className="nav-link" to={parsedUrl}>
           {props.blok.name}

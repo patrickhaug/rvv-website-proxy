@@ -5,6 +5,14 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+    {
+      resolve: "gatsby-source-storyblok",
+      options: {
+        accessToken: "3987r2nQTnEcd6rppyOv3wtt",
+        homeSlug: "home",
+        version: "draft",
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,

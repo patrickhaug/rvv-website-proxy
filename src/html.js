@@ -18,11 +18,11 @@ export default class HTML extends React.Component {
           {/** src matches stencil component library's development server /dist */}
           <script
             type="module"
-            src={`${getComponentsURL()}/roche-component-library.esm.js`}
+            src={`${getComponentsURL()}/roche-component-library/roche-component-library.esm.js`}
           ></script>
           <script
             noModule
-            src={`${getComponentsURL()}/roche-component-library.js`}
+            src={`${getComponentsURL()}/roche-component-library/roche-component-library.js`}
           ></script>
         </head>
         <body>

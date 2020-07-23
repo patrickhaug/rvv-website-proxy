@@ -67,3 +67,6 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+#secrets file used to simulate Github Actions with act tool
+secrets.env

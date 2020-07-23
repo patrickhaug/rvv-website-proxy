@@ -53,15 +53,6 @@ jobs:
       - name: Build App
         run: npm run build
 
-      - name: Archive Release
-        uses: thedoctor0/zip-release@master
-        with:
-          path: "dist/"
-          type: zip
-
-      - name: Move Release archive
-        run: mv release.zip ./dist/dist.zip
-
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
         id: package-version

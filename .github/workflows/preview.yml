@@ -1,0 +1,57 @@
+name: Preview
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Run Tests
+        run: npm run test || true # Tests not blocking for while
+
+      - name: Generate Audit report
+        run: npm audit || true # Audit not blocking for while
+
+      - name: Build the website
+        run: npm run build
+
+      - name: Extract branch name
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch_name
+
+      - name: Deploy preview (public)
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.STATIC_WEB_SITE_BUCKET }}
+          SOURCE_DIR: "public"
+          DEST_DIR: "preview/${{ steps.extract_branch_name.outputs.branch }}"

@@ -6,6 +6,9 @@ on:
       - "*"
       - "!master"
 
+env:
+  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+
 jobs:
   build:
     runs-on: ubuntu-latest

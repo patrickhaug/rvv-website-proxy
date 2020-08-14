@@ -41,6 +41,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const contents = entries.filter((entry) => entry.node.field_component !== 'navigation');
 
   contents.forEach((entry) => {
+    const path = entry.node.full_slug.includes('home')
+      ? entry.node.full_slug.replace('home', '')
+      : entry.node.full_slug;
+
     const navigation = entries.filter(({ node }) => (
       node.field_component === 'navigation' && node.lang === entry.node.lang
     ));
@@ -50,9 +54,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
 
     createPage({
-      path: entry.node.full_slug && entry.node.full_slug !== 'home'
-        ? `/${entry.node.full_slug}/`
-        : '/',
+      path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
       component: template,
       context: {
         navigation: navigation[0].node,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const getComponentsURL = (): string => process.env.ROCHE_COMPONENTS_LIBRARY_URL
+const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL
   || 'http://localhost:3334/dist';
 
 interface HTMLProps {

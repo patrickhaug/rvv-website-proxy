@@ -7,7 +7,7 @@ on:
       - "!master"
 
 env:
-  ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
 
 jobs:
   build:

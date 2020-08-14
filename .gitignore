@@ -68,5 +68,8 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-#secrets file used to simulate Github Actions with act tool
+# Secrets file used to simulate Github Actions with act tool
 secrets.env
+
+# User files
+TODO

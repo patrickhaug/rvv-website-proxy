@@ -5,7 +5,7 @@ on:
     branches:
       - master
 env:
-  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
 
 jobs:
   pre_release:

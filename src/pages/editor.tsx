@@ -19,9 +19,9 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry extends Component<null, StoryblokEntryState> {
-  public constructor() {
-    super(null);
+export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
+  public constructor(props: object) {
+    super(props);
     this.state = {
       story: null,
       navigation: { content: {} },

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL
-  || 'http://localhost:3334/dist';
+  || 'http://localhost:3333/dist';
 
 interface HTMLProps {
   body: string;

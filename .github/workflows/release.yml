@@ -1,11 +1,31 @@
+# ### Github Secrets
+#
+# - `LIVE_AWS_ACCESS_KEY_ID` - AWS Access Key ID.
+# - `LIVE_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
+# - `LIVE_AWS_DEFAULT_REGION` - AWS Default Region.
+# - `LIVE_STATIC_WEB_SITE_BUCKET` - Static Web Site URL (S3 Bucket).
+# - `LIVE_STORYBLOK_SPACE_API_KEY` - Storyblok Space API Key with public access.
+# - `LIVE_ROCHE_COMPONENTS_LIBRARY_URL` - URL of the Roche Component Library.
+
 name: Release
 
 on:
   push:
     branches:
       - master
+  
+  # New live website should be rebuild and deployed everytime content changes
+  repository_dispatch:
+    types: [ storyblok_content_changed ]
+
 env:
-  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.LIVE_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.LIVE_AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.LIVE_AWS_DEFAULT_REGION }}
+  AWS_REGION: ${{ secrets.LIVE_AWS_DEFAULT_REGION }}
+  AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
+  GATSBY_STORYBLOK_SPACE_API_KEY: ${{ secrets.LIVE_STORYBLOK_SPACE_API_KEY }}
+  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.LIVE_ROCHE_COMPONENTS_LIBRARY_URL }}
 
 jobs:
   pre_release:
@@ -53,7 +73,7 @@ jobs:
         run: npm audit || true # Audit will pass for while
 
       - name: Build App
-        run: npm run build
+        run: npm run build:public
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
@@ -65,18 +85,12 @@ jobs:
       - name: Deploy the release version
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
-          AWS_S3_BUCKET: ${{ secrets.STATIC_WEB_SITE_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: "public"
           DEST_DIR: "releases/${{ steps.package-version.outputs.current-version }}"
 
       - name: Deploy the release as latest version
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
-          AWS_S3_BUCKET: ${{ secrets.STATIC_WEB_SITE_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: "public"
 
       - uses: actions/checkout@master

@@ -1,4 +1,4 @@
-# Roche Component Library
+# Roche Website Starter
 
 This is the Roche Website Starter, where you can find a boilerplate for Roche websites built on Storyblok and the [Roche Components Library](https://github.com/RocheGlobal/roche-component-library).
 

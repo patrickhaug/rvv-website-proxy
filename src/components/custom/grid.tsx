@@ -35,18 +35,15 @@ const getlayoutType = (id: string, layouts = gridSettings.storyblokLayoutMap): s
 const buildChildrenRenderFunction = (
   getComponent: Function,
   gridArea = undefined,
-) => (child): JSX.Element => React.createElement(
-  getComponent(child.component),
-  {
-    // eslint-disable-next-line no-underscore-dangle
-    key: child._uid,
-    blok: {
-      ...child,
-      slot: gridArea || undefined,
-      getComponent,
-    },
+) => (child): JSX.Element => React.createElement(getComponent(child.component), {
+  // eslint-disable-next-line no-underscore-dangle
+  key: child._uid,
+  blok: {
+    ...child,
+    slot: gridArea || undefined,
   },
-);
+  getComponent,
+});
 
 const matchEditorAreaNames = (key: string): boolean => Object
   .keys(gridSettings.storyblokGridAreasMap)
@@ -57,6 +54,7 @@ const Grid = ({ blok, getComponent }: AnyProps): JSX.Element => React.createElem
   {
     layout: getlayoutType(blok.component),
     fullWidth: blok.full_width,
+    slot: blok.slot,
   },
   Object.keys(blok)
     .filter(matchEditorAreaNames)

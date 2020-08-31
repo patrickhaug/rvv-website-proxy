@@ -15,6 +15,7 @@ export const RocheRichtext = ({ blok }: AnyProps): JSX.Element => React.createEl
   'roche-richtext',
   {
     'capitalize-first-Letter': blok.capitalize_first_letter || undefined,
+    footnote: blok.footnote || undefined,
     dangerouslySetInnerHTML: markupFromRichtextField(blok.text),
   },
 );

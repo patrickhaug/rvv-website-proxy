@@ -41,7 +41,7 @@ Storyblok attributes have to be named in `snake_case`. They will then automatica
 ### Reserved names
 The `slotted` and `hidden` attribute names on content types are reserved and should not be used in components that rely on the `Default` component.
 
-This also applies to attributes named `slotted-*` and `hidden-*` (where `*` is a wildcard).
+This also applies to attributes named `slotted_*` and `hidden_*` (where `*` is a wildcard).
 
 *Note that you shouldn't name your Storyblok component's fields using the above keywords, unless you wish to trigger their associates behaviour.*
 
@@ -50,12 +50,12 @@ For further details, please refer below.
 #### Slotted
 By default, an attribute named `slotted` will be put inside another blok as a child component.
 
-Additionally, an attribute named `slotted-xyz` will generate a named slot (`<slot name="xyz">…</slot>`) inside the parent component.
+Additionally, an attribute named `slotted_xyz` will generate a named slot (`<slot name="xyz">…</slot>`) inside the parent component.
 
 #### Hidden
 An attribute named `hidden` will not be output to the frontend. These should be used as hidden fields that the backend can access.
 
-This also applies to any `hidden-*` attributes.
+This also applies to any `hidden_*` attributes.
 
 ## IDEs
 To take advantage of the linter's strengths and to ensure no problems during merges, please consider installing the following plugins on your IDE.

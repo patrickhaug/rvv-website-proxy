@@ -12,14 +12,14 @@ const gridSettings = {
     'grid-3-3-3-3': '3-3-3-3',
   },
   storyblokGridAreasMap: {
-    left: 'left',
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    center_left: 'center-left',
-    center: 'center',
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    center_right: 'center-right',
-    right: 'right',
-    components: '', // for single area layouts
+    /* eslint-disable @typescript-eslint/camelcase */
+    slotted_left: 'left',
+    slotted_center_left: 'center-left',
+    slotted_center: 'center',
+    slotted_center_right: 'center-right',
+    slotted_right: 'right',
+    slotted: '', // for single area layouts
+    /* eslint-enable @typescript-eslint/camelcase */
   },
 };
 

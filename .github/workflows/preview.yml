@@ -1,8 +1,8 @@
 # ### Github Secrets
 #
-# - `PREVIEW_AWS_ACCESS_KEY_ID` -  - AWS Access Key ID.
-# - `PREVIEW_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
-# - `PREVIEW_AWS_DEFAULT_REGION` - AWS Default Region.
+# - `ROCHE_AWS_ACCESS_KEY_ID` -  - AWS Access Key ID.
+# - `ROCHE_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
+# - `ROCHE_AWS_DEFAULT_REGION` - AWS Default Region.
 # - `PREVIEW_STATIC_WEB_SITE_BUCKET` - Static Web Site URL (S3 Bucket).
 # - `PREVIEW_STORYBLOK_SPACE_API_KEY` - Storyblok Space API Key with preview access.
 # - `PREVIEW_ROCHE_COMPONENTS_LIBRARY_URL` - URL of the Roche Component Library.
@@ -20,9 +20,9 @@ on:
     types: [ storyblok_components_changed, storyblok_content_changed ]
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.PREVIEW_AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.PREVIEW_AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{ secrets.PREVIEW_AWS_DEFAULT_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.ROCHE_AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
   AWS_REGION: ${{ secrets.PREVIEW_AWS_DEFAULT_REGION }}
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}

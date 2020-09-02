@@ -1,8 +1,8 @@
 # ### Github Secrets
 #
-# - `LIVE_AWS_ACCESS_KEY_ID` - AWS Access Key ID.
-# - `LIVE_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
-# - `LIVE_AWS_DEFAULT_REGION` - AWS Default Region.
+# - `ROCHE_AWS_ACCESS_KEY_ID` - AWS Access Key ID.
+# - `ROCHE_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
+# - `ROCHE_AWS_DEFAULT_REGION` - AWS Default Region.
 # - `LIVE_STATIC_WEB_SITE_BUCKET` - Static Web Site URL (S3 Bucket).
 # - `LIVE_STORYBLOK_SPACE_API_KEY` - Storyblok Space API Key with public access.
 # - `LIVE_ROCHE_COMPONENTS_LIBRARY_URL` - URL of the Roche Component Library.
@@ -19,10 +19,10 @@ on:
     types: [ storyblok_content_changed ]
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.LIVE_AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.LIVE_AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{ secrets.LIVE_AWS_DEFAULT_REGION }}
-  AWS_REGION: ${{ secrets.LIVE_AWS_DEFAULT_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.ROCHE_AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
+  AWS_REGION: ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
   AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
   GATSBY_STORYBLOK_SPACE_API_KEY: ${{ secrets.LIVE_STORYBLOK_SPACE_API_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.LIVE_ROCHE_COMPONENTS_LIBRARY_URL }}

@@ -28,7 +28,7 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 Since this repository should be used only as a starting point for a Roche website, you should define your preview and staging environments yourself.
 
-Nevertheless you can access a deployed version of this repo using the latest Roche Component Library here: http://roche-website-starter-website.s3-website.eu-central-1.amazonaws.com/
+Nevertheless you can access a deployed version of this repo using the latest Roche Component Library here: http://live.roche-website-starter.s3-website.eu-central-1.amazonaws.com/
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.

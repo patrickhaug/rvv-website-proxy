@@ -53,7 +53,8 @@ const Grid = ({ blok, getComponent }: AnyProps): JSX.Element => React.createElem
   gridSettings.tagName,
   {
     layout: getlayoutType(blok.component),
-    fullWidth: blok.full_width,
+    'full-width': blok.full_width,
+    color: blok.color,
     slot: blok.slot,
   },
   Object.keys(blok)

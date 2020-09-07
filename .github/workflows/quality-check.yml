@@ -1,0 +1,52 @@
+name: Check
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "**"
+      - "!master"
+
+env:
+  GATSBY_STORYBLOK_SPACE_API_KEY: ${{ secrets.PREVIEW_STORYBLOK_SPACE_API_KEY }}
+  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.PREVIEW_ROCHE_COMPONENTS_LIBRARY_URL }}
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Run Lint verification
+        run: npm run lint
+
+      - name: Build the website
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test || true # Tests not blocking for while
+
+      - name: Generate Audit report
+        run: npm audit || true # Audit not blocking for while

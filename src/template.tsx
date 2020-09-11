@@ -5,6 +5,7 @@ import { getComponent } from './components';
 export interface EntryData {
   story: StoryData;
   navigation: StoryData;
+  pageId: string;
 }
 
 interface StoryblokEntryProps {
@@ -18,10 +19,12 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const navigation = { ...pageContext.navigation };
   story.content = JSON.parse(story.content.toString());
   navigation.content = JSON.parse(navigation.content.toString());
-  return { story, navigation };
+  return { story, navigation, pageId: pageContext.pageId };
 };
 
 const Navigation = getComponent('navigation');
+
+const RochePageId = 'roche-page-id' as React.ReactType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -39,9 +42,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   }
 
   public render(): JSX.Element {
-    const { story, navigation } = this.state;
+    const { story, navigation, pageId } = this.state;
     return (
       <>
+        <RochePageId data-id={pageId}></RochePageId>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {React.createElement(getComponent(story.content.component), {
           // eslint-disable-next-line no-underscore-dangle

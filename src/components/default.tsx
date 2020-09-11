@@ -12,6 +12,8 @@ export const Default = (
   const allProps = {
     ...props,
     ...(slot ? { slot } : {}),
+    // eslint-disable-next-line no-underscore-dangle
+    ...(blok._uid ? { uid: blok._uid } : {}),
   };
 
   const CustomComponent = ConversionService.camelToKebab(blok.component) as ReactType;

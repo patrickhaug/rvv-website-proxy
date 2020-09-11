@@ -1,80 +1,61 @@
 import React from 'react';
-import { AnyProps } from '../types';
+import { StoryblokComponent } from 'storyblok-js-client';
+import { blokToComponent } from '../helpers/blok-to-component';
+import { Props } from '../types';
 
-const gridSettings = {
-  tagName: 'roche-grid',
-  storyblokLayoutMap: {
-    'grid-12': '12',
-    'grid-8': '8',
-    'grid-6-6': '6-6',
-    'grid-8-4': '8-4',
-    'grid-4-4-4': '4-4-4',
-    'grid-3-3-3-3': '3-3-3-3',
-  },
-  storyblokGridAreasMap: {
-    /* eslint-disable @typescript-eslint/camelcase */
-    slotted_left: 'left',
-    slotted_center_left: 'center-left',
-    slotted_center: 'center',
-    slotted_center_right: 'center-right',
-    slotted_right: 'right',
-    slotted: '', // for single area layouts
-    /* eslint-enable @typescript-eslint/camelcase */
-  },
+const tagName = 'roche-grid';
+
+const storyblokLayoutMap = {
+  'grid-12': '12',
+  'grid-8': '8',
+  'grid-6-6': '6-6',
+  'grid-8-4': '8-4',
+  'grid-4-4-4': '4-4-4',
+  'grid-3-3-3-3': '3-3-3-3',
 };
 
-const getlayoutType = (id: string, layouts = gridSettings.storyblokLayoutMap): string => {
-  if (!layouts[id]) {
+const storyblokGridAreasMap = {
+  /* eslint-disable @typescript-eslint/camelcase */
+  slotted_left: 'left',
+  slotted_center_left: 'center-left',
+  slotted_center: 'center',
+  slotted_center_right: 'center-right',
+  slotted_right: 'right',
+  slotted: '',
+  /* eslint-enable @typescript-eslint/camelcase */
+};
+
+const getLayoutType = (id: string): string => {
+  if (!storyblokLayoutMap[id]) {
     throw new Error(
-      `${gridSettings.tagName}: could not find a layout match for ${id} component.`,
+      `${tagName}: could not find a layout match for ${id} component.`,
     );
   }
-  return layouts[id];
+  return storyblokLayoutMap[id];
 };
 
-const buildChildrenRenderFunction = (
-  getComponent: Function,
-  gridArea = undefined,
-) => (child): JSX.Element => React.createElement(getComponent(child.component), {
-  // eslint-disable-next-line no-underscore-dangle
-  key: child._uid,
-  blok: {
-    ...child,
-    slot: gridArea || undefined,
-  },
-  getComponent,
-});
-
-const matchEditorAreaNames = (key: string): boolean => Object
-  .keys(gridSettings.storyblokGridAreasMap)
-  .indexOf(key) > -1;
-
-const Grid = ({ blok, getComponent }: AnyProps): JSX.Element => React.createElement(
-  gridSettings.tagName,
+const Grid = ({ blok, getComponent }: Props): JSX.Element => React.createElement(
+  tagName,
   {
-    layout: getlayoutType(blok.component),
+    layout: getLayoutType(blok.component),
     'full-width': blok.full_width,
     color: blok.color,
     slot: blok.slot,
   },
   Object.keys(blok)
-    .filter(matchEditorAreaNames)
-    .map((editorName) => blok[editorName].map(
-      buildChildrenRenderFunction(
+    .filter((attributeName) => attributeName.substr(0, 'slotted'.length) === 'slotted')
+    .map((attributeName) => blok[attributeName].map(
+      (component: StoryblokComponent<string>) => blokToComponent({
+        blok: component,
         getComponent,
-        gridSettings.storyblokGridAreasMap[editorName],
-      ),
+        slot: storyblokGridAreasMap[attributeName],
+      }),
     )),
 );
 
-const buildGridComponentMatches = (
-  storyblokComponentsMap = gridSettings.storyblokLayoutMap,
-): Record<string, Function> => Object.keys(storyblokComponentsMap).reduce(
-  (accumulator, componentName) => ({
+export const gridComponents = Object
+  .keys(storyblokLayoutMap)
+  .reduce((accumulator, componentName) => ({
     ...accumulator,
     [componentName]: Grid,
-  }),
-  {},
-);
-
-export const gridComponents = buildGridComponentMatches();
+  }), {});

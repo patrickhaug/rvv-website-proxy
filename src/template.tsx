@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
-import { getComponent } from './components';
+import { getComponent, blokToComponent } from './components';
 
 export interface EntryData {
   story: StoryData;
@@ -47,12 +47,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       <>
         <RochePageId data-id={pageId}></RochePageId>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
-        {React.createElement(getComponent(story.content.component), {
-          // eslint-disable-next-line no-underscore-dangle
-          key: story.content._uid,
-          blok: story.content,
-          getComponent,
-        })}
+        {blokToComponent({ blok: story.content, getComponent })}
       </>
     );
   }

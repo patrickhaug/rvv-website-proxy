@@ -1,4 +1,5 @@
 import React from 'react';
+import { RecaptchaService } from './services';
 
 const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL
   || 'http://localhost:3333/dist';
@@ -18,6 +19,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {headComponents}
+        <script src={RecaptchaService.recaptchaApiSource} async defer></script>
         <link rel="stylesheet" href={`${src}.css`} />
         <script type="module" src={`${src}.esm.js`}></script>
         <script noModule src={`${src}.js`}></script>

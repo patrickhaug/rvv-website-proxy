@@ -3,10 +3,18 @@ import { StoryblokComponent } from 'storyblok-js-client';
 import { Props } from '../types';
 
 export const blokToComponent = (
-  { blok, getComponent, slot }: Props<StoryblokComponent<string>>,
+  props: Props<StoryblokComponent<string>>,
+  keyPrefix?: string,
 ): JSX.Element => {
-  const CustomChild = getComponent(blok.component);
+  const CustomChild = props.getComponent(props.blok.component);
+  // eslint-disable-next-line no-underscore-dangle
+  const key = typeof keyPrefix === 'string' ? `${keyPrefix}-${props.blok._uid}` : undefined;
+  const newProps = {
+    ...props,
+    ...(key ? { key } : {}),
+  };
+
   return (
-    <CustomChild blok={blok} getComponent={getComponent} slot={slot}></CustomChild>
+    <CustomChild {...newProps}></CustomChild>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StoryblokComponent } from 'storyblok-js-client';
-import { blokToComponent } from '../helpers/blok-to-component';
+import { blokToComponent } from '../helpers';
 import { Props } from '../types';
 
 const tagName = 'roche-grid';
@@ -49,7 +49,7 @@ const Grid = ({ blok, getComponent }: Props): JSX.Element => React.createElement
         blok: component,
         getComponent,
         slot: storyblokGridAreasMap[attributeName],
-      }),
+      }, 'grid'),
     )),
 );
 

@@ -11,22 +11,22 @@ export const slottedToComponents = (
     slotted[childSlotName] instanceof Array ? slotted[childSlotName] : [slotted[childSlotName]]
   ) as StoryblokComponent<string>[]);
 
-  if (!components.length) {
-    return <></>;
-  }
-
-  if (childSlotName === 'unnamed') {
+  if (childSlotName === 'unnamed' || !components.length) {
     return (
       <>
-        {components.map((component) => blokToComponent({ getComponent, blok: component }))}
+        {components.map((component) => blokToComponent(
+          { getComponent, blok: component }, 'slotted-unnamed',
+        ))}
       </>
     );
   }
   return components.length === 1 ? (
-    blokToComponent({ getComponent, blok: components[0], slot: childSlotName })
+    blokToComponent({ getComponent, blok: components[0], slot: childSlotName }, 'slotted')
   ) : (
     <div slot={childSlotName}>
-      {components.map((component) => blokToComponent({ getComponent, blok: component }))}
+      {components.map((component) => blokToComponent(
+        { getComponent, blok: component }, `slotted-${childSlotName}`,
+      ))}
     </div>
   );
 });

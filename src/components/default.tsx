@@ -1,9 +1,8 @@
 import React, { ReactType } from 'react';
 import { StoryblokComponent } from 'storyblok-js-client';
 import { ConversionService } from '../services';
+import { filterProps, slottedToComponents } from './helpers';
 import { Props } from './types';
-import { filterProps } from './helpers/filter-props';
-import { slottedToComponents } from './helpers/slotted-to-components';
 
 export const Default = (
   { blok, getComponent, slot }: Props<StoryblokComponent<string>>,
@@ -17,7 +16,8 @@ export const Default = (
   };
 
   const CustomComponent = ConversionService.camelToKebab(blok.component) as ReactType;
+  const children = slottedToComponents(getComponent, slotted);
   return (
-    <CustomComponent {...allProps}>{slottedToComponents(getComponent, slotted)}</CustomComponent>
+    <CustomComponent {...allProps}>{children}</CustomComponent>
   );
 };

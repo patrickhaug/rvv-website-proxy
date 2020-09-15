@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import StoryblokReact from 'storyblok-react';
 import { Story } from 'storyblok-js-client';
-import { getComponent } from '../components';
+import { getComponent, blokToComponent } from '../components';
 import { StoryblokService } from '../services';
 import { EntryData } from '../template';
 
@@ -22,12 +22,13 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
   public constructor(props: object) {
     super(props);
+    this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
+    this.loadStory = this.loadStory.bind(this);
+
     this.state = {
       story: null,
       navigation: { content: {} },
     } as StoryblokEntryState;
-    this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
-    this.loadStory = this.loadStory.bind(this);
   }
 
   public componentDidMount(): void {
@@ -44,12 +45,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     return (
       <StoryblokReact content={story.content}>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
-        {React.createElement(getComponent(story.content.component), {
-          // eslint-disable-next-line no-underscore-dangle
-          key: story.content._uid,
-          blok: story.content,
-          getComponent,
-        })}
+        {blokToComponent({ blok: story.content, getComponent })}
       </StoryblokReact>
     );
   }

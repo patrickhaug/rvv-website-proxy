@@ -3,6 +3,8 @@ import CustomComponents from './custom';
 import { Default } from './default';
 import { AnyComponent } from './types';
 
+export * from './helpers';
+
 const customComponents: Record<string, AnyComponent> = Object
   .keys(CustomComponents)
   .reduce((accumulator, componentName) => ({

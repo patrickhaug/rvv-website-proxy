@@ -20,13 +20,10 @@ on:
     types: [ storyblok_components_changed, storyblok_content_changed ]
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.ROCHE_AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
-  AWS_REGION: ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
+  STORYBLOK_SPACE_NAME: 'roche-website-starter'
+  STORYBLOK_API_KEY_NAME: 'preview'
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}
-  GATSBY_STORYBLOK_SPACE_API_KEY: ${{ secrets.PREVIEW_STORYBLOK_SPACE_API_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.PREVIEW_ROCHE_COMPONENTS_LIBRARY_URL }}
 
 jobs:
@@ -61,6 +58,19 @@ jobs:
 
       - name: Generate Audit report
         run: npm audit || true # Audit not blocking for while
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ROCHE_AWS_SECRET_ACCESS_KEY }}
+          aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
+
+      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
+        run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
+
+      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
+        run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Build the website
         run: npm run build

@@ -82,6 +82,9 @@ jobs:
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
+      - name: Set COGNITO_USERPOOL_ID and COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME)
+        run: . ./scripts/set-cognito-user-pool-vars.sh
+
       - name: Build App
         run: npm run build:public
 

@@ -28,7 +28,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
 };
 
 const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Navigation = getComponent('navigation');
+const Navigation = getComponent('roche-navigation');
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {

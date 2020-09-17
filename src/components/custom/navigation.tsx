@@ -1,12 +1,32 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import { SbEditableContent } from 'storyblok-react';
+import StoryblokReact, { SbEditableContent } from 'storyblok-react';
 import { blokToComponent } from '../helpers';
 import { Props } from '../types';
 
 type NavigationProps = Props<{ items: SbEditableContent[] }>;
 
-export const Navigation = ({ blok, getComponent }: NavigationProps): JSX.Element => (
+type NavigationItemProps = Props<{
+  name: string;
+  link: {
+    cached_url: string;
+  };
+}>;
+
+export const RocheNavigationItem = ({ blok }: NavigationItemProps): JSX.Element => {
+  const parsedUrl = blok.link.cached_url.replace('home', '') || '/';
+  return (
+    <StoryblokReact content={blok}>
+      <li className="nav-item active">
+        <Link className="nav-link" to={parsedUrl}>
+          {blok.name}
+        </Link>
+      </li>
+    </StoryblokReact>
+  );
+};
+
+export const RocheNavigation = ({ blok, getComponent }: NavigationProps): JSX.Element => (
   <nav className="navbar navbar-expand navbar-light bg-light">
     <span>Language Switch</span>
     <ul>

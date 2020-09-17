@@ -1,18 +1,19 @@
-import { Navigation } from './navigation';
-import { NavigationItem } from './navigation-item';
 import { Page } from './page';
-import { SEO } from './seo';
-import { gridComponents } from './grid';
 import { RocheGlobalConfig } from './global-config';
+import { RocheNavigation, RocheNavigationItem } from './navigation';
+import { gridComponents } from './grid';
 import { RocheRichtext } from './richtext';
+import { forms } from './forms';
+// import { SEO } from './seo';
 
 // eslint-disable-next-line import/no-default-export
 export default {
-  ...gridComponents,
-  Navigation,
-  NavigationItem,
   Page,
   RocheGlobalConfig,
+  ...gridComponents,
+  RocheNavigation,
+  RocheNavigationItem,
   RocheRichtext,
-  SEO,
+  ...forms,
+  // SEO,
 };

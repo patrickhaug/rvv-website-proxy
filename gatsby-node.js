@@ -41,7 +41,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const template = resolve('./src/template.tsx');
   const entries = data.stories.edges;
-  const contents = entries.filter((entry) => entry.node.field_component !== 'navigation');
+  const contents = entries.filter((entry) => entry.node.field_component !== 'roche-navigation');
 
   contents.forEach((entry) => {
     const path = entry.node.full_slug.includes('home')
@@ -49,7 +49,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       : entry.node.full_slug;
 
     const navigation = entries.filter(({ node }) => (
-      node.field_component === 'navigation' && node.lang === entry.node.lang
+      node.field_component === 'roche-navigation' && node.lang === entry.node.lang
     ));
 
     if (!navigation.length) {

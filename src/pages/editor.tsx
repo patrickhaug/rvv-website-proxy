@@ -7,7 +7,7 @@ import { EntryData } from '../template';
 
 type StoryblokEntryState = EntryData;
 
-const Navigation = getComponent('navigation');
+const Navigation = getComponent('roche-navigation');
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const storyblokConfig = StoryblokService.getConfig();

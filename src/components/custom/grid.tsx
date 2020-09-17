@@ -6,12 +6,12 @@ import { Props } from '../types';
 const tagName = 'roche-grid';
 
 const storyblokLayoutMap = {
-  'grid-12': '12',
-  'grid-8': '8',
-  'grid-6-6': '6-6',
-  'grid-8-4': '8-4',
-  'grid-4-4-4': '4-4-4',
-  'grid-3-3-3-3': '3-3-3-3',
+  'roche-grid-12': '12',
+  'roche-grid-8': '8',
+  'roche-grid-6-6': '6-6',
+  'roche-grid-8-4': '8-4',
+  'roche-grid-4-4-4': '4-4-4',
+  'roche-grid-3-3-3-3': '3-3-3-3',
 };
 
 const storyblokGridAreasMap = {

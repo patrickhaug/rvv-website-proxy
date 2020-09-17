@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 
 const pageId = `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME || 'website-starter:local'}`;
+const recaptchaKey = process.env.GATSBY_GOOGLE_RECAPTCHA_KEY || '';
 
 const graphQuery = `
   {
@@ -62,6 +63,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         navigation: navigation[0].node,
         story: entry.node,
         pageId: `${pageId}:${entry.node.uuid}`,
+        recaptchaKey,
       },
     });
   });

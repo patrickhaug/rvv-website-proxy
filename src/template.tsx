@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
+import { GlobalConfigProps } from './components/custom/global-config';
 
-export interface EntryData {
+export interface EntryData extends GlobalConfigProps {
   story: StoryData;
   navigation: StoryData;
-  pageId: string;
 }
 
 interface StoryblokEntryProps {
@@ -19,12 +19,16 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const navigation = { ...pageContext.navigation };
   story.content = JSON.parse(story.content.toString());
   navigation.content = JSON.parse(navigation.content.toString());
-  return { story, navigation, pageId: pageContext.pageId };
+  return {
+    story,
+    navigation,
+    pageId: pageContext.pageId,
+    recaptchaKey: pageContext.recaptchaKey,
+  };
 };
 
+const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
 const Navigation = getComponent('navigation');
-
-const RochePageId = 'roche-page-id' as React.ReactType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -42,10 +46,15 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   }
 
   public render(): JSX.Element {
-    const { story, navigation, pageId } = this.state;
+    const {
+      story, navigation, pageId, recaptchaKey,
+    } = this.state;
     return (
       <>
-        <RochePageId data-id={pageId}></RochePageId>
+        <RocheGlobalConfig
+          pageId={pageId}
+          recaptchaKey={recaptchaKey}
+        ></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </>

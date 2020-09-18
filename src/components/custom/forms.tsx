@@ -2,7 +2,7 @@ import React from 'react';
 import { Default } from '../default';
 import { AnyProps } from '../types';
 
-const RocheFormContact = ({ blok }: AnyProps): JSX.Element => {
+const RocheFormContact = ({ blok, slot }: AnyProps): JSX.Element => {
   const subjectOptions = [
     {
       label: blok.subject_diagnostics,
@@ -35,7 +35,7 @@ const RocheFormContact = ({ blok }: AnyProps): JSX.Element => {
   ];
   return (
     // eslint-disable-next-line no-underscore-dangle
-    <roche-form uid={blok._uid} submit={blok.submit} submit-icon={'email'} success={blok.success} error={blok.error}>
+    <roche-form slot={slot} uid={blok._uid} submit={blok.submit} submit-icon={'email'} success={blok.success} error={blok.error}>
       <roche-select
         name="subject"
         label={blok.subject_label}

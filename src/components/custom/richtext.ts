@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryblokClient from 'storyblok-js-client';
+import StoryblokClient, { Richtext } from 'storyblok-js-client';
 import { StoryblokService } from '../../services';
 import { AnyProps } from '../types';
 
@@ -32,24 +32,35 @@ storyblokClient.setComponentResolver((component, blok): string => (
  * This means we need to combine the <p> tags surrounding the roche-text-link into the same one,
  * with roche-text-link as their child
  *
- * In order to maximize reusability of Storybloks richTextResolver,
+ * In order to maximize reusability of Storyblok's richTextResolver,
  * we use pattern matching and work directly on the "stringified markup" output by their tools.
  *
- * NOTE: The editor can stil make links behave like their own Blok,
- * by insterting 2 carriage returns, instead of 1, after a paragraph.
+ * NOTE: The editor can still make links behave like their own Blok,
+ * by inserting 2 carriage returns, instead of 1, after a paragraph.
  */
-const ForceLinksInsideParagraphs = (markupString: string): string => markupString
+const forceLinksInsideParagraphs = (markupString: string): string => markupString
   .replace(/<\/p><roche-text-link/gm, ' <roche-text-link')
   .replace(/<\/roche-text-link><p>/gm, '</roche-text-link> ')
   .replace(/<p><\/p>/, '');
 
-const markupFromRichtextField = (storyblokHtmlSchema): string => ForceLinksInsideParagraphs(
-  storyblokClient.richTextResolver.render(storyblokHtmlSchema),
+/**
+ * External Links are written by the Storyblok helper as `href="/http://…"`
+ * However, they should not have the initial slash. This function removes it.
+ */
+const fixExternalLinks = (markupString: string): string => markupString
+  .replace(/href="\/https:\/\//gm, 'href="https://')
+  .replace(/href="\/http:\/\//gm, 'href="http://');
+
+const markupFromRichtextField = (storyblokHtmlSchema: Richtext): string => fixExternalLinks(
+  forceLinksInsideParagraphs(storyblokClient.richTextResolver.render(storyblokHtmlSchema)),
 );
 
-export const RocheRichtext = ({ blok }: AnyProps): JSX.Element => React.createElement(
+export const RocheRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
   'roche-richtext',
   {
+    // eslint-disable-next-line no-underscore-dangle
+    uid: blok._uid,
+    slot,
     'capitalize-first-Letter': blok.capitalize_first_letter || undefined,
     footnote: blok.footnote || undefined,
     dangerouslySetInnerHTML: { __html: markupFromRichtextField(blok.text) },

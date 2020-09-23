@@ -1,5 +1,6 @@
 import { StoryblokComponent } from 'storyblok-js-client';
 import { ConversionService } from '../../services';
+import { getMappedProps } from '../props';
 
 export interface FilteredProps {
   props: Record<string, string>;
@@ -11,10 +12,6 @@ const shouldBePrinted = (value: unknown): boolean => !(
   value === null || value === undefined || value === false
 );
 
-const toHTMLAttribute = (value: unknown): string => (
-  value instanceof Object ? JSON.stringify(value) : value.toString()
-);
-
 export const filterProps = (blok: StoryblokComponent<string>): FilteredProps => {
   const keys = Object.keys(blok).filter((key) => key && key[0] !== '_' && key !== 'component');
   const slottedKeys = keys.filter((key) => key === 'slotted' || key.indexOf('slotted_') === 0);
@@ -24,9 +21,7 @@ export const filterProps = (blok: StoryblokComponent<string>): FilteredProps => 
       .filter((key) => slottedKeys.indexOf(key) < 0 && hiddenKeys.indexOf(key) < 0)
       .reduce((accumulator, key) => ({
         ...accumulator,
-        ...(shouldBePrinted(blok[key]) ? {
-          [ConversionService.snakeToKebab(key)]: toHTMLAttribute(blok[key]),
-        } : {}),
+        ...(shouldBePrinted(blok[key]) ? getMappedProps(key, blok[key]) : {}),
       }), {}),
     slotted: slottedKeys.reduce((accumulator, key) => ({
       ...accumulator,

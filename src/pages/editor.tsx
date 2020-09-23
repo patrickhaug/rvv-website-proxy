@@ -7,6 +7,7 @@ import { EntryData } from '../template';
 
 type StoryblokEntryState = EntryData;
 
+const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
 const Navigation = getComponent('roche-navigation');
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
@@ -26,7 +27,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     this.loadStory = this.loadStory.bind(this);
 
     this.state = {
-      story: null,
       navigation: { content: {} },
     } as StoryblokEntryState;
   }
@@ -36,14 +36,20 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   }
 
   public render(): JSX.Element {
-    const { story, navigation } = this.state;
+    const {
+      story, navigation, pageId, recaptchaKey,
+    } = this.state;
 
-    if (story == null) {
+    if (!story) {
       return <div></div>;
     }
 
     return (
       <StoryblokReact content={story.content}>
+        <RocheGlobalConfig
+          pageId={pageId}
+          recaptchaKey={recaptchaKey}
+        ></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </StoryblokReact>

@@ -20,10 +20,9 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   story.content = JSON.parse(story.content.toString());
   navigation.content = JSON.parse(navigation.content.toString());
   return {
+    ...pageContext,
     story,
     navigation,
-    pageId: pageContext.pageId,
-    recaptchaKey: pageContext.recaptchaKey,
   };
 };
 

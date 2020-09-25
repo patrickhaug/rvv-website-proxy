@@ -5,6 +5,7 @@ const RocheFormEmail = ({ blok, ...rest }: AnyProps): JSX.Element => Default({
   blok: {
     ...blok,
     component: 'roche-form',
+    type: 'email',
   },
   ...rest,
 });

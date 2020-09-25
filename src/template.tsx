@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
-import { GlobalConfigProps } from './components/custom/global-config';
+import { DomService, GlobalConfigProps } from './services';
 
 export interface EntryData extends GlobalConfigProps {
   story: StoryData;
@@ -20,9 +20,9 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   story.content = JSON.parse(story.content.toString());
   navigation.content = JSON.parse(navigation.content.toString());
   return {
-    ...pageContext,
     story,
     navigation,
+    ...DomService.getGlobalConfig(story.uuid),
   };
 };
 
@@ -45,15 +45,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   }
 
   public render(): JSX.Element {
-    const {
-      story, navigation, pageId, recaptchaKey,
-    } = this.state;
+    const { story, navigation, ...globalConfig } = this.state;
     return (
       <>
-        <RocheGlobalConfig
-          pageId={pageId}
-          recaptchaKey={recaptchaKey}
-        ></RocheGlobalConfig>
+        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </>

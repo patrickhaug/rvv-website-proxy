@@ -1,5 +1,5 @@
 import { StoryblokComponent } from 'storyblok-js-client';
-import { ConversionService } from '../../services';
+import { StringService } from '../../services';
 import { getMappedProps } from '../props';
 
 export interface FilteredProps {
@@ -25,11 +25,11 @@ export const filterProps = (blok: StoryblokComponent<string>): FilteredProps => 
       }), {}),
     slotted: slottedKeys.reduce((accumulator, key) => ({
       ...accumulator,
-      [ConversionService.snakeToKebab(key === 'slotted' ? 'unnamed' : key.substr('slotted_'.length))]: blok[key],
+      [StringService.snakeToKebab(key === 'slotted' ? 'unnamed' : key.substr('slotted_'.length))]: blok[key],
     }), {}),
     hidden: hiddenKeys.reduce((accumulator, key) => ({
       ...accumulator,
-      [ConversionService.snakeToKebab(key === 'hidden' ? 'unnamed' : key.substr('hidden_'.length))]: blok[key],
+      [StringService.snakeToKebab(key === 'hidden' ? 'unnamed' : key.substr('hidden_'.length))]: blok[key],
     }), {}),
   };
 };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StoryblokReact from 'storyblok-react';
 import { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
-import { StoryblokService } from '../services';
+import { DomService, StoryblokService } from '../services';
 import { EntryData } from '../template';
 
 type StoryblokEntryState = EntryData;
@@ -11,12 +11,11 @@ const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType
 const Navigation = getComponent('roche-navigation');
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
-  const storyblokConfig = StoryblokService.getConfig();
-  const script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = `//app.storyblok.com/f/storyblok-latest.js?t=${storyblokConfig.options.accessToken}`;
+  const script = DomService.createElement('script', '', {
+    src: `//app.storyblok.com/f/storyblok-latest.js?t=${StoryblokService.getConfig().options.accessToken}`,
+  });
   script.onload = onLoadHandler;
-  document.getElementsByTagName('head')[0].appendChild(script);
+  document.head.appendChild(script);
 };
 
 // eslint-disable-next-line import/no-default-export
@@ -36,9 +35,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   }
 
   public render(): JSX.Element {
-    const {
-      story, navigation, pageId, recaptchaKey,
-    } = this.state;
+    const { story, navigation, ...globalConfig } = this.state;
 
     if (!story) {
       return <div></div>;
@@ -46,10 +43,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     return (
       <StoryblokReact content={story.content}>
-        <RocheGlobalConfig
-          pageId={pageId}
-          recaptchaKey={recaptchaKey}
-        ></RocheGlobalConfig>
+        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </StoryblokReact>
@@ -69,7 +63,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
         if (currentStory && currentStory.id === story.id) {
           story.content = storyblok.addComments(story.content, story.id);
-          this.setState({ story });
+          this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
         }
       });
 
@@ -95,7 +89,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         ({ story }) => {
-          this.setState({ story });
+          this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
           this.loadGlobalNavigation(story.lang);
         },
       );

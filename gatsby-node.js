@@ -1,8 +1,5 @@
 const { resolve } = require('path');
 
-const pageId = `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME || 'website-starter:local'}`;
-const recaptchaKey = process.env.GATSBY_GOOGLE_RECAPTCHA_KEY || '';
-
 const graphQuery = `
   {
     stories: allStoryblokEntry {
@@ -62,8 +59,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         navigation: navigation[0].node,
         story: entry.node,
-        pageId: `${pageId}:${entry.node.uuid}`,
-        recaptchaKey,
       },
     });
   });

@@ -1,9 +1,9 @@
-import { ConversionService } from '../../services';
+import { StringService } from '../../services';
 import { asset } from './asset';
 import { multiAsset } from './multi-asset';
 
 const defaultMapper = (key: string, value: unknown): Record<string, string> => ({
-  [ConversionService.snakeToKebab(key)]: value instanceof Object
+  [StringService.snakeToKebab(key)]: value instanceof Object
     ? JSON.stringify(value)
     : value.toString(),
 });

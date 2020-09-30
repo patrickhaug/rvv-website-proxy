@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
-import { DomService, GlobalConfigProps } from './services';
+import { DomService, GlobalConfigProps, StoryblokService } from './services';
 
 export interface EntryData extends GlobalConfigProps {
   story: StoryData;
@@ -42,6 +42,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   public constructor(props: StoryblokEntryProps) {
     super(props);
     this.state = parseEntryData(props);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  public componentDidMount(): void {
+    window.addEventListener('rocheLoginComplete', () => StoryblokService.redirect());
   }
 
   public render(): JSX.Element {

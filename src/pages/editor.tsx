@@ -22,6 +22,7 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
   public constructor(props: object) {
     super(props);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
@@ -32,6 +33,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   public componentDidMount(): void {
     loadStoryblokBridge(this.handleStoryblokLoad);
+    window.addEventListener('rocheLoginComplete', this.handleLogin);
   }
 
   public render(): JSX.Element {
@@ -73,6 +75,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         }
       });
     }
+  }
+
+  private handleLogin(): void {
+    StoryblokService.redirect(({ story }) => {
+      this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
+    });
   }
 
   private loadStory(): void {

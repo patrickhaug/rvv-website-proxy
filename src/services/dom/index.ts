@@ -19,7 +19,7 @@ export const DomService = {
 
   getGlobalConfig(pageId: string): GlobalConfigProps {
     return {
-      pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME || 'website-starter:local'}:${pageId}`,
+      pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME || 'roche-website-starter:local'}:${pageId}`,
       recaptchaKey: process.env.GATSBY_GOOGLE_RECAPTCHA_KEY || '',
       brightcoveAccountId: process.env.GATSBY_BRIGHTCOVE_ACCOUNT_ID || '1752604059001',
       brightcovePlayerId: process.env.GATSBY_BRIGHTCOVE_PLAYER_ID || 'rJtrO8EKW',

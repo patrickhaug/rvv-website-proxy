@@ -20,10 +20,11 @@ on:
     types: [ storyblok_components_changed, storyblok_content_changed ]
 
 env:
-  STORYBLOK_SPACE_NAME: 'roche-website-starter'
-  STORYBLOK_API_KEY_NAME: 'preview'
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}
+  STORYBLOK_API_KEY_NAME: 'preview'
+  STORYBLOK_SPACE_NAME: 'roche-website-starter'
+  GATSBY_STORYBLOK_SPACE_API_KEY_NAME: 'roche-website-starter:preview'
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
 
@@ -69,9 +70,6 @@ jobs:
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
-
-      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
-        run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Set COGNITO_USERPOOL_ID and COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME)
         run: . ./scripts/set-cognito-user-pool-vars.sh

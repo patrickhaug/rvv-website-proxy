@@ -50,7 +50,7 @@ For further details, please refer below.
 #### Slotted
 By default, an attribute named `slotted` will be put inside another blok as a child component.
 
-Additionally, an attribute named `slotted_xyz` will generate a named slot (`<slot name="xyz">…</slot>`) inside the parent component.
+Additionally, an attribute named `slotted_xyz` will generate a named slot (`<div slot="xyz">…</slot>`) inside the parent component.
 
 #### Hidden
 An attribute named `hidden` will not be output to the frontend. These should be used as hidden fields that the backend can access.

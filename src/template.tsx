@@ -3,8 +3,12 @@ import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
 import { DomService, GlobalConfigProps, StoryblokService } from './services';
 
+export interface StoryDataFromGraphQLQuery extends StoryData {
+  lang: string;
+}
+
 export interface EntryData extends GlobalConfigProps {
-  story: StoryData;
+  story: StoryDataFromGraphQLQuery;
   navigation: StoryData;
 }
 
@@ -22,7 +26,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   return {
     story,
     navigation,
-    ...DomService.getGlobalConfig(story.uuid),
+    ...DomService.getGlobalConfig(story.uuid, story.lang),
   };
 };
 
@@ -53,7 +57,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const { story, navigation, ...globalConfig } = this.state;
     return (
       <>
-        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
+        <RocheGlobalConfig lang={story.lang} {...globalConfig}></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </>

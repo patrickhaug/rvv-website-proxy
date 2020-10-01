@@ -3,7 +3,7 @@ import StoryblokReact from 'storyblok-react';
 import { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import { DomService, StoryblokService } from '../services';
-import { EntryData } from '../template';
+import { EntryData, StoryDataFromGraphQLQuery } from '../template';
 
 type StoryblokEntryState = EntryData;
 
@@ -61,11 +61,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
       storyblok.on('input', (data: Story['data']) => {
         const { story: currentStory } = this.state;
-        const story = data?.story;
+        const story = data?.story as StoryDataFromGraphQLQuery;
 
         if (currentStory && currentStory.id === story.id) {
           story.content = storyblok.addComments(story.content, story.id);
-          this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
+          this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
         }
       });
 
@@ -97,7 +97,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         ({ story }) => {
-          this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
+          this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
           this.loadGlobalNavigation(story.lang);
         },
       );

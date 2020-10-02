@@ -79,7 +79,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   private handleLogin(): void {
     StoryblokService.redirect(({ story }) => {
-      this.setState({ story, ...DomService.getGlobalConfig(story.uuid) });
+      this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
     });
   }
 

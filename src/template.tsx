@@ -57,7 +57,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const { story, navigation, ...globalConfig } = this.state;
     return (
       <>
-        <RocheGlobalConfig lang={story.lang} {...globalConfig}></RocheGlobalConfig>
+        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </>

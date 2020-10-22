@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 /**
  * SEO component that queries for data with
  *  Gatsby's useStaticQuery React hook
@@ -8,17 +9,31 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
-import { AnyProps } from '../types';
 
-type SEOProps = AnyProps & {
-  title: string;
+type SEOProps = {
+  title?: string;
   description?: string;
   lang?: string;
-  meta?: React.MetaHTMLAttributes<HTMLMetaElement>[];
+  og_image?: string;
+  og_title?: string;
+  og_description?: string;
+  twitter_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  slug?: string;
 };
 
 export function SEO({
-  description, lang, meta, title,
+  title,
+  description,
+  lang,
+  og_image,
+  og_title,
+  og_description,
+  twitter_image,
+  twitter_title,
+  twitter_description,
+  slug,
 }: SEOProps): JSX.Element {
   const { site } = useStaticQuery(
     graphql`
@@ -28,6 +43,8 @@ export function SEO({
             title
             description
             author
+            url
+            defaultLanguage
           }
         }
       }
@@ -39,7 +56,7 @@ export function SEO({
   return (
     <Helmet
       htmlAttributes={{
-        lang,
+        lang: lang === 'default' ? site.siteMetadata.defaultLanguage : lang,
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
@@ -49,16 +66,28 @@ export function SEO({
           content: metaDescription,
         },
         {
+          property: 'og:image',
+          content: og_image,
+        },
+        {
           property: 'og:title',
-          content: title,
+          content: og_title,
         },
         {
           property: 'og:description',
-          content: metaDescription,
+          content: og_description,
         },
         {
           property: 'og:type',
           content: 'website',
+        },
+        {
+          property: 'og:url',
+          content: `${site.siteMetadata.url}/${slug}`,
+        },
+        {
+          name: 'twitter:image',
+          content: twitter_image,
         },
         {
           name: 'twitter:card',
@@ -70,13 +99,12 @@ export function SEO({
         },
         {
           name: 'twitter:title',
-          content: title,
+          content: twitter_title,
         },
         {
           name: 'twitter:description',
-          content: metaDescription,
+          content: twitter_description,
         },
-        ...meta,
       ]}
     />
   );
@@ -84,6 +112,13 @@ export function SEO({
 
 SEO.defaultProps = {
   lang: 'en',
-  meta: [],
+  title: '',
   description: '',
+  og_image: '',
+  og_title: '',
+  og_description: '',
+  twitter_image: '',
+  twitter_title: '',
+  twitter_description: '',
+  slug: '',
 };

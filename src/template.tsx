@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
+import { SEO } from './components/custom/seo';
 import { DomService, GlobalConfigProps, StoryblokService } from './services';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
@@ -57,6 +58,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const { story, navigation, ...globalConfig } = this.state;
     return (
       <>
+        <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}

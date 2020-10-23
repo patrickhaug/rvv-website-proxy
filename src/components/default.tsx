@@ -8,11 +8,14 @@ export const Default = (
   { blok, getComponent, slot }: Props<StoryblokComponent<string>>,
 ): JSX.Element => {
   const { props, slotted } = filterProps(blok);
+
   const allProps = {
     ...props,
     ...(slot ? { slot } : {}),
     // eslint-disable-next-line no-underscore-dangle
     ...(blok._uid ? { uid: blok._uid } : {}),
+    // eslint-disable-next-line no-underscore-dangle
+    ...((blok.id || blok._uid) ? { id: blok.id || blok._uid } : {}),
   };
 
   const CustomComponent = StringService.camelToKebab(blok.component) as ReactType;

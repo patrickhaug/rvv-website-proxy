@@ -1,13 +1,4 @@
-# ### Github Secrets
-#
-# - `ROCHE_AWS_ACCESS_KEY_ID` - AWS Access Key ID.
-# - `ROCHE_AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key.
-# - `ROCHE_AWS_DEFAULT_REGION` - AWS Default Region.
-# - `LIVE_STATIC_WEB_SITE_BUCKET` - Static Web Site URL (S3 Bucket).
-# - `LIVE_STORYBLOK_SPACE_API_KEY` - Storyblok Space API Key with public access.
-# - `LIVE_ROCHE_COMPONENTS_LIBRARY_URL` - URL of the Roche Component Library.
-
-name: Release
+name: Release # IMPORTANT!!! This name must not be changed !!!!
 
 on:
   push:
@@ -16,15 +7,19 @@ on:
   
   # New live website should be rebuild and deployed everytime content changes
   repository_dispatch:
-    types: [ storyblok_content_changed ]
+    types:
+      - storyblok_content_changed
+      - live_website_deploy_requested
 
 env:
-  STORYBLOK_SPACE_NAME: 'roche-website-starter'
-  STORYBLOK_API_KEY_NAME: 'live'
-  GATSBY_STORYBLOK_SPACE_API_KEY_NAME: 'roche-website-starter:live'
   AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
-  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  DISTRIBUTION: ${{ secrets.LIVE_CLOUDFRONT_DISTRIBUTION_ID }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
+  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}
+  STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+  STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
+  WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
 
 jobs:
   pre_release:
@@ -81,11 +76,17 @@ jobs:
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
+      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
+        run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
+
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
         run: . ./scripts/set-cognito-user-pool.sh
 
       - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
         run: . ./scripts/set-cognito-user-pool-client.sh
+
+      - name: Emit event live_deploy_started
+        run: . ./scripts/emit-event-live-deploy-started.sh
 
       - name: Build App
         run: npm run build:public
@@ -111,6 +112,17 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: "0"
+
+      - name: Emit event live_deploy_finished
+        run: . ./scripts/emit-event-live-deploy-finished.sh
+
+      - name: Request Lambda@Edge authorizer to clear the cache
+        run: . ./scripts/clear-authorizer-lambdaedge.sh
+
+      - name: Invalidate Distribution
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          PATHS: '/*'
 
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.17.2

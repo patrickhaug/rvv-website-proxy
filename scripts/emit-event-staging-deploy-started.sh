@@ -1,0 +1,4 @@
+curl -X POST \
+  "${ROCHE_WEBHOOKS_API_URL}/v1/storyblok-event-notifications" \
+  -H 'Content-Type: application/json' \
+  -d "{\"action\":\"staging_deploy_started\", \"space_id\": ${STORYBLOK_SPACE_ID} }"

@@ -10,6 +10,7 @@ on:
      - storyblok_components_changed
      - storyblok_content_changed
      - preview_website_deploy_requested
+     - live_website_deploy_requested
 
 env:
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}

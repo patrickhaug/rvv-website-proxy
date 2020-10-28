@@ -9,7 +9,7 @@ on:
       - "!master"
   repository_dispatch:
     types:
-     - refresh_cache_requested
+     - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
   CACHE_ID: 'build-check'
@@ -48,30 +48,30 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Stop the execution if it was 'refresh_cache_requested' action
-        if: ${{ github.event.action == 'refresh_cache_requested' }}
-        run: |
-          echo "Cache refresh triggered on ${{ github.event.action }}!"
-          exit 0
-
       - name: Setup Node
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
       - name: Install packages
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm ci
 
       - name: Run Lint verification
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run lint
 
       - name: Run Tests
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run test || true # Tests not blocking for while
 
       - name: Generate Audit report
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm audit || true # Audit not blocking for while
 
       - name: Configure AWS Credentials
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
@@ -79,18 +79,23 @@ jobs:
           aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool.sh
 
       - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool-client.sh
 
       - name: Build the website
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build
         env:
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true

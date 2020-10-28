@@ -30,18 +30,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Caches that have not been accessed within the last week are cleared. GatsbyCacheRefresh workflow refreshes it periodically.
-      - name: Caching Gatsby
-        id: gatsby-cache-build
-        uses: actions/cache@v2
-        with:
-          path: |
-            public
-            .cache
-          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
-
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
         id: package-version
@@ -72,9 +60,9 @@ jobs:
           path: |
             public
             .cache
-          key: ${{ runner.os }}-gatsby-build-${{ CACHE_NAME }}-${{ github.run_id }}
+          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-gatsby-build-${{ CACHE_NAME }}
+            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
 
       - name: Setup Node
         uses: actions/setup-node@v1

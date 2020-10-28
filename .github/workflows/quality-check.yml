@@ -7,6 +7,9 @@ on:
       - "*/*"
       - "**"
       - "!master"
+  repository_dispatch:
+    types:
+     - refresh_cache_requested
 
 env:
   CACHE_ID: 'build-check'
@@ -33,11 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -49,6 +47,17 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
+      - name: Stop the execution if it was 'refresh_cache_requested' action
+        if: ${{ github.event.action == 'refresh_cache_requested' }}
+        run: |
+          echo "Cache refresh triggered on ${{ github.event.action }}!"
+          exit 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
       - name: Install packages
         run: npm ci

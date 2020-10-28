@@ -2,9 +2,8 @@ name: RefreshCaches
 
 on:
   schedule:
-    # - cron: 0 0 */1 * * # Every day at midnight
-    - cron: '*/10 * * * *' # Every 10 minutes TODO: CHANGE ONCE it is tested
-  
+    - cron: 0 0 */1 * * # Every day at midnight
+
 jobs:
   request_cache_refresh:
     name: Request Cache Refresh

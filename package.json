@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build",
-    "build:public": "PUBLIC_BUILD=1 gatsby build",
+    "build": "gatsby build --log-pages --write-to-file",
+    "build:public": "PUBLIC_BUILD=1 gatsby build --log-pages --write-to-file",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "npm run lint:code",

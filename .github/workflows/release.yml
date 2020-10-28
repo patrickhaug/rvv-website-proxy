@@ -12,6 +12,7 @@ on:
       - live_website_deploy_requested
 
 env:
+  CACHE_ID: 'live'
   AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.LIVE_CLOUDFRONT_DISTRIBUTION_ID }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
@@ -28,6 +29,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      # Caches that have not been accessed within the last week are cleared. GatsbyCacheRefresh workflow refreshes it periodically.
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
@@ -51,6 +64,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ CACHE_NAME }}-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-${{ CACHE_NAME }}
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -90,6 +114,10 @@ jobs:
 
       - name: Build App
         run: npm run build:public
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          CI: true
+          NODE_OPTIONS: --max-old-space-size=7168        
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0

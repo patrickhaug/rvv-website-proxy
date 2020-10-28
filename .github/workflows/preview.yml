@@ -13,6 +13,7 @@ on:
      - live_website_deploy_requested
 
 env:
+  CACHE_ID: 'preview'
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
@@ -28,6 +29,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -76,6 +88,10 @@ jobs:
 
       - name: Build the website
         run: npm run build
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          CI: true
+          NODE_OPTIONS: --max-old-space-size=7168
 
       - name: Deploy preview (public)
         uses: jakejarvis/s3-sync-action@v0.5.1

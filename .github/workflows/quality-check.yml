@@ -7,6 +7,7 @@ on:
       - "*/*"
       - "**"
       - "!master"
+
   repository_dispatch:
     types:
      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction

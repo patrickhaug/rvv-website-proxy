@@ -10,6 +10,7 @@ on:
     types:
       - storyblok_content_changed
       - live_website_deploy_requested
+      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
   CACHE_ID: 'live'
@@ -65,20 +66,25 @@ jobs:
             ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
 
       - name: Setup Node
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
       - name: Install packages
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm ci
 
       - name: Run Tests
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run test || true # Tests will pass for while
 
       - name: Generate Audit report
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm audit || true # Audit will pass for while
 
       - name: Configure AWS Credentials
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
@@ -86,21 +92,27 @@ jobs:
           aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool.sh
 
       - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool-client.sh
 
       - name: Emit event live_deploy_started
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/emit-event-live-deploy-started.sh
 
       - name: Build App
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build:public
         env:
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
@@ -108,39 +120,43 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=7168        
 
       - name: Get current package version
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: martinbeentjes/npm-get-version-action@v1.0.0
         id: package-version
 
       - name: Print current version from package.json
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: echo "${{ steps.package-version.outputs.current-version }}"
 
       - name: Deploy the release version
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           SOURCE_DIR: "public"
           DEST_DIR: "releases/${{ steps.package-version.outputs.current-version }}"
 
       - name: Deploy the release as latest version
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           SOURCE_DIR: "public"
 
-      - uses: actions/checkout@master
-        with:
-          fetch-depth: "0"
-
       - name: Emit event live_deploy_finished
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/emit-event-live-deploy-finished.sh
 
       - name: Request Lambda@Edge authorizer to clear the cache
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/clear-authorizer-lambdaedge.sh
 
       - name: Invalidate Distribution
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           PATHS: '/*'
 
       - name: Bump version and push tag
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: anothrNick/github-tag-action@1.17.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

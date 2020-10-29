@@ -32,7 +32,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Caching Gatsby
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         id: gatsby-cache-build
         uses: actions/cache@v2
         with:
@@ -104,10 +103,10 @@ jobs:
       - name: Build the website
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build
-        # env:
-        #  GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: false
-        #  CI: true
-        #  NODE_OPTIONS: --max-old-space-size=7168
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          CI: true
+          NODE_OPTIONS: --max-old-space-size=7168
 
       - name: Deploy staging (public)
         if: ${{ github.event.action != 'refresh_cache_requested' }}

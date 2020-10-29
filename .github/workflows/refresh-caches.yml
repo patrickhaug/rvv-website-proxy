@@ -5,7 +5,7 @@ on:
     - cron: 0 0 */1 * * # Every day at midnight
 
 jobs:
-  request_cache_refresh:
+  request-cache-refresh:
     name: Request Cache Refresh
     runs-on: ubuntu-latest
     steps:
@@ -15,7 +15,7 @@ jobs:
       - name: Call repository dispatch event to refresh the Check cache
         run: echo 'Call repository dispatch to trigger the Check workflow with refresh_cache_requested'
 
-      - name: Repository Dispatch
+      - name: Repository Dispatch refresh_cache_requested
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}

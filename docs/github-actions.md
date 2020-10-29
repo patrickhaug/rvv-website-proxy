@@ -1,5 +1,9 @@
 # Github Actions - Settings
 
+## Constants
+
+- `CACHE_ID` - Contains the id of Gatsby cache for conditional builds for each workflow. In case of needing to perform a full website rebuild. Just update the cache version +1.
+
 ## Required Secrets
 
 ### Check Workflow
@@ -44,4 +48,9 @@
 - Preview - Deploy the `preview` website version used by Editor with unplublished content.
 - Release - Deploy the `live` website version used by customers with plublished content.
 
-This project follows the Continuous Delivery approach. Since it represents the website codebase that should be stable. Merge to `master` generates a new deployment.
+This project follows the GitFlow.
+
+staging > deploys staging
+master  > deploys preview/live
+
+

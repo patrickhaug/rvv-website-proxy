@@ -13,7 +13,7 @@ on:
      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
-  CACHE_ID: 'build-check'
+  CACHE_ID: 'check-v1'
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
   STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}

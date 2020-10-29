@@ -14,7 +14,7 @@ on:
      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
-  CACHE_ID: 'preview'
+  CACHE_ID: 'preview-v1'
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}

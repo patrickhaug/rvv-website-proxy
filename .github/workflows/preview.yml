@@ -84,6 +84,10 @@ jobs:
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
+      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
+        if: ${{ github.event.action != 'refresh_cache_requested' }}
+        run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
+
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool.sh

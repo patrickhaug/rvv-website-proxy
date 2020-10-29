@@ -69,3 +69,15 @@ Hint: "on-save" linting can be a big help to save development time.
 
 ### VSCode
 - dbaeumer.vscode-eslint
+
+## Navigation
+The navigation is automatically created from your Storyblok space's content:
+
+- All stories with content type `page` are included;
+- Navigation levels are built by grouping `page`s in storyblok folders. Sub levels are builte from pages and possible nested folders;
+- Items on the navigation will display in the same order as they do on Storyblok's editor User interface;
+
+By default, pages tagged as `access:private` or `navigation:hide` will not be shown on the navigation.
+
+Pages tagged as `navigation:force-show` will always be displayed on the navigation.
+`navigation:force-show` should only be used if an editor wishes to display a page that is also marked as private (`access:private` tag).

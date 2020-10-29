@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
+import {
+  DomService, GlobalConfigProps, StoryblokNodeTree, StoryblokService,
+} from './services';
 import { SEO } from './components/custom/seo';
-import { DomService, GlobalConfigProps, StoryblokService } from './services';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
 }
 
 export interface EntryData extends GlobalConfigProps {
-  story: StoryDataFromGraphQLQuery;
-  navigation: StoryData;
+  story?: StoryDataFromGraphQLQuery;
+  navigation?: StoryblokNodeTree[];
 }
 
 interface StoryblokEntryProps {
@@ -21,18 +23,16 @@ type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const story = { ...pageContext.story };
-  const navigation = { ...pageContext.navigation };
   story.content = JSON.parse(story.content.toString());
-  navigation.content = JSON.parse(navigation.content.toString());
+
   return {
     story,
-    navigation,
     ...DomService.getGlobalConfig(story.uuid, story.lang),
   };
 };
 
 const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Navigation = getComponent('roche-navigation');
+const Navigation = getComponent('roche-navigation') as React.ReactType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -52,15 +52,24 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   // eslint-disable-next-line class-methods-use-this
   public componentDidMount(): void {
     window.addEventListener('rocheLoginComplete', () => StoryblokService.redirect());
+
+    /** fetch is polyfilled */
+    // eslint-disable-next-line compat/compat
+    fetch('/navigation-data.json')
+      .then((res) => res.json())
+      .then((navigationData) => this.setState({
+        navigation: navigationData[this.state.story.lang],
+      }));
   }
 
   public render(): JSX.Element {
     const { story, navigation, ...globalConfig } = this.state;
+
     return (
       <>
         <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
-        <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
+        <Navigation tree={navigation}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </>
     );

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import StoryblokReact from 'storyblok-react';
-import { Story } from 'storyblok-js-client';
+import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
-import { DomService, StoryblokService } from '../services';
+import {
+  DomService, StoryblokService, NavigationService,
+} from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../template';
 
 type StoryblokEntryState = EntryData;
 
 const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Navigation = getComponent('roche-navigation');
+const Navigation = getComponent('roche-navigation') as React.ReactType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -20,19 +22,23 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
+  private storyblokClient: StoryblokClient;
+
   public constructor(props: object) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
-    this.state = {
-      navigation: { content: {} },
-    } as StoryblokEntryState;
+    this.state = {};
   }
 
   public componentDidMount(): void {
+    this.storyblokClient = new StoryblokClient({
+      accessToken: StoryblokService.getConfig().options.accessToken as string,
+    });
     loadStoryblokBridge(this.handleStoryblokLoad);
+
     window.addEventListener('rocheLoginComplete', this.handleLogin);
   }
 
@@ -46,7 +52,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     return (
       <StoryblokReact content={story.content}>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
-        <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
+        <Navigation tree={navigation} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
       </StoryblokReact>
     );
@@ -104,20 +110,17 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     }
   }
 
-  private loadGlobalNavigation(lang: string): void {
-    const language = lang === 'default' ? '' : `${lang}/`;
-    const storyblok = StoryblokService.getObject();
+  private async loadGlobalNavigation(lang?: string): Promise<void> {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const queryOptions = {
+      ...(lang !== 'default' && { starts_with: `${lang}/*` }),
+      resolve_links: 'story',
+    };
+    /* eslint-enable @typescript-eslint/camelcase */
 
-    if (storyblok) {
-      storyblok.get(
-        {
-          slug: `${language}navigation`,
-          version: 'draft',
-        },
-        ({ story }: Story['data']) => {
-          this.setState({ navigation: story });
-        },
-      );
-    }
+    const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
+    const tree = await NavigationService.getNavigation(allStories);
+
+    this.setState({ navigation: tree });
   }
 }

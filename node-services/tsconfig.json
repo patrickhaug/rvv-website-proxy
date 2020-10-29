@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES2017",
+    "lib": ["ESNext", "DOM"],
+    "module": "CommonJS",
+    "experimentalDecorators": true,
+
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "allowJs": true,
+
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "typeRoots": [
+      "types",
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "./index.ts"
+  ]
+}

@@ -30,7 +30,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
-    this.state = {};
+    this.state = {} as EntryData;
   }
 
   public componentDidMount(): void {
@@ -43,9 +43,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   }
 
   public render(): JSX.Element {
-    const { story, navigation, ...globalConfig } = this.state;
+    const {
+      story, navigation, footer, ...globalConfig
+    } = this.state;
 
-    if (!story) {
+    if (!story || !footer) {
       return <div></div>;
     }
 
@@ -54,6 +56,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation tree={navigation} getComponent={getComponent}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
+        {blokToComponent({ blok: footer.content, getComponent })}
       </StoryblokReact>
     );
   }
@@ -104,13 +107,14 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         },
         ({ story }) => {
           this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
-          this.loadGlobalNavigation(story.lang);
+          this.loadNavigation(story.lang);
+          this.loadFooter(story.lang);
         },
       );
     }
   }
 
-  private async loadGlobalNavigation(lang?: string): Promise<void> {
+  private async loadNavigation(lang?: string): Promise<void> {
     /* eslint-disable @typescript-eslint/camelcase */
     const queryOptions = {
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
@@ -122,5 +126,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const tree = await NavigationService.getNavigation(allStories);
 
     this.setState({ navigation: tree });
+  }
+
+  private async loadFooter(lang?: string): Promise<void> {
+    const slugWithLang = lang !== 'default' ? `/${lang}/footer` : 'footer';
+    const { data } = await this.storyblokClient.getStory(slugWithLang);
+    this.setState({ footer: data.story });
   }
 }

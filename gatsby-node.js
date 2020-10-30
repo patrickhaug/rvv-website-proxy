@@ -97,6 +97,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       component: template,
       context: {
         story: entry.node,
+        footer: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'footer')),
       },
     });
   });

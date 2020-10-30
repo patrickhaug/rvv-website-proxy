@@ -13,6 +13,7 @@ export interface StoryDataFromGraphQLQuery extends StoryData {
 export interface EntryData extends GlobalConfigProps {
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
+  footer?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -23,10 +24,13 @@ type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const story = { ...pageContext.story };
+  const footer = { ...pageContext.footer };
   story.content = JSON.parse(story.content.toString());
+  footer.content = JSON.parse(footer.content.toString());
 
   return {
     story,
+    footer,
     ...DomService.getGlobalConfig(story.uuid, story.lang),
   };
 };
@@ -63,7 +67,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
   }
 
   public render(): JSX.Element {
-    const { story, navigation, ...globalConfig } = this.state;
+    const {
+      story, navigation, footer, ...globalConfig
+    } = this.state;
 
     return (
       <>
@@ -71,6 +77,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <Navigation tree={navigation}></Navigation>
         {blokToComponent({ blok: story.content, getComponent })}
+        {blokToComponent({ blok: footer.content, getComponent })}
       </>
     );
   }

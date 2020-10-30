@@ -1,7 +1,5 @@
 module.exports = {
   siteMetadata: {
-    title: 'Roche Website Starter',
-    description: 'A boilerplate project for Roche websites.',
     author: '@virtualidentityag',
     url: 'https://live.roche-website-starter.roche-infra.com',
     defaultLanguage: 'en',

@@ -40,8 +40,6 @@ export function SEO({
       query {
         site {
           siteMetadata {
-            title
-            description
             author
             url
             defaultLanguage
@@ -51,19 +49,16 @@ export function SEO({
     `,
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-
   return (
     <Helmet
       htmlAttributes={{
         lang: lang === 'default' ? site.siteMetadata.defaultLanguage : lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
         {
           name: 'description',
-          content: metaDescription,
+          content: description,
         },
         {
           property: 'og:image',

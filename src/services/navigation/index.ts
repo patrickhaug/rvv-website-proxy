@@ -15,18 +15,34 @@ interface StoryblokNode {
   slug: string;
   uuid: string;
   page?: StoryData;
+  breadcrumbs?: Breadcrumb[];
+}
+
+export interface Breadcrumb {
+  label?: string;
+  href?: string;
 }
 
 export interface StoryblokNodeTree extends StoryblokNode {
   children: StoryblokNode[];
 }
 
-const attachStoryToLeaf = (stories: StoryData[]) => (
-  (leaf: StoryblokNodeTree): StoryblokNodeTree => ({
-    ...leaf,
-    children: leaf.children.map(attachStoryToLeaf(stories)),
-    page: stories.find((story) => story.uuid === leaf.uuid),
-  })
+const attachStoryToLeaf = (stories: StoryData[], lang: string, breadcrumbs: Breadcrumb[] = []) => (
+  (leaf: StoryblokNodeTree): StoryblokNodeTree => {
+    const page = stories.find((story) => story.uuid === leaf.uuid);
+    const breadcrumb = {
+      label: page?.content.navigation_title || page?.name || leaf.name,
+      href: leaf.is_folder ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}` : page.full_slug,
+    };
+    const updatedBreadcrumbs = [...(leaf.breadcrumbs || breadcrumbs), { ...breadcrumb }];
+
+    return {
+      ...leaf,
+      children: leaf.children.map(attachStoryToLeaf(stories, lang, updatedBreadcrumbs)),
+      breadcrumbs: updatedBreadcrumbs,
+      page,
+    };
+  }
 );
 
 const pruneHiddenBranches = (leaf: StoryblokNodeTree): StoryblokNodeTree => ({
@@ -37,6 +53,10 @@ const pruneHiddenBranches = (leaf: StoryblokNodeTree): StoryblokNodeTree => ({
     : leaf.page,
   children: leaf.children.map(pruneHiddenBranches),
 });
+
+const flattenTree = (el: StoryblokNodeTree): StoryblokNodeTree[] => (
+  [el, ...el.children.flatMap(flattenTree)]
+);
 
 export const NavigationService = {
   navigationExclusionTags: ['access:private', 'navigation:hide'],
@@ -59,11 +79,20 @@ export const NavigationService = {
     sortTree(tree);
     return tree;
   },
-  async getNavigation(stories: StoryData[]): Promise<StoryblokNodeTree[]> {
+  async getNavigation(stories: StoryData[], lang: string): Promise<StoryblokNodeTree[]> {
     const tree = (await this.getSortedTree())
-      .map(attachStoryToLeaf(stories))
+      .map(attachStoryToLeaf(stories, lang))
       .map(pruneHiddenBranches);
 
     return tree;
+  },
+  getBreadcrumbs(uuid: string, tree: StoryblokNodeTree[]): Breadcrumb[] {
+    const { breadcrumbs } = tree
+      .flatMap(flattenTree)
+      .find((el) => el.uuid === uuid);
+
+    return Array.isArray(breadcrumbs)
+      ? breadcrumbs.filter((el) => el.label !== undefined && el.href !== undefined)
+      : [];
   },
 };

@@ -76,7 +76,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   /* eslint-disable guard-for-in, no-await-in-loop, no-restricted-syntax */
   for (const language in navigationReadyStories) {
-    const tree = await NavigationService.getNavigation(navigationReadyStories[language]);
+    const tree = await NavigationService.getNavigation(navigationReadyStories[language], language);
     navigationTreesByLanguage = {
       ...navigationTreesByLanguage,
       [language]: tree,
@@ -98,6 +98,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         story: entry.node,
         footer: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'footer')),
+        onClickNotice: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'on-click-notice')),
       },
     });
   });

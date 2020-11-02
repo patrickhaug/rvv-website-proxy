@@ -18,6 +18,19 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Onetrust should always be the first script */}
+        <script
+          src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
+          data-document-language="true"
+          type="text/javascript"
+          charSet="UTF-8"
+          data-domain-script={process.env.ROCHE_ONETRUST_KEY || '8831b9b2-1d9d-4efb-8a91-ddd8af0c32f4-test'}
+        ></script>
+        <script type="text/javascript">
+          function OptanonWrapper() {}
+        </script>
+        {/* End Onetrust */}
+
         {headComponents}
         <script src={RecaptchaService.recaptchaApiSource} async defer></script>
         <link rel="stylesheet" href={`${src}.css`} />

@@ -32,6 +32,7 @@
 - `LIVE_STORYBLOK_API_KEY_NAME` - The name of Storyblok API key for published content. Example: 'live'
 - `STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
 - `STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'
+- `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'
 
 ### Organization Level Secrets Shared between projects and workflows
 

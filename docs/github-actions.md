@@ -1,5 +1,9 @@
 # Github Actions - Settings
 
+## Constants
+
+- `CACHE_ID` - Contains the id of Gatsby cache for conditional builds for each workflow. In case of needing to perform a full website rebuild. Just update the cache version +1.
+
 ## Required Secrets
 
 ### Check Workflow
@@ -28,6 +32,7 @@
 - `LIVE_STORYBLOK_API_KEY_NAME` - The name of Storyblok API key for published content. Example: 'live'
 - `STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
 - `STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'
+- `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'
 
 ### Organization Level Secrets Shared between projects and workflows
 
@@ -37,6 +42,8 @@
 - `ROCHE_COMPONENTS_LIBRARY_URL` - The URL of Roche components library version used by the website. Example: `http://live.roche-components-library.roche-infra.com/releases/latest`
 - `ROCHE_GOOGLE_RECAPTCHA_SITE_KEY` - The Google Recaptcha Site Key used to generate Google Recaptcha Validation tokens. Example: `xshso0sdfahdlsd0f`
 - `ROCHE_WEBHOOKS_API_URL` - The URL of Roche Webhooks API responsible for processing website related events. Example: `https://staging.apis.roche-infra.com/webhooks`
+-`ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
+-`ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
 
 ## Workflows
 
@@ -44,4 +51,9 @@
 - Preview - Deploy the `preview` website version used by Editor with unplublished content.
 - Release - Deploy the `live` website version used by customers with plublished content.
 
-This project follows the Continuous Delivery approach. Since it represents the website codebase that should be stable. Merge to `master` generates a new deployment.
+This project follows the GitFlow.
+
+staging > deploys staging
+master  > deploys preview/live
+
+

@@ -1,6 +1,6 @@
 import { Page } from './page';
 import { RocheGlobalConfig } from './global-config';
-import { RocheNavigation, RocheNavigationItem } from './navigation';
+import { RocheNavigation } from './navigation';
 import { gridComponents } from './grid';
 import { RocheRichtext } from './richtext';
 import { forms } from './forms';
@@ -12,7 +12,6 @@ export default {
   RocheGlobalConfig,
   ...gridComponents,
   RocheNavigation,
-  RocheNavigationItem,
   RocheRichtext,
   ...forms,
   // SEO,

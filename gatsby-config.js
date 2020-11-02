@@ -1,7 +1,5 @@
 module.exports = {
   siteMetadata: {
-    title: 'Roche Website Starter',
-    description: 'A boilerplate project for Roche websites.',
     author: '@virtualidentityag',
     url: 'https://live.roche-website-starter.roche-infra.com',
     defaultLanguage: 'en',
@@ -20,7 +18,8 @@ module.exports = {
       options: {
         accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY || '3987r2nQTnEcd6rppyOv3wtt',
         homeSlug: 'home',
-        version: process.env.NODE_ENV === 'production' ? 'published' : 'draft',
+        version: process.env.GATSBY_ENV === 'production' ? 'published' : 'draft',
+        resolveLinks: 'story',
       },
     },
     'gatsby-plugin-react-helmet',

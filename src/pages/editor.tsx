@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import StoryblokReact from 'storyblok-react';
-import { Story } from 'storyblok-js-client';
+import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
-import { DomService, StoryblokService } from '../services';
+import {
+  DomService, StoryblokService, NavigationService,
+} from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../template';
 
 type StoryblokEntryState = EntryData;
 
 const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Navigation = getComponent('roche-navigation');
+const Header = 'roche-header' as React.ReactType;
+const OffCanvas = 'roche-offcanvas-panel' as React.ReactType;
+const Navigation = getComponent('roche-navigation') as React.ReactType;
+const Search = 'roche-search' as React.ReactType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -20,34 +25,48 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
+  private storyblokClient: StoryblokClient;
+
   public constructor(props: object) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
-    this.state = {
-      navigation: { content: {} },
-    } as StoryblokEntryState;
+    this.state = {} as EntryData;
   }
 
   public componentDidMount(): void {
+    this.storyblokClient = new StoryblokClient({
+      accessToken: StoryblokService.getConfig().options.accessToken as string,
+    });
     loadStoryblokBridge(this.handleStoryblokLoad);
+
     window.addEventListener('rocheLoginComplete', this.handleLogin);
   }
 
   public render(): JSX.Element {
-    const { story, navigation, ...globalConfig } = this.state;
+    const {
+      story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
+    } = this.state;
 
-    if (!story) {
+    if (!story || !footer || !onClickNotice) {
       return <div></div>;
     }
 
     return (
       <StoryblokReact content={story.content}>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
-        <Navigation blok={navigation.content} getComponent={getComponent}></Navigation>
+        <OffCanvas id="roche-offcanvas-menu">
+          <Navigation tree={navigation} getComponent={getComponent}></Navigation>
+        </OffCanvas>
+        <OffCanvas id="roche-offcanvas-search">
+          <Search />
+        </OffCanvas>
+        <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
+        {blokToComponent({ blok: footer.content, getComponent })}
+        {blokToComponent({ blok: onClickNotice.content, getComponent })}
       </StoryblokReact>
     );
   }
@@ -98,26 +117,37 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         },
         ({ story }) => {
           this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
-          this.loadGlobalNavigation(story.lang);
+          this.loadNavigation(story.lang);
+          this.loadFooter(story.lang);
+          this.loadOnclickNotice(story.lang);
         },
       );
     }
   }
 
-  private loadGlobalNavigation(lang: string): void {
-    const language = lang === 'default' ? '' : `${lang}/`;
-    const storyblok = StoryblokService.getObject();
+  private async loadNavigation(lang?: string): Promise<void> {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const queryOptions = {
+      ...(lang !== 'default' && { starts_with: `${lang}/*` }),
+      resolve_links: 'story',
+    };
+    /* eslint-enable @typescript-eslint/camelcase */
 
-    if (storyblok) {
-      storyblok.get(
-        {
-          slug: `${language}navigation`,
-          version: 'draft',
-        },
-        ({ story }: Story['data']) => {
-          this.setState({ navigation: story });
-        },
-      );
-    }
+    const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
+    const tree = await NavigationService.getNavigation(allStories, lang);
+    const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, tree);
+    this.setState({ navigation: tree, breadcrumbs });
+  }
+
+  private async loadFooter(lang?: string): Promise<void> {
+    const slugWithLang = lang !== 'default' ? `/${lang}/footer` : 'footer';
+    const { data } = await this.storyblokClient.getStory(slugWithLang);
+    this.setState({ footer: data.story });
+  }
+
+  private async loadOnclickNotice(lang?: string): Promise<void> {
+    const slugWithLang = lang !== 'default' ? `/${lang}/on-click-notice` : 'on-click-notice';
+    const { data } = await this.storyblokClient.getStory(slugWithLang);
+    this.setState({ onClickNotice: data.story });
   }
 }

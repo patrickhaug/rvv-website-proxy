@@ -28,10 +28,9 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 Since this repository should be used only as a starting point for a Roche website, you should define your preview and staging environments yourself.
 
-Nevertheless you can access a draft/live versions of demo website using the latest Roche Component Library here: 
-
-- http://preview.roche-website-starter.roche-infra.com/
-- http://live.roche-website-starter.roche-infra.com/
+- http://staging.roche-website-starter.roche-infra.com/ - Storyblok Draft / Staging Roche Component Library
+- http://preview.roche-website-starter.roche-infra.com/ - Storyblok Draft / latest released Roche Component Library
+- http://live.roche-website-starter.roche-infra.com/ - Storyblok Live / latest released Roche Component Library
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.
@@ -69,3 +68,15 @@ Hint: "on-save" linting can be a big help to save development time.
 
 ### VSCode
 - dbaeumer.vscode-eslint
+
+## Navigation
+The navigation is automatically created from your Storyblok space's content:
+
+- All stories with content type `page` are included;
+- Navigation levels are built by grouping `page`s in storyblok folders. Sub levels are builte from pages and possible nested folders;
+- Items on the navigation will display in the same order as they do on Storyblok's editor User interface;
+
+By default, pages tagged as `access:private` or `navigation:hide` will not be shown on the navigation.
+
+Pages tagged as `navigation:force-show` will always be displayed on the navigation.
+`navigation:force-show` should only be used if an editor wishes to display a page that is also marked as private (`access:private` tag).

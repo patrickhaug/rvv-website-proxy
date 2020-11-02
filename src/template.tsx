@@ -32,9 +32,9 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
 
-  story.content = JSON.parse(story.content.toString());
-  footer.content = JSON.parse(footer.content.toString());
-  onClickNotice.content = JSON.parse(onClickNotice.content.toString());
+  story.content = story.content && JSON.parse(story.content.toString());
+  footer.content = footer.content && JSON.parse(footer.content.toString());
+  onClickNotice.content = onClickNotice.content && JSON.parse(onClickNotice.content.toString());
 
   return {
     googleTagManagerId,
@@ -98,8 +98,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         </OffCanvas>
         <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
-        {blokToComponent({ blok: footer.content, getComponent })}
-        {blokToComponent({ blok: onClickNotice.content, getComponent })}
+        {footer.content && blokToComponent({ blok: footer.content, getComponent })}
+        {onClickNotice.content && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
   }

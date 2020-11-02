@@ -50,7 +50,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
     } = this.state;
 
-    if (!story || !footer || !onClickNotice) {
+    if (!story || !story.content) {
       return <div></div>;
     }
 
@@ -65,8 +65,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         </OffCanvas>
         <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
-        {blokToComponent({ blok: footer.content, getComponent })}
-        {blokToComponent({ blok: onClickNotice.content, getComponent })}
+        {footer && blokToComponent({ blok: footer?.content, getComponent })}
+        {onClickNotice && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </StoryblokReact>
     );
   }

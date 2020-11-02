@@ -32,7 +32,7 @@ const attachStoryToLeaf = (stories: StoryData[], lang: string, breadcrumbs: Brea
     const page = stories.find((story) => story.uuid === leaf.uuid);
     const breadcrumb = {
       label: page?.content.navigation_title || page?.name || leaf.name,
-      href: leaf.is_folder ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}` : page.full_slug,
+      href: leaf.is_folder ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}` : page?.full_slug,
     };
     const updatedBreadcrumbs = [...(leaf.breadcrumbs || breadcrumbs), { ...breadcrumb }];
 

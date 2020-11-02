@@ -33,6 +33,7 @@
 - `STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
 - `STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'
+- `ROCHE_GOOGLE_TAG_MANAGER_ID` - The id from the Google Tag Manager account.
 
 ### Organization Level Secrets Shared between projects and workflows
 

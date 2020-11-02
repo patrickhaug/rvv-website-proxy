@@ -1,3 +1,4 @@
+const googleTagManagerId = process.env.ROCHE_GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 
@@ -96,6 +97,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
       component: template,
       context: {
+        googleTagManagerId,
         story: entry.node,
         footer: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'footer')),
         onClickNotice: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'on-click-notice')),

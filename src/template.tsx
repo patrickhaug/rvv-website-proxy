@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
+import { GoogleTagManager } from './components/custom/google-tag-manager';
 import {
   DomService, GlobalConfigProps, StoryblokNodeTree, StoryblokService, Breadcrumb, NavigationService,
 } from './services';
@@ -11,6 +12,7 @@ export interface StoryDataFromGraphQLQuery extends StoryData {
 }
 
 export interface EntryData extends GlobalConfigProps {
+  googleTagManagerId: string;
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
   breadcrumbs?: Breadcrumb[];
@@ -25,15 +27,17 @@ interface StoryblokEntryProps {
 type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
+  const { googleTagManagerId } = pageContext;
   const story = { ...pageContext.story };
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
 
-  story.content = JSON.parse(story.content.toString());
-  footer.content = JSON.parse(footer.content.toString());
-  onClickNotice.content = JSON.parse(onClickNotice.content.toString());
+  story.content = story.content && JSON.parse(story.content.toString());
+  footer.content = footer.content && JSON.parse(footer.content.toString());
+  onClickNotice.content = onClickNotice.content && JSON.parse(onClickNotice.content.toString());
 
   return {
+    googleTagManagerId,
     story,
     footer,
     onClickNotice,
@@ -78,11 +82,12 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
   public render(): JSX.Element {
     const {
-      story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
+      googleTagManagerId, story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
     } = this.state;
 
     return (
       <>
+        <GoogleTagManager googleTagManagerId={googleTagManagerId}></GoogleTagManager>
         <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">
@@ -93,8 +98,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         </OffCanvas>
         <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
-        {blokToComponent({ blok: footer.content, getComponent })}
-        {blokToComponent({ blok: onClickNotice.content, getComponent })}
+        {footer.content && blokToComponent({ blok: footer.content, getComponent })}
+        {onClickNotice.content && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
   }

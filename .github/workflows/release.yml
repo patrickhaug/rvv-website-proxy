@@ -117,9 +117,10 @@ jobs:
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build:public
         env:
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
           CI: true
-          NODE_OPTIONS: --max-old-space-size=7168        
+          GATSBY_ENV: production
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          NODE_OPTIONS: --max-old-space-size=7168
 
       - name: Get current package version
         if: ${{ github.event.action != 'refresh_cache_requested' }}

@@ -99,6 +99,7 @@ jobs:
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build
         env:
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
           CI: true
+          GATSBY_ENV: production
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
           NODE_OPTIONS: --max-old-space-size=7168

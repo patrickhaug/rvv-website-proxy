@@ -4,6 +4,7 @@ import { RocheNavigation } from './navigation';
 import { gridComponents } from './grid';
 import { RocheRichtext } from './richtext';
 import { forms } from './forms';
+import { responsiveTable } from './responsive-table';
 // import { SEO } from './seo';
 
 // eslint-disable-next-line import/no-default-export
@@ -14,5 +15,6 @@ export default {
   RocheNavigation,
   RocheRichtext,
   ...forms,
+  ...responsiveTable,
   // SEO,
 };

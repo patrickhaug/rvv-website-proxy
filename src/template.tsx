@@ -76,7 +76,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     fetch('/navigation-data.json')
       .then((res) => res.json())
       .then((navigationData) => {
-        const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, navigationData);
+        const breadcrumbs = NavigationService
+          .getBreadcrumbs(this.state.story.uuid, navigationData[this.state.story.lang]);
         this.setState({ navigation: navigationData[this.state.story.lang], breadcrumbs });
       });
 

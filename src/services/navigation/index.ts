@@ -93,7 +93,7 @@ export const NavigationService = {
   getBreadcrumbs(uuid: string, tree: StoryblokNodeTree[]): Breadcrumb[] {
     const { breadcrumbs } = tree
       .flatMap(flattenTree)
-      .find((el) => el.uuid === uuid);
+      .find((el) => el.uuid === uuid) || { breadcrumbs: undefined };
 
     return Array.isArray(breadcrumbs)
       ? breadcrumbs.filter((el) => el.label !== undefined && el.href !== undefined)

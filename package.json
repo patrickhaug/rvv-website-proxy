@@ -7,7 +7,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "start": "gatsby develop",
+    "start": "npm run compile:node-services && gatsby develop",
     "compile:node-services": "tsc --project node-services/",
     "build": "npm run compile:node-services && gatsby build --log-pages --write-to-file",
     "build:public": "npm run compile:node-services && PUBLIC_BUILD=1 gatsby build --log-pages --write-to-file",

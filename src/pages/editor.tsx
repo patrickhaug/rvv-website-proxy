@@ -47,7 +47,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   public render(): JSX.Element {
     const {
-      story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
+      story, navigation, contact, breadcrumbs, footer, onClickNotice, ...globalConfig
     } = this.state;
 
     if (!story || !story.content) {
@@ -58,7 +58,13 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       <StoryblokReact content={story.content}>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">
-          <Navigation tree={navigation} getComponent={getComponent}></Navigation>
+          <Navigation
+            tree={navigation}
+            contactUrl={contact?.full_slug}
+            contactText={contact?.content?.navigation_title || 'No title'}
+            getComponent={getComponent}
+          >
+          </Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search />
@@ -129,14 +135,15 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     /* eslint-disable @typescript-eslint/camelcase */
     const queryOptions = {
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
-      resolve_links: 'story',
     };
     /* eslint-enable @typescript-eslint/camelcase */
 
     const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
     const tree = await NavigationService.getNavigation(allStories, lang);
     const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, tree);
-    this.setState({ navigation: tree, breadcrumbs });
+    const contact = await NavigationService.getContactPage(lang);
+
+    this.setState({ navigation: tree, breadcrumbs, contact });
   }
 
   private async loadFooter(lang?: string): Promise<void> {

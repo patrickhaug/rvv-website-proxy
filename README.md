@@ -80,3 +80,5 @@ By default, pages tagged as `access:private` or `navigation:hide` will not be sh
 
 Pages tagged as `navigation:force-show` will always be displayed on the navigation.
 `navigation:force-show` should only be used if an editor wishes to display a page that is also marked as private (`access:private` tag).
+
+Pages tagged as `navigation:contact-page` will be displayed on the top right corner of the navigation.

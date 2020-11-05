@@ -19,7 +19,6 @@ module.exports = {
         accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY || '3987r2nQTnEcd6rppyOv3wtt',
         homeSlug: 'home',
         version: process.env.GATSBY_ENV === 'production' ? 'published' : 'draft',
-        resolveLinks: 'story',
       },
     },
     'gatsby-plugin-react-helmet',

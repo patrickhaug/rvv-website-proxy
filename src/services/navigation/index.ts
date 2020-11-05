@@ -61,12 +61,16 @@ const flattenTree = (el: StoryblokNodeTree): StoryblokNodeTree[] => (
 export const NavigationService = {
   navigationExclusionTags: ['access:private', 'navigation:hide'],
   navigationForcedInclusionTags: ['navigation:force-show'],
+  navigationContactTag: ['navigation:contact-page'],
   storyblokClient: new StoryblokClient({
     accessToken: StoryblokService.getConfig().options.accessToken as string,
   }),
   shouldHide(taglist: string[]): boolean {
     return (
-      taglist.some((tag) => this.navigationExclusionTags.indexOf(tag) >= 0)
+      taglist.some((tag) => (
+        this.navigationExclusionTags.indexOf(tag) >= 0
+        || this.navigationContactTag.indexOf(tag) >= 0
+      ))
       && !taglist.some((tag) => this.navigationForcedInclusionTags.indexOf(tag) >= 0)
     );
   },
@@ -94,5 +98,15 @@ export const NavigationService = {
     return Array.isArray(breadcrumbs)
       ? breadcrumbs.filter((el) => el.label !== undefined && el.href !== undefined)
       : [];
+  },
+  async getContactPage(lang: string): Promise<StoryData> {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const queryOptions = {
+      with_tag: this.navigationContactTag[0],
+      ...(lang !== 'default' && { starts_with: `${lang}/*` }),
+    };
+    /* eslint-enable @typescript-eslint/camelcase */
+    const { data } = await this.storyblokClient.get('cdn/stories/', queryOptions);
+    return data.stories[0];
   },
 };

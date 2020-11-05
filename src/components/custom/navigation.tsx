@@ -4,10 +4,11 @@ import { Props } from '../types';
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];
+  contactUrl: string;
+  contactText: string;
 }
 
 const RocheGenericLink = 'roche-generic-link' as React.ReactType;
-const RocheNavigationComponent = 'roche-navigation' as React.ReactType;
 const RocheIconComponent = 'roche-icon' as React.ReactType;
 const RocheGrid = 'roche-grid' as React.ReactType;
 const RocheTeaser = 'roche-teaser' as React.ReactType;
@@ -43,25 +44,24 @@ const renderStartPageOverview = (leaf: StoryblokNodeTree): JSX.Element => {
             <h3 className="headline headline--highlights">Highlights</h3>
             <div className="teaser-container">
               {highlights.map((highlight) => {
-                if (!highlight.page || !highlight.page.story) {
+                if (!highlight.page || !highlight.image) {
                   return null;
                 }
 
                 return (
                   <RocheTeaser
                     // eslint-disable-next-line no-underscore-dangle
-                    key={highlight.page.story._id}
+                    key={highlight.page.id}
                     size="navigation"
                     teaser-url={highlight.page.cached_url}
                   >
-                    <RocheImage slot="media" src={highlight.page.story.content.highlight_image.filename} ratio="16:9" />
+                    <RocheImage slot="media" src={highlight.image.filename} ratio="16:9" />
                     <RocheGenericLink
                       slot="link"
                       data-theme="dark"
                       size="navigation"
                       target="_self"
-                      text={highlight.page.story.highlight_title
-                        || highlight.page.story.content.highlight_title}
+                      text={highlight.text}
                       url={highlight.page.cached_url}
                       icon="chevron-right-bold"
                     >
@@ -137,15 +137,19 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
 };
 
 export const RocheNavigation = (props: NavigationProps): JSX.Element => {
-  const { tree } = props;
+  const { tree, contactUrl, contactText } = props;
 
   if (!tree) {
     return null;
   }
 
+  // We need the custom component, otherwise jsx does not render the attributes
   return (
-    <RocheNavigationComponent>
+    <roche-navigation
+      contact-url={contactUrl}
+      contact-text={contactText}
+    >
       {tree.map(renderTree)}
-    </RocheNavigationComponent>
+    </roche-navigation>
   );
 };

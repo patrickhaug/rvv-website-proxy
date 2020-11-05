@@ -16,6 +16,7 @@ export interface EntryData extends GlobalConfigProps {
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
   breadcrumbs?: Breadcrumb[];
+  contact?: StoryData;
   footer?: StoryData;
   onClickNotice?: StoryData;
 }
@@ -78,11 +79,21 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, navigationData);
         this.setState({ navigation: navigationData[this.state.story.lang], breadcrumbs });
       });
+
+    NavigationService.getContactPage(this.state.story.lang)
+      .then((contactPage) => this.setState({ contact: contactPage }));
   }
 
   public render(): JSX.Element {
     const {
-      googleTagManagerId, story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
+      googleTagManagerId,
+      story,
+      navigation,
+      contact,
+      breadcrumbs,
+      footer,
+      onClickNotice,
+      ...globalConfig
     } = this.state;
 
     return (
@@ -91,7 +102,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">
-          <Navigation tree={navigation}></Navigation>
+          <Navigation
+            tree={navigation}
+            contactUrl={contact?.full_slug}
+            contactText={contact?.content?.navigation_title}
+          ></Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search />

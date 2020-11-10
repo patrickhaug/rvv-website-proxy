@@ -112,6 +112,10 @@ export const NavigationService = {
     };
     /* eslint-enable @typescript-eslint/camelcase */
     const { data } = await this.storyblokClient.get('cdn/stories/', queryOptions);
-    return data.stories[0];
+    const contactPage = data.stories[0];
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    contactPage.full_slug = `/${contactPage.full_slug}`.replace('//', '/');
+    return contactPage;
   },
 };

@@ -114,8 +114,10 @@ export const NavigationService = {
     const { data } = await this.storyblokClient.get('cdn/stories/', queryOptions);
     const contactPage = data.stories[0];
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    contactPage.full_slug = `/${contactPage.full_slug}`.replace('//', '/');
+    if (contactPage) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      contactPage.full_slug = `/${contactPage?.full_slug}`.replace('//', '/');
+    }
     return contactPage;
   },
 };

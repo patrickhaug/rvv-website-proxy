@@ -21,6 +21,7 @@ type SEOProps = {
   twitter_title?: string;
   twitter_description?: string;
   slug?: string;
+  tag_list: string[];
 };
 
 export function SEO({
@@ -34,6 +35,7 @@ export function SEO({
   twitter_title,
   twitter_description,
   slug,
+  tag_list,
 }: SEOProps): JSX.Element {
   const { site } = useStaticQuery(
     graphql`
@@ -48,7 +50,7 @@ export function SEO({
       }
     `,
   );
-
+  const isPrivate = (tag_list !== undefined) && (tag_list.includes('access:private'));
   return (
     <Helmet
       htmlAttributes={{
@@ -99,6 +101,10 @@ export function SEO({
         {
           name: 'twitter:description',
           content: twitter_description,
+        },
+        {
+          name: 'private-page',
+          content: isPrivate,
         },
       ]}
     />

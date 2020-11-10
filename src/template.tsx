@@ -99,8 +99,15 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     return (
       <>
-        <GoogleTagManager googleTagManagerId={googleTagManagerId}></GoogleTagManager>
-        <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
+        <GoogleTagManager
+          googleTagManagerId={googleTagManagerId}
+        ></GoogleTagManager>
+        <SEO
+          {...story.content.meta_tags}
+          lang={story.lang}
+          slug={story.full_slug}
+          tag_list={story.tag_list}
+        ></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">
           <Navigation
@@ -114,8 +121,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         </OffCanvas>
         <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
-        {footer.content && blokToComponent({ blok: footer.content, getComponent })}
-        {onClickNotice.content && blokToComponent({ blok: onClickNotice.content, getComponent })}
+        {footer.content
+          && blokToComponent({ blok: footer.content, getComponent })}
+        {onClickNotice.content
+          && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
   }

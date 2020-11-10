@@ -30,10 +30,15 @@ export interface StoryblokNodeTree extends StoryblokNode {
 const attachStoryToLeaf = (stories: StoryData[], lang: string, breadcrumbs: Breadcrumb[] = []) => (
   (leaf: StoryblokNodeTree): StoryblokNodeTree => {
     const page = stories.find((story) => story.uuid === leaf.uuid);
+
     const breadcrumb = {
       label: page?.content.navigation_title || page?.name || leaf.name,
-      href: leaf.is_folder ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}` : page?.full_slug,
+      href: (leaf.is_folder
+        ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}`
+        : `/${page?.full_slug}`)
+        .replace('//', '/'),
     };
+
     const updatedBreadcrumbs = [...(leaf.breadcrumbs || breadcrumbs), { ...breadcrumb }];
 
     return {

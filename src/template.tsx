@@ -3,7 +3,14 @@ import { StoryData } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from './components';
 import { GoogleTagManager } from './components/custom/google-tag-manager';
 import {
-  DomService, GlobalConfigProps, StoryblokNodeTree, StoryblokService, Breadcrumb, NavigationService,
+  DomService,
+  GlobalConfigProps,
+  StoryblokNodeTree,
+  StoryblokService,
+  Breadcrumb,
+  NavigationService,
+  Language,
+  LanguageService,
 } from './services';
 import { SEO } from './components/custom/seo';
 
@@ -19,6 +26,7 @@ export interface EntryData extends GlobalConfigProps {
   contact?: StoryData;
   footer?: StoryData;
   onClickNotice?: StoryData;
+  languages?: Language[];
 }
 
 interface StoryblokEntryProps {
@@ -83,6 +91,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     NavigationService.getContactPage(this.state.story.lang)
       .then((contactPage) => this.setState({ contact: contactPage }));
+
+    LanguageService.getLanguages()
+      .then((languages) => this.setState({ languages }));
   }
 
   public render(): JSX.Element {
@@ -94,6 +105,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       breadcrumbs,
       footer,
       onClickNotice,
+      languages,
       ...globalConfig
     } = this.state;
 
@@ -114,12 +126,16 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             tree={navigation}
             contactUrl={contact?.full_slug}
             contactText={contact?.content?.navigation_title}
+            languages={languages}
           ></Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search />
         </OffCanvas>
-        <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
+        <Header
+          breadcrumbs={JSON.stringify(breadcrumbs)}
+          languages={JSON.stringify(languages)}
+        />
         {blokToComponent({ blok: story.content, getComponent })}
         {footer.content
           && blokToComponent({ blok: footer.content, getComponent })}

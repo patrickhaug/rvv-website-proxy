@@ -3,7 +3,7 @@ import StoryblokReact from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
-  DomService, StoryblokService, NavigationService,
+  DomService, StoryblokService, NavigationService, LanguageService,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../template';
 
@@ -47,7 +47,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   public render(): JSX.Element {
     const {
-      story, navigation, contact, breadcrumbs, footer, onClickNotice, ...globalConfig
+      story, navigation, contact, breadcrumbs, footer, onClickNotice, languages, ...globalConfig
     } = this.state;
 
     if (!story || !story.content) {
@@ -63,13 +63,17 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             contactUrl={contact?.full_slug}
             contactText={contact?.content?.navigation_title || 'No title'}
             getComponent={getComponent}
+            languages={languages}
           >
           </Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search />
         </OffCanvas>
-        <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
+        <Header
+          breadcrumbs={JSON.stringify(breadcrumbs)}
+          languages={JSON.stringify(languages)}
+        />
         {blokToComponent({ blok: story.content, getComponent })}
         {footer && blokToComponent({ blok: footer?.content, getComponent })}
         {onClickNotice && blokToComponent({ blok: onClickNotice.content, getComponent })}
@@ -126,6 +130,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           this.loadNavigation(story.lang);
           this.loadFooter(story.lang);
           this.loadOnclickNotice(story.lang);
+          this.loadLanguages();
         },
       );
     }
@@ -156,5 +161,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const slugWithLang = lang !== 'default' ? `/${lang}/on-click-notice` : 'on-click-notice';
     const { data } = await this.storyblokClient.getStory(slugWithLang);
     this.setState({ onClickNotice: data.story });
+  }
+
+  private async loadLanguages(): Promise<void> {
+    const languages = await LanguageService.getLanguages();
+    this.setState({ languages });
   }
 }

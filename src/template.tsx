@@ -16,6 +16,7 @@ export interface EntryData extends GlobalConfigProps {
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
   breadcrumbs?: Breadcrumb[];
+  contact?: StoryData;
   footer?: StoryData;
   onClickNotice?: StoryData;
 }
@@ -75,31 +76,55 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     fetch('/navigation-data.json')
       .then((res) => res.json())
       .then((navigationData) => {
-        const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, navigationData);
+        const breadcrumbs = NavigationService
+          .getBreadcrumbs(this.state.story.uuid, navigationData[this.state.story.lang]);
         this.setState({ navigation: navigationData[this.state.story.lang], breadcrumbs });
       });
+
+    NavigationService.getContactPage(this.state.story.lang)
+      .then((contactPage) => this.setState({ contact: contactPage }));
   }
 
   public render(): JSX.Element {
     const {
-      googleTagManagerId, story, navigation, breadcrumbs, footer, onClickNotice, ...globalConfig
+      googleTagManagerId,
+      story,
+      navigation,
+      contact,
+      breadcrumbs,
+      footer,
+      onClickNotice,
+      ...globalConfig
     } = this.state;
 
     return (
       <>
-        <GoogleTagManager googleTagManagerId={googleTagManagerId}></GoogleTagManager>
-        <SEO {...story.content.meta_tags} lang={story.lang} slug={story.full_slug}></SEO>
+        <GoogleTagManager
+          googleTagManagerId={googleTagManagerId}
+        ></GoogleTagManager>
+        <SEO
+          {...story.content.meta_tags}
+          lang={story.lang}
+          slug={story.full_slug}
+          tag_list={story.tag_list}
+        ></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">
-          <Navigation tree={navigation}></Navigation>
+          <Navigation
+            tree={navigation}
+            contactUrl={contact?.full_slug}
+            contactText={contact?.content?.navigation_title}
+          ></Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search />
         </OffCanvas>
         <Header breadcrumbs={JSON.stringify(breadcrumbs)}></Header>
         {blokToComponent({ blok: story.content, getComponent })}
-        {footer.content && blokToComponent({ blok: footer.content, getComponent })}
-        {onClickNotice.content && blokToComponent({ blok: onClickNotice.content, getComponent })}
+        {footer.content
+          && blokToComponent({ blok: footer.content, getComponent })}
+        {onClickNotice.content
+          && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
   }

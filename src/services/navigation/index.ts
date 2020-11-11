@@ -30,10 +30,15 @@ export interface StoryblokNodeTree extends StoryblokNode {
 const attachStoryToLeaf = (stories: StoryData[], lang: string, breadcrumbs: Breadcrumb[] = []) => (
   (leaf: StoryblokNodeTree): StoryblokNodeTree => {
     const page = stories.find((story) => story.uuid === leaf.uuid);
+
     const breadcrumb = {
       label: page?.content.navigation_title || page?.name || leaf.name,
-      href: leaf.is_folder ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}` : page?.full_slug,
+      href: (leaf.is_folder
+        ? `/${lang !== 'default' ? lang : ''}${leaf.real_path}`
+        : `/${page?.full_slug}`)
+        .replace('//', '/'),
     };
+
     const updatedBreadcrumbs = [...(leaf.breadcrumbs || breadcrumbs), { ...breadcrumb }];
 
     return {
@@ -61,12 +66,16 @@ const flattenTree = (el: StoryblokNodeTree): StoryblokNodeTree[] => (
 export const NavigationService = {
   navigationExclusionTags: ['access:private', 'navigation:hide'],
   navigationForcedInclusionTags: ['navigation:force-show'],
+  navigationContactTag: ['navigation:contact-page'],
   storyblokClient: new StoryblokClient({
     accessToken: StoryblokService.getConfig().options.accessToken as string,
   }),
   shouldHide(taglist: string[]): boolean {
     return (
-      taglist.some((tag) => this.navigationExclusionTags.indexOf(tag) >= 0)
+      taglist.some((tag) => (
+        this.navigationExclusionTags.indexOf(tag) >= 0
+        || this.navigationContactTag.indexOf(tag) >= 0
+      ))
       && !taglist.some((tag) => this.navigationForcedInclusionTags.indexOf(tag) >= 0)
     );
   },
@@ -89,10 +98,26 @@ export const NavigationService = {
   getBreadcrumbs(uuid: string, tree: StoryblokNodeTree[]): Breadcrumb[] {
     const { breadcrumbs } = tree
       .flatMap(flattenTree)
-      .find((el) => el.uuid === uuid);
+      .find((el) => el.uuid === uuid) || { breadcrumbs: undefined };
 
     return Array.isArray(breadcrumbs)
       ? breadcrumbs.filter((el) => el.label !== undefined && el.href !== undefined)
       : [];
+  },
+  async getContactPage(lang: string): Promise<StoryData> {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const queryOptions = {
+      with_tag: this.navigationContactTag[0],
+      ...(lang !== 'default' && { starts_with: `${lang}/*` }),
+    };
+    /* eslint-enable @typescript-eslint/camelcase */
+    const { data } = await this.storyblokClient.get('cdn/stories/', queryOptions);
+    const contactPage = data.stories[0];
+
+    if (contactPage) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      contactPage.full_slug = `/${contactPage?.full_slug}`.replace('//', '/');
+    }
+    return contactPage;
   },
 };

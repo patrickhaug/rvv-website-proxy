@@ -151,6 +151,8 @@ jobs:
       - name: Request Lambda@Edge authorizer to clear the cache
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/clear-authorizer-lambdaedge.sh
+        env:
+          LAMBDA_NAME_PREFIX: l
 
       - name: Invalidate Distribution
         if: ${{ github.event.action != 'refresh_cache_requested' }}

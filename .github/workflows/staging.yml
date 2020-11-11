@@ -121,10 +121,6 @@ jobs:
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/emit-event-staging-deploy-finished.sh
 
-      - name: Request Lambda@Edge authorizer to clear the cache
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: . ./scripts/clear-authorizer-lambdaedge.sh         
-
       - name: Invalidate Distribution
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: chetan/invalidate-cloudfront-action@master

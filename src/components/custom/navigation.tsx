@@ -1,19 +1,21 @@
 import React from 'react';
-import { StoryblokNodeTree } from '../../services';
+import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];
   contactUrl: string;
   contactText: string;
+  languages: Language[];
 }
 
-const RocheGenericLink = 'roche-generic-link' as React.ReactType;
-const RocheIconComponent = 'roche-icon' as React.ReactType;
-const RocheGrid = 'roche-grid' as React.ReactType;
-const RocheTeaser = 'roche-teaser' as React.ReactType;
-const RocheButton = 'roche-button' as React.ReactType;
-const RocheImage = 'roche-image' as React.ReactType;
+const RocheGenericLink = 'roche-generic-link' as React.ElementType;
+const RocheIconComponent = 'roche-icon' as React.ElementType;
+const RocheGrid = 'roche-grid' as React.ElementType;
+const RocheTeaser = 'roche-teaser' as React.ElementType;
+const RocheButton = 'roche-button' as React.ElementType;
+const RocheImage = 'roche-image' as React.ElementType;
+const Navigation = 'roche-navigation' as React.ElementType;
 
 const renderStartPageOverview = (leaf: StoryblokNodeTree): JSX.Element => {
   if (leaf.real_path.split('/').length > 3 || !leaf.page?.content) {
@@ -137,7 +139,9 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
 };
 
 export const RocheNavigation = (props: NavigationProps): JSX.Element => {
-  const { tree, contactUrl, contactText } = props;
+  const {
+    tree, contactUrl, contactText, languages,
+  } = props;
 
   if (!tree) {
     return null;
@@ -145,11 +149,12 @@ export const RocheNavigation = (props: NavigationProps): JSX.Element => {
 
   // We need the custom component, otherwise jsx does not render the attributes
   return (
-    <roche-navigation
+    <Navigation
       contact-url={contactUrl}
       contact-text={contactText}
+      languages={JSON.stringify(languages)}
     >
       {tree.map(renderTree)}
-    </roche-navigation>
+    </Navigation>
   );
 };

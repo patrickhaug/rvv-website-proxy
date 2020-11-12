@@ -44,7 +44,7 @@ const attachStoryToLeaf = (stories: StoryData[], lang: string, breadcrumbs: Brea
     return {
       ...leaf,
       // eslint-disable-next-line @typescript-eslint/camelcase
-      real_path: `/${lang !== 'default' ? lang : ''}${leaf.real_path}`,
+      real_path: `/${lang !== 'default' ? lang : ''}${leaf.real_path}`.replace('//', '/'),
       children: leaf.children.map(attachStoryToLeaf(stories, lang, updatedBreadcrumbs)),
       breadcrumbs: updatedBreadcrumbs,
       page,

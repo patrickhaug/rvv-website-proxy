@@ -1,62 +1,37 @@
-name: Release # IMPORTANT!!! This name must not be changed !!!!  It is used to check for running workflows.
+name: PreviewStaging # IMPORTANT!!! This name MUST not be changed !!!! It is used to check for running workflows.
 
 on:
   push:
     branches:
-      - master
-  
+      - staging
+
   repository_dispatch:
     types:
-      - live_website_deploy_requested
-      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
+     - preview_staging_website_deploy_requested
+     - live_staging_website_deploy_requested # Preview is also deployed because Storyblok allows publishing without calling the deploy preview task
+     - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
-  CACHE_ID: 'live-v1'
-  AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
-  DISTRIBUTION: ${{ secrets.LIVE_CLOUDFRONT_DISTRIBUTION_ID }}
+  CACHE_ID: 'preview-staging-v1'
+  AWS_S3_BUCKET: preview.roche-website-starter-staging
+  DISTRIBUTION: E290OB7TL4ZAQ5
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
-  STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}
-  STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
-  STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
+  STORYBLOK_API_KEY_NAME: preview
+  STORYBLOK_SPACE_ID: 97427
+  STORYBLOK_SPACE_NAME: roche-website-starter-staging
   WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
   GATSBY_BRIGHTCOVE_ACCOUNT_ID: ${{ secrets.ROCHE_BRIGHTCOVE_ACCOUNT_ID }}
   GATSBY_BRIGHTCOVE_PLAYER_ID: ${{ secrets.ROCHE_BRIGHTCOVE_PLAYER_ID }}
 
 jobs:
-  pre-release:
-    name: Check if a release with the same version number already exists
+  build-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: master
-
-      - name: Get current package version
-        uses: martinbeentjes/npm-get-version-action@v1.0.0
-        id: package-version
-
-      - name: Print current version from package.json
-        run: echo "${{ steps.package-version.outputs.current-version }}"
-
-      - name: Check if tag already exists
-        id: tag_existance
-        run: echo "##[set-output name=oldtag;]$(echo $(git tag -l "${{ steps.package-version.outputs.current-version }}"))"
-
-      - name: Validate tag reference from github
-        if: ${{ steps.tag_existance.outputs.oldtag != '' }}
-        run: exit 1
-
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    needs: pre-release
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: master
+          ref: staging
 
       - name: Caching Gatsby
         id: gatsby-cache-build
@@ -68,6 +43,18 @@ jobs:
           key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Setup Node
         if: ${{ github.event.action != 'refresh_cache_requested' }}
@@ -81,11 +68,11 @@ jobs:
 
       - name: Run Tests
         if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: npm run test || true # Tests will pass for while
+        run: npm run test || true # Tests not blocking for while
 
       - name: Generate Audit report
         if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: npm audit || true # Audit will pass for while
+        run: npm audit || true # Audit not blocking for while
 
       - name: Configure AWS Credentials
         if: ${{ github.event.action != 'refresh_cache_requested' }}
@@ -111,62 +98,37 @@ jobs:
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool-client.sh
 
-      - name: Emit event live_deploy_started
+      - name: Emit event preview_deploy_started
         if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: . ./scripts/emit-event-live-deploy-started.sh
+        run: . ./scripts/emit-event-preview-deploy-started.sh
 
-      - name: Build App
+      - name: Build the website
         if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: npm run build:public
+        run: npm run build
         env:
           CI: true
-          GATSBY_ENV: production
+          GATSBY_ENV: preview
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
           NODE_OPTIONS: --max-old-space-size=7168
 
-      - name: Get current package version
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        uses: martinbeentjes/npm-get-version-action@v1.0.0
-        id: package-version
-
-      - name: Print current version from package.json
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: echo "${{ steps.package-version.outputs.current-version }}"
-
-      - name: Deploy the release version
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        uses: jakejarvis/s3-sync-action@v0.5.1
-        env:
-          SOURCE_DIR: "public"
-          DEST_DIR: "releases/${{ steps.package-version.outputs.current-version }}"
-
-      - name: Deploy the release as latest version
+      - name: Deploy preview (public)
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           SOURCE_DIR: "public"
 
-      - name: Emit event live_deploy_finished
+      - name: Emit event preview_deploy_finished
         if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: . ./scripts/emit-event-live-deploy-finished.sh
+        run: . ./scripts/emit-event-preview-deploy-finished.sh
 
       - name: Request Lambda@Edge authorizer to clear the cache
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/clear-authorizer-lambdaedge.sh
         env:
-          LAMBDA_NAME_PREFIX: l
+          LAMBDA_NAME_PREFIX: p
 
       - name: Invalidate Distribution
         if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           PATHS: '/*'
-
-      - name: Bump version and push tag
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        uses: anothrNick/github-tag-action@1.17.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: false
-          CUSTOM_TAG: ${{ steps.package-version.outputs.current-version }}
-          RELEASE_BRANCHES: master

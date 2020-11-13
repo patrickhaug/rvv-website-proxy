@@ -1,24 +1,24 @@
-name: Release # IMPORTANT!!! This name must not be changed !!!!  It is used to check for running workflows.
+name: ReleaseStaging # IMPORTANT!!! This name must not be changed !!!!  It is used to check for running workflows.
 
 on:
   push:
     branches:
-      - master
+      - staging
   
   repository_dispatch:
     types:
-      - live_website_deploy_requested
+      - live_staging_website_deploy_requested
       - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
-  CACHE_ID: 'live-v1'
-  AWS_S3_BUCKET: ${{ secrets.LIVE_STATIC_WEB_SITE_BUCKET }}
-  DISTRIBUTION: ${{ secrets.LIVE_CLOUDFRONT_DISTRIBUTION_ID }}
+  CACHE_ID: 'live-staging-v1'
+  AWS_S3_BUCKET: live.roche-website-starter-staging
+  DISTRIBUTION: E1S8JW4O3YRGA3
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
   STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}
-  STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
-  STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
+  STORYBLOK_SPACE_ID: 97427
+  STORYBLOK_SPACE_NAME: roche-website-starter-staging
   WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
   GATSBY_BRIGHTCOVE_ACCOUNT_ID: ${{ secrets.ROCHE_BRIGHTCOVE_ACCOUNT_ID }}
   GATSBY_BRIGHTCOVE_PLAYER_ID: ${{ secrets.ROCHE_BRIGHTCOVE_PLAYER_ID }}
@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: staging
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
@@ -56,7 +56,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: staging
 
       - name: Caching Gatsby
         id: gatsby-cache-build

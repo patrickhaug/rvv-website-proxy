@@ -9,12 +9,6 @@ jobs:
     name: Request Cache Refresh
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Call repository dispatch event to refresh the Check cache
-        run: echo 'Call repository dispatch to trigger the Check workflow with refresh_cache_requested'
-
       - name: Repository Dispatch refresh_cache_requested
         uses: peter-evans/repository-dispatch@v1
         with:

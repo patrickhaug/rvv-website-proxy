@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: staging
 
       - name: Caching Gatsby
         id: gatsby-cache-build

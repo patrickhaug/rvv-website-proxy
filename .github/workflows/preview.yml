@@ -1,4 +1,4 @@
-name: Preview # IMPORTANT!!! This name must not be changed !!!!
+name: Preview # IMPORTANT!!! This name must not be changed !!!!  It is used to check for running workflows.
 
 on:
   push:
@@ -7,10 +7,8 @@ on:
 
   repository_dispatch:
     types:
-     - storyblok_components_changed
-     - storyblok_content_changed
-     - preview_website_deploy_requested
-     - live_website_deploy_requested
+     - preview_website_deploy_requested 
+     - live_website_deploy_requested # Preview is also deployed because Storyblok allows publishing without calling the deploy preview task
      - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
@@ -32,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: master
 
       - name: Caching Gatsby
         id: gatsby-cache-build

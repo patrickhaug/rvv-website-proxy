@@ -121,7 +121,7 @@ jobs:
         env:
           CI: true
           GATSBY_ENV: production
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: false
           NODE_OPTIONS: --max-old-space-size=7168
 
       - name: Get current package version

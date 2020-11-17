@@ -7,12 +7,10 @@ on:
 
   repository_dispatch:
     types:
-     - preview_website_deploy_requested 
+     - preview_website_deploy_requested
      - live_website_deploy_requested # Preview is also deployed because Storyblok allows publishing without calling the deploy preview task
-     - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
 
 env:
-  CACHE_ID: 'preview-v1'
   AWS_S3_BUCKET: ${{ secrets.PREVIEW_STATIC_WEB_SITE_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_CLOUDFRONT_DISTRIBUTION_ID }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
@@ -33,17 +31,6 @@ jobs:
         with:
           ref: master
 
-      - name: Caching Gatsby
-        id: gatsby-cache-build
-        uses: actions/cache@v2
-        with:
-          path: |
-            public
-            .cache
-          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
-
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -57,25 +44,20 @@ jobs:
             ${{ runner.os }}-
 
       - name: Setup Node
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
       - name: Install packages
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm ci
 
       - name: Run Tests
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run test || true # Tests not blocking for while
 
       - name: Generate Audit report
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm audit || true # Audit not blocking for while
 
       - name: Configure AWS Credentials
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
@@ -83,52 +65,41 @@ jobs:
           aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool.sh
 
       - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool-client.sh
 
       - name: Emit event preview_deploy_started
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/emit-event-preview-deploy-started.sh
 
       - name: Build the website
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build
         env:
           CI: true
           GATSBY_ENV: preview
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: false
           NODE_OPTIONS: --max-old-space-size=7168
 
       - name: Deploy preview (public)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           SOURCE_DIR: "public"
 
       - name: Emit event preview_deploy_finished
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/emit-event-preview-deploy-finished.sh
 
       - name: Request Lambda@Edge authorizer to clear the cache
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/clear-authorizer-lambdaedge.sh
         env:
           LAMBDA_NAME_PREFIX: p
 
       - name: Invalidate Distribution
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           PATHS: '/*'

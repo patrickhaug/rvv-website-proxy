@@ -1,4 +1,4 @@
-name: Staging # IMPORTANT!!! This name must not be changed !!!!
+name: PreviewStaging # IMPORTANT!!! This name MUST not be changed !!!! It is used to check for running workflows.
 
 on:
   push:
@@ -7,42 +7,32 @@ on:
 
   repository_dispatch:
     types:
-     - storyblok_components_changed
-     - storyblok_content_changed
-     - staging_website_deploy_requested
-     - live_website_deploy_requested
-     - refresh_cache_requested # RefreshCaches workflow trigger this periodically to avoid cache eviction
+     - preview_staging_website_deploy_requested
+     - live_staging_website_deploy_requested # Preview is also deployed because Storyblok allows publishing without calling the deploy preview task
 
 env:
-  CACHE_ID: 'staging-v1'
-  AWS_S3_BUCKET: ${{ secrets.STAGING_STATIC_WEB_SITE_BUCKET }}
-  DISTRIBUTION: ${{ secrets.STAGING_CLOUDFRONT_DISTRIBUTION_ID }}
+  AWS_S3_BUCKET: ${{ secrets.PREVIEW_STAGING_AWS_S3_BUCKET }}
+  DISTRIBUTION: ${{ secrets.PREVIEW_STAGING_DISTRIBUTION }} 
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
   GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.STAGING_ROCHE_COMPONENTS_LIBRARY_URL }}
   STORYBLOK_API_KEY_NAME: ${{ secrets.PREVIEW_STORYBLOK_API_KEY_NAME }}
-  STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
-  STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
+  STORYBLOK_SPACE_ID: ${{ secrets.STAGING_STORYBLOK_SPACE_ID }}
+  STORYBLOK_SPACE_NAME: ${{ secrets.STAGING_STORYBLOK_SPACE_NAME }}
   WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
   GATSBY_BRIGHTCOVE_ACCOUNT_ID: ${{ secrets.ROCHE_BRIGHTCOVE_ACCOUNT_ID }}
   GATSBY_BRIGHTCOVE_PLAYER_ID: ${{ secrets.ROCHE_BRIGHTCOVE_PLAYER_ID }}
+  GATSBY_WEBSITE_URL: ${{ secrets.PREVIEW_STAGING_WEBSITE_URL }}
+  GATSBY_CLUDO_ENGINE_ID_LIST: ${{ secrets.CLUDO_ENGINE_ID_LIST_STAGING }}
+  GATSBY_CLUDO_CUSTOMER_ID: ${{ secrets.CLUDO_CUSTOMER_ID }}
 
 jobs:
-  build-staging:
+  build-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Caching Gatsby
-        id: gatsby-cache-build
-        uses: actions/cache@v2
         with:
-          path: |
-            public
-            .cache
-          key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
+          ref: staging
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -57,25 +47,20 @@ jobs:
             ${{ runner.os }}-
 
       - name: Setup Node
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: actions/setup-node@v1
         with:
           node-version: 12
 
       - name: Install packages
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm ci
 
       - name: Run Tests
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run test || true # Tests not blocking for while
 
       - name: Generate Audit report
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm audit || true # Audit not blocking for while
 
       - name: Configure AWS Credentials
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
@@ -83,46 +68,44 @@ jobs:
           aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
 
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
       - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool.sh
 
       - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: . ./scripts/set-cognito-user-pool-client.sh
 
-      - name: Emit event staging_deploy_started
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: . ./scripts/emit-event-staging-deploy-started.sh
+      - name: Emit event preview_deploy_started
+        run: . ./scripts/emit-event-preview-deploy-started.sh
 
       - name: Build the website
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         run: npm run build
         env:
           CI: true
-          GATSBY_ENV: staging
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          GATSBY_ENV: preview
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: false
           NODE_OPTIONS: --max-old-space-size=7168
 
-      - name: Deploy staging (public)
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
+      - name: Deploy preview (public)
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           SOURCE_DIR: "public"
 
-      - name: Emit event staging_deploy_finished
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
-        run: . ./scripts/emit-event-staging-deploy-finished.sh
+      - name: Emit event preview_deploy_finished
+        run: . ./scripts/emit-event-preview-deploy-finished.sh
+
+      - name: Repository Dispatch update_lambda_config_requested
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          event-type: update_lambda_config_requested
+          client-payload: '{"websiteName": "${{env.STORYBLOK_SPACE_NAME}}", "apiKeyName": "preview", "environment": "preview"}'
 
       - name: Invalidate Distribution
-        if: ${{ github.event.action != 'refresh_cache_requested' }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           PATHS: '/*'

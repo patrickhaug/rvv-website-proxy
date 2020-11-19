@@ -1,0 +1,20 @@
+name: Update Lambda
+
+on:  
+  repository_dispatch:
+    types:
+      - update_lambda_config_requested
+
+jobs:
+  update-lambda:
+    name: Update Lambda config and clear cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update lambda config
+        uses: fjogeleit/http-request-action@master
+        with:
+            url: 'https://apis.roche-infra.com/config/v1/lambda-configurations'
+            method: 'POST'
+            timeout: 15000
+            data: '{"websiteName":"${{ github.event.client_payload.websiteName }}","apiKeyName":"${{ github.event.client_payload.apiKeyName }}","environment":"${{ github.event.client_payload.environment }}"}'
+

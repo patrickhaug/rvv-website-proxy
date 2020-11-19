@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
     author: '@virtualidentityag',
-    url: 'https://live.roche-website-starter.roche-infra.com',
+    url: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
+    siteUrl: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
     defaultLanguage: 'en',
   },
   plugins: [
@@ -43,6 +44,7 @@ module.exports = {
         icon: 'src/resources/images/icon.png', // This path is relative to the root of the site.
       },
     },
+    'gatsby-plugin-sitemap',
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

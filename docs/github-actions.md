@@ -26,6 +26,7 @@
 - `STAGING_STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'.
 - `PREVIEW_STAGING_WEBSITE_URL` - The final URL of the website for preview/staging. Example: `https://preview.roche-website-starter-staging.roche-infra.com`
 - `PREVIEW_WEBSITE_URL` - The final URL of the website for preview/prod. Example: `https://preview.roche-website-starter.roche-infra.com`
+- `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
 
 ### Live Workflow
 
@@ -42,6 +43,7 @@
 - `STAGING_STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'.
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'.
 - `ROCHE_GOOGLE_TAG_MANAGER_ID` - The id from the Google Tag Manager account.
+- `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
 
 ### Organization Level Secrets Shared between projects and workflows
 
@@ -53,6 +55,7 @@
 - `ROCHE_WEBHOOKS_API_URL` - The URL of Roche Webhooks API responsible for processing website related events. Example: `https://staging.apis.roche-infra.com/webhooks`
 -`ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
 -`ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
+- `CLUDO_CUSTOMER_ID` - customer id for the cludo account. Example: '12345'
 
 ## Workflows
 

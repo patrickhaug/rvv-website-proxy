@@ -82,3 +82,8 @@ Pages tagged as `navigation:force-show` will always be displayed on the navigati
 `navigation:force-show` should only be used if an editor wishes to display a page that is also marked as private (`access:private` tag).
 
 Pages tagged as `navigation:contact-page` will be displayed on the top right corner of the navigation.
+
+## CLudo Crawler for search component
+In order for the search component to work you need to set a github secret containing the cludo engine ids
+example:
+CLUDO_ENGINE_LIST= pt:123412, en:1233244

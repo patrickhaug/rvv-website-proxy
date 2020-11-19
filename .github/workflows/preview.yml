@@ -99,7 +99,7 @@ jobs:
         with:
           token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
           event-type: update_lambda_config_requested
-          client-payload: '{"websiteName": "${STORYBLOK_SPACE_NAME}", "apiKeyName": "preview", "environment": "preview"}'
+          client-payload: '{"websiteName": "${{STORYBLOK_SPACE_NAME}}", "apiKeyName": "preview", "environment": "preview"}'
 
       - name: Invalidate Distribution
         uses: chetan/invalidate-cloudfront-action@master

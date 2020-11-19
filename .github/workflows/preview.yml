@@ -94,10 +94,12 @@ jobs:
       - name: Emit event preview_deploy_finished
         run: . ./scripts/emit-event-preview-deploy-finished.sh
 
-      - name: Request Lambda@Edge authorizer to clear the cache
-        run: . ./scripts/clear-authorizer-lambdaedge.sh
-        env:
-          LAMBDA_NAME_PREFIX: p
+      - name: Repository Dispatch update_lambda_config_requested
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          event-type: update_lambda_config_requested
+          client-payload: '{"websiteName": "${STORYBLOK_SPACE_NAME}", "apiKeyName": "preview", "environment": "preview"}'
 
       - name: Invalidate Distribution
         uses: chetan/invalidate-cloudfront-action@master

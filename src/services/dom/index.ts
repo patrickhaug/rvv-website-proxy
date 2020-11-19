@@ -3,6 +3,8 @@ export interface GlobalConfigProps {
   recaptchaKey: string;
   brightcoveAccountId: string;
   brightcovePlayerId: string;
+  cognitoUserpoolId: string;
+  cognitoUserpoolClientId: string;
   locale: string;
 }
 
@@ -24,6 +26,8 @@ export const DomService = {
       recaptchaKey: process.env.GATSBY_GOOGLE_RECAPTCHA_KEY || '',
       brightcoveAccountId: process.env.GATSBY_BRIGHTCOVE_ACCOUNT_ID || '1752604059001',
       brightcovePlayerId: process.env.GATSBY_BRIGHTCOVE_PLAYER_ID || 'rJtrO8EKW',
+      cognitoUserpoolId: process.env.COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
+      cognitoUserpoolClientId: process.env.COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
       locale,
     };
   },

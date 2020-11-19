@@ -24,6 +24,8 @@
 - `PREVIEW_STAGING_DISTRIBUTION` - The AWS  distribution ID for preview staging environment.
 - `STAGING_STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
 - `STAGING_STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'.
+- `PREVIEW_STAGING_WEBSITE_URL` - The final URL of the website for preview/staging. Example: `https://preview.roche-website-starter-staging.roche-infra.com`
+- `PREVIEW_WEBSITE_URL` - The final URL of the website for preview/prod. Example: `https://preview.roche-website-starter.roche-infra.com`
 
 ### Live Workflow
 
@@ -34,6 +36,8 @@
 - `LIVE_STORYBLOK_API_KEY_NAME` - The name of Storyblok API key for published content. Example: 'live'.
 - `LIVE_STAGING_AWS_S3_BUCKET` - The S3 bucket name for the live staging environment.
 - `LIVE_STAGING_DISTRIBUTION` - The AWS  distribution ID for live staging environment.
+- `LIVE_STAGING_WEBSITE_URL` - The final URL of the website for live/staging. Example: `https://live.roche-website-starter-staging.roche-infra.com` or `staging.www.roche.hs`.
+- `LIVE_WEBSITE_URL` - The final URL of the website for live/prod. Example: `https://live.roche-website-starter.roche-infra.com` or `www.roche.hs`
 - `STAGING_STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
 - `STAGING_STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'.
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'.

@@ -15,5 +15,6 @@ jobs:
         with:
             url: 'https://apis.roche-infra.com/config/v1/lambda-configurations'
             method: 'POST'
+            timeout: 15000
             data: '{"websiteName":"${{ github.event.client_payload.websiteName }}","apiKeyName":"${{ github.event.client_payload.apiKeyName }}","environment":"${{ github.event.client_payload.environment }}"}'
 

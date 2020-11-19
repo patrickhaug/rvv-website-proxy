@@ -103,7 +103,7 @@ export function SEO({
           content: twitter_description,
         },
         {
-          name: 'private-page',
+          name: 'private',
           content: isPrivate,
         },
       ]}

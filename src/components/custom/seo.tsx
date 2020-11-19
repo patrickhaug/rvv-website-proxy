@@ -50,7 +50,7 @@ export function SEO({
       }
     `,
   );
-  const isPrivate = (tag_list !== undefined) && (tag_list.includes('access:private'));
+  const isPrivate = (tag_list !== undefined) && (tag_list.includes('access:private')) ? 'yes' : 'no';
   return (
     <Helmet
       htmlAttributes={{

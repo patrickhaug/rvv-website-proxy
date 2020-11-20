@@ -130,7 +130,13 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           ></Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
-          <Search />
+          <Search
+            close-search-text="Close"
+            no-results-text="We searched wide and far but couldn't find what you are looking for."
+            filter-container-text="Filter your search"
+            totalResultsForQuery='$0 results for „$1"'
+            input-placeholder="Search"
+          />
         </OffCanvas>
         <Header
           breadcrumbs={JSON.stringify(breadcrumbs)}

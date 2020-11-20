@@ -86,10 +86,10 @@ jobs:
       - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
         run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
 
-      - name: Set COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
+      - name: Set GATSBY_COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
         run: . ./scripts/set-cognito-user-pool.sh
 
-      - name: Set COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and COGNITO_USERPOOL_ID)
+      - name: Set GATSBY_COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and GATSBY_COGNITO_USERPOOL_ID)
         run: . ./scripts/set-cognito-user-pool-client.sh
 
       - name: Emit event live_deploy_started

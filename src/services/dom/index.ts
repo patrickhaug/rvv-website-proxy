@@ -1,3 +1,5 @@
+import { LanguageService } from '../language';
+
 export interface GlobalConfigProps {
   pageId: string;
   recaptchaKey: string;
@@ -9,8 +11,6 @@ export interface GlobalConfigProps {
   cludoEngineId: string | string[];
   cludoCustomerID: string;
 }
-
-const defaultLanguage = 'en';
 
 type HTMLElementContent = string | { toString: () => string };
 
@@ -25,7 +25,7 @@ export const DomService = {
   },
 
   getGlobalConfig(pageId: string, locale: string): GlobalConfigProps {
-    const parsedLocale = locale === 'default' ? defaultLanguage : locale;
+    const parsedLocale = locale === 'default' ? LanguageService.defaultLocale : locale;
 
     return {
       pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME || 'roche-website-starter:local'}:${pageId}`,
@@ -39,7 +39,7 @@ export const DomService = {
         .filter((item) => item.indexOf(`${parsedLocale}:`) === 0)
         .join()
         .substring(parsedLocale.length + 1, 8),
-      locale: parsedLocale,
+      locale,
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
     };

@@ -40,8 +40,8 @@ export const DomService = {
         .join()
         .substring(parsedLocale.length + 1, 8),
       locale: parsedLocale,
-      cognitoUserpoolId: process.env.COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
-      cognitoUserpoolClientId: process.env.COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
+      cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
+      cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
     };
   },
 };

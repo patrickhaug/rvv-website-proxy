@@ -27,6 +27,7 @@ export interface EntryData extends GlobalConfigProps {
   footer?: StoryData;
   onClickNotice?: StoryData;
   languages?: Language[];
+  search?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -40,16 +41,19 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const story = { ...pageContext.story };
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
+  const search = { ...pageContext.search };
 
   story.content = story.content && JSON.parse(story.content.toString());
   footer.content = footer.content && JSON.parse(footer.content.toString());
   onClickNotice.content = onClickNotice.content && JSON.parse(onClickNotice.content.toString());
+  search.content = search.content && JSON.parse(search.content.toString());
 
   return {
     googleTagManagerId,
     story,
     footer,
     onClickNotice,
+    search,
     ...DomService.getGlobalConfig(story.uuid, story.lang),
   };
 };
@@ -106,6 +110,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       footer,
       onClickNotice,
       languages,
+      search,
       ...globalConfig
     } = this.state;
 
@@ -131,11 +136,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
           <Search
-            close-search-text="Close"
-            no-results-text="We searched wide and far but couldn't find what you are looking for."
-            filter-container-text="Filter your search"
-            total-results-for-query='$0 results for „$1"'
-            input-placeholder="Search"
+            close-search-text={search?.content?.close_search_text}
+            no-results-text={search?.content?.no_results_text}
+            filter-container-text={search?.content?.filter_container_text}
+            total-results-for-query={search?.content?.total_results_for_query}
+            input-placeholder={search?.content?.input_placeholder}
           />
         </OffCanvas>
         <Header

@@ -101,6 +101,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         story: entry.node,
         footer: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'footer')),
         onClickNotice: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'on-click-notice')),
+        search: navigationReadyStories[entry.node.lang].find(((story) => story.slug === 'search')),
       },
     });
   });

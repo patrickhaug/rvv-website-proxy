@@ -33,7 +33,7 @@ export const DomService = {
       brightcoveAccountId: process.env.GATSBY_BRIGHTCOVE_ACCOUNT_ID || '1752604059001',
       brightcovePlayerId: process.env.GATSBY_BRIGHTCOVE_PLAYER_ID || 'rJtrO8EKW',
       cludoCustomerID: process.env.GATSBY_CLUDO_CUSTOMER_ID || '473',
-      cludoEngineId: (process.env.GATSBY_CLUDO_ENGINE_LIST || 'en: 11916, de: 11917')
+      cludoEngineId: (process.env.GATSBY_CLUDO_ENGINE_ID_LIST || 'en: 11916, de: 11917')
         .replace(/[\s]/g, '')
         .split(',')
         .filter((item) => item.indexOf(`${parsedLocale}:`) === 0)

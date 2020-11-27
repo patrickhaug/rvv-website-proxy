@@ -11,7 +11,7 @@ const defaultMapper = (key: string, value: unknown): Record<string, string> => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getMappedProps = (key: string, blok: any): Record<string, string> => {
-  if (blok instanceof Array) {
+  if (blok instanceof Array && blok.length && typeof blok[0].filename === 'string') {
     return multiAsset(key, blok);
   }
   if (blok.fieldtype === 'asset') {

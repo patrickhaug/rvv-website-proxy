@@ -1,17 +1,10 @@
 # Github Actions - Settings
 
-## Constants
-
-- `CACHE_ID` - Contains the id of Gatsby cache for conditional builds for each workflow. In case of needing to perform a full website rebuild. Just update the cache version +1.
-
 ## Required Secrets
 
 ### Check Workflow
 
 #### Repository Level Secrets
-
-- `LIVE_STORYBLOK_API_KEY_NAME` - The name of Storyblok API key for published content. Example: 'live'
-- `STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'
 
 ### Preview Workflow
 
@@ -39,8 +32,8 @@
 - `LIVE_STAGING_DISTRIBUTION` - The AWS  distribution ID for live staging environment.
 - `LIVE_STAGING_WEBSITE_URL` - The final URL of the website for live/staging. Example: `https://live.roche-website-starter-staging.roche-infra.com` or `staging.www.roche.hs`.
 - `LIVE_WEBSITE_URL` - The final URL of the website for live/prod. Example: `https://live.roche-website-starter.roche-infra.com` or `www.roche.hs`
-- `STAGING_STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
-- `STAGING_STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'.
+- `STORYBLOK_SPACE_ID` - The id of the Space in Storyblok. Example: 85566
+- `STORYBLOK_SPACE_NAME` - The Name of the Space in Storyblok. Example: 'roche-website-starter'
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'.
 - `ROCHE_GOOGLE_TAG_MANAGER_ID` - The id from the Google Tag Manager account.
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'

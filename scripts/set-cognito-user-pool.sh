@@ -1,4 +1,4 @@
-echo "COGNITO_USERPOOL_ID=$(\
+echo "GATSBY_COGNITO_USERPOOL_ID=$(\
   aws cognito-idp \
       list-user-pools --max-results 60 \
                       --output text \

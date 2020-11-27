@@ -47,7 +47,15 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   public render(): JSX.Element {
     const {
-      story, navigation, contact, breadcrumbs, footer, onClickNotice, languages, ...globalConfig
+      story,
+      navigation,
+      contact,
+      breadcrumbs,
+      footer,
+      onClickNotice,
+      search,
+      languages,
+      ...globalConfig
     } = this.state;
 
     if (!story || !story.content) {
@@ -64,11 +72,16 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             contactText={contact?.content?.navigation_title || 'No title'}
             getComponent={getComponent}
             languages={languages}
-          >
-          </Navigation>
+          ></Navigation>
         </OffCanvas>
         <OffCanvas id="roche-offcanvas-search">
-          <Search />
+          <Search
+            close-search-text={search?.content.close_search_text}
+            no-results-text={search?.content.no_results_text}
+            filter-container-text={search?.content.filter_container_text}
+            totalResultsForQuery={search?.content.total_results_for_query}
+            input-placeholder={search?.content.input_placeholder}
+          />
         </OffCanvas>
         <Header
           breadcrumbs={JSON.stringify(breadcrumbs)}
@@ -131,6 +144,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           this.loadFooter(story.lang);
           this.loadOnclickNotice(story.lang);
           this.loadLanguages();
+          this.loadSearch(story.lang);
         },
       );
     }
@@ -155,6 +169,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const slugWithLang = lang !== 'default' ? `/${lang}/footer` : 'footer';
     const { data } = await this.storyblokClient.getStory(slugWithLang);
     this.setState({ footer: data.story });
+  }
+
+  private async loadSearch(lang?: string): Promise<void> {
+    const slugWithLang = lang !== 'default' ? `/${lang}/search` : 'search';
+    const { data } = await this.storyblokClient.getStory(slugWithLang);
+    this.setState({ search: data.story });
   }
 
   private async loadOnclickNotice(lang?: string): Promise<void> {

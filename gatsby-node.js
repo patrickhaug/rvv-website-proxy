@@ -57,6 +57,61 @@ const ParseStoriesForNavigation = (array) => array.reduce((acc, val) => {
   return acc;
 }, {});
 
+const mandatoryNavKeys = [
+  // item attributes
+  'id',
+  'uuid',
+  'real_path',
+  'parent_id',
+  'is_folder',
+  'is_startpage',
+  'children',
+  'breadcrumbs',
+  'page',
+  // page attributes
+  'name',
+  'content',
+  // breadcrumbs attributes
+  'href',
+  'label',
+];
+
+const mandatoryContentKeys = [
+  'navigation_title',
+  'navigation_subline',
+  'highlights',
+];
+
+const ignoreKeys = [
+  'highlights',
+];
+
+const cleanObject = (data, keys = mandatoryNavKeys) => {
+  // Remove unnecessary info
+  if (!(data instanceof Array)) {
+    Object.keys(data).filter((key) => keys.indexOf(key) < 0).forEach((key) => {
+      // eslint-disable-next-line no-param-reassign
+      delete data[key];
+    });
+  }
+
+  // Parse content to remove unnecessary info
+  if (data.page && typeof data.page.content === 'string') {
+    // eslint-disable-next-line no-param-reassign
+    data.page.content = JSON.stringify(
+      cleanObject(JSON.parse(data.page.content), mandatoryContentKeys),
+    );
+  }
+
+  Object.keys(data).filter((key) => ignoreKeys.indexOf(key) < 0).forEach((prop) => {
+    if (data[prop] && typeof data[prop] === 'object') {
+      cleanObject(data[prop]);
+    }
+  });
+
+  return data;
+};
+
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const { errors, data } = await graphql(graphQuery);
 
@@ -80,13 +135,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const tree = await NavigationService.getNavigation(navigationReadyStories[language], language);
     navigationTreesByLanguage = {
       ...navigationTreesByLanguage,
-      [language]: tree,
+      [language]: cleanObject(JSON.parse(JSON.stringify(tree))),
     };
   }
   /* eslint-enable guard-for-in, no-await-in-loop, no-restricted-syntax */
 
   mkdirSync('public', { recursive: true });
-  writeFileSync('public/navigation-data.json', JSON.stringify(navigationTreesByLanguage));
+  Object.keys(navigationTreesByLanguage).forEach((key) => {
+    writeFileSync(`public/navigation-data-${key}.json`, JSON.stringify(navigationTreesByLanguage[key]));
+  });
 
   data.stories.edges.forEach((entry) => {
     const path = entry.node.full_slug.includes('home')

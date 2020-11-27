@@ -85,12 +85,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     /** fetch is polyfilled */
     // eslint-disable-next-line compat/compat
-    fetch('/navigation-data.json')
+    fetch(`/navigation-data-${this.state.story.lang}.json`)
       .then((res) => res.json())
       .then((navigationData) => {
-        const breadcrumbs = NavigationService
-          .getBreadcrumbs(this.state.story.uuid, navigationData[this.state.story.lang]);
-        this.setState({ navigation: navigationData[this.state.story.lang], breadcrumbs });
+        const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, navigationData);
+        this.setState({ navigation: navigationData, breadcrumbs });
       });
 
     NavigationService.getContactPage(this.state.story.lang)

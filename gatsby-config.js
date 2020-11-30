@@ -48,5 +48,17 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: 'gatsby-plugin-stencil',
+      options: {
+        // The module of your components (required), eg "@ionic/core".
+        module: '@RocheGlobal/component-library',
+
+        // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
+        renderToStringOptions: {
+          prettyHtml: true,
+        },
+      },
+    },
   ],
 };

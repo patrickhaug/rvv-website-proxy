@@ -10,7 +10,6 @@ on:
       - live_staging_website_deploy_requested
 
 env:
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   AWS_S3_BUCKET: ${{ secrets.LIVE_STAGING_AWS_S3_BUCKET }}
   DISTRIBUTION: ${{ secrets.LIVE_STAGING_DISTRIBUTION }}
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}

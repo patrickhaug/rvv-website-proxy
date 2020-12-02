@@ -19,7 +19,7 @@
     "lint:code:fix": "eslint \"./src/**/*.ts\" \"./src/**/*.tsx\" \"./*.js\" --fix"
   },
   "dependencies": {
-    "@RocheGlobal/component-library": "0.0.4",
+    "@RocheGlobal/component-library": "0.0.6",
     "@types/react-helmet": "^6.1.0",
     "gatsby": "^2.24.73",
     "gatsby-image": "^2.4.16",

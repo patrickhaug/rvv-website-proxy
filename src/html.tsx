@@ -24,7 +24,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-document-language="true"
           type="text/javascript"
           charSet="UTF-8"
-          data-domain-script={process.env.ROCHE_ONETRUST_KEY || '8831b9b2-1d9d-4efb-8a91-ddd8af0c32f4-test'}
+          data-domain-script={process.env.ROCHE_ONETRUST_KEY || '7e3514ed-1d2a-44e7-b360-72d14229bcab-test'}
         ></script>
         <script type="text/javascript" dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}></script>
         {/* End Onetrust */}

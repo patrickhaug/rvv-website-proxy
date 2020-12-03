@@ -52,7 +52,7 @@ module.exports = {
       resolve: 'gatsby-plugin-stencil',
       options: {
         // The module of your components (required), eg "@ionic/core".
-        module: '@RocheGlobal/component-library',
+        module: '@rocheglobal/component-library',
 
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {

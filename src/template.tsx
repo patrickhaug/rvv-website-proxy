@@ -122,7 +122,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {...story.content.meta_tags}
           lang={story.lang}
           slug={story.full_slug}
-          tag_list={story.tag_list}
+          authorized_roles = {story.content.authorized_roles}
         ></SEO>
         <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
         <OffCanvas id="roche-offcanvas-menu">

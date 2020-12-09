@@ -29,6 +29,11 @@ jobs:
     name: Check if a release with the same version number already exists
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+
       - name: Checkout
         uses: actions/checkout@v2
         with:

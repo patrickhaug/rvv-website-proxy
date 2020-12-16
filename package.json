@@ -7,9 +7,11 @@
     "node": ">=12"
   },
   "scripts": {
-    "start": "npm run compile:node-services && gatsby develop",
+    "set:dev-env": "GATSBY_STORYBLOK_SPACE_API_KEY=3987r2nQTnEcd6rppyOv3wtt",
+    "start": "npm run compile:node-services && npm run set:dev-env gatsby develop",
     "compile:node-services": "tsc --project node-services/",
     "build": "npm run compile:node-services && gatsby build --log-pages --write-to-file",
+    "build:debug": "npm run compile:node-services && npm run set:dev-env gatsby build --log-pages --write-to-file",
     "build:public": "npm run compile:node-services && PUBLIC_BUILD=1 gatsby build --log-pages --write-to-file",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
@@ -30,7 +32,7 @@
     "gatsby-plugin-sitemap": "^2.6.0",
     "gatsby-plugin-stencil": "git+https://github.com/virtualidentityag/gatsby-plugin-stencil.git",
     "gatsby-source-filesystem": "^2.3.24",
-    "gatsby-source-storyblok": "^1.1.0",
+    "gatsby-source-graphql": "^2.10.0",
     "gatsby-transformer-sharp": "^2.5.13",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

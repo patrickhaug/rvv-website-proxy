@@ -15,11 +15,18 @@ module.exports = {
       },
     }] : []),
     {
-      resolve: 'gatsby-source-storyblok',
+      resolve: 'gatsby-source-graphql',
       options: {
-        accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY || '3987r2nQTnEcd6rppyOv3wtt',
-        homeSlug: 'home',
-        version: process.env.GATSBY_ENV === 'production' ? 'published' : 'draft',
+        accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
+        typeName: 'Storyblok',
+        fieldName: 'storyblok',
+        url: 'https://gapi.storyblok.com/v1/api',
+        headers: {
+          Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
+          Version: `${process.env.GATSBY_ENV === 'production' ? 'published' : 'draft'}`,
+        },
+        // example resolve relations
+        // resolveRelations: 'roche-event-teaser.tags, roche-contact-list.contacts',
       },
     },
     'gatsby-plugin-react-helmet',

@@ -43,11 +43,6 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const onClickNotice = { ...pageContext.onClickNotice };
   const search = { ...pageContext.search };
 
-  story.content = story.content && JSON.parse(story.content.toString());
-  footer.content = footer.content && JSON.parse(footer.content.toString());
-  onClickNotice.content = onClickNotice.content && JSON.parse(onClickNotice.content.toString());
-  search.content = search.content && JSON.parse(search.content.toString());
-
   return {
     googleTagManagerId,
     story,

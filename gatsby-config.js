@@ -60,10 +60,10 @@ module.exports = {
       options: {
         // The module of your components (required), eg "@ionic/core".
         module: '@rocheglobal/component-library',
-
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
-          prettyHtml: true,
+          // Prevent flickering when stencil rehydrates client side
+          afterHydrate: (document) => document.querySelectorAll('.hydrated').forEach((el) => el.classList.remove('hydrated')),
         },
       },
     },

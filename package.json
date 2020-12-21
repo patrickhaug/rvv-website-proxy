@@ -14,6 +14,7 @@
     "build:debug": "npm run compile:node-services && npm run set:dev-env gatsby build --log-pages --write-to-file",
     "build:public": "npm run compile:node-services && PUBLIC_BUILD=1 gatsby build --log-pages --write-to-file",
     "serve": "gatsby serve",
+    "serve:build": "serve -l 3334 ./public/",
     "clean": "gatsby clean",
     "lint": "npm run lint:code",
     "lint:fix": "npm run lint:code:fix",
@@ -37,6 +38,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
+    "serve": "^11.3.2",
     "storyblok-js-client": "^2.5.2",
     "storyblok-react": "^0.1.1",
     "typescript": "^3.9.7"

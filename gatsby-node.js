@@ -160,6 +160,8 @@ const createQuery = (
   });
 };
 
+let localeList;
+
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const preContentFetch = await graphql(queryPrepareContentFetch);
 
@@ -181,6 +183,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   // eslint-disable-next-line compat/compat
   await Promise.all(allQueries.map((query) => query()));
 
+  // To pass as context to 404 page.
+  localeList = [...languageCodes];
+
   const navigationReadyStories = ParseStoriesForNavigation(allEntries);
   let navigationTreesByLanguage = {};
 
@@ -199,7 +204,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     writeFileSync(`public/navigation-data-${key}.json`, JSON.stringify(navigationTreesByLanguage[key]));
   });
 
-  const template = resolve('./src/template.tsx');
+  const template = resolve('./src/templates/default.tsx');
 
   allEntries.forEach((entry) => {
     const path = entry.full_slug.includes('home')
@@ -218,4 +223,25 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
+};
+
+/**
+ * Localized 404 page creation.
+ * Refer to the readme for more info.
+ */
+exports.onCreatePage = async ({ page, actions }) => {
+  if (page.internalComponentName === 'Component404Html') {
+    const { deletePage, createPage } = actions;
+    const master404Component = resolve('./src/templates/404.tsx');
+
+    deletePage(page);
+
+    createPage({
+      component: master404Component,
+      path: '/404.html',
+      context: {
+        localeList,
+      },
+    });
+  }
 };

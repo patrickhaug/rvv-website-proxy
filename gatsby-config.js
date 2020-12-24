@@ -37,6 +37,12 @@ module.exports = {
         path: `${__dirname}/src/resources/images`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-react-helmet-canonical-urls',
+      options: {
+        siteUrl: process.env.GATSBY_WEBSITE_URL,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {

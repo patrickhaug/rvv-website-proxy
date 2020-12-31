@@ -10,6 +10,7 @@ export interface GlobalConfigProps {
   locale: string;
   cludoEngineId: string | string[];
   cludoCustomerID: string;
+  translationUrl: string;
 }
 
 type HTMLElementContent = string | { toString: () => string };
@@ -42,6 +43,7 @@ export const DomService = {
       locale,
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
+      translationUrl: `${process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL || 'http://localhost:3333/dist'}/roche-component-library/assets/translations/${parsedLocale}.json`,
     };
   },
 };

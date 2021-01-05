@@ -1,3 +1,9 @@
+const activeEnv = process.env.GATSBY_ACTIVE_ENV || 'preview-staging';
+
+require('dotenv').config({
+  path: `.env.${activeEnv}`,
+});
+
 module.exports = {
   siteMetadata: {
     author: '@virtualidentityag',

@@ -245,3 +245,13 @@ exports.onCreatePage = async ({ page, actions }) => {
     });
   }
 };
+// This is needed so that the build process does not fail because in gatby-config.js
+// the fs module is not available and therefore it throws an error because dotenv has
+// it as a dependency.
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    node: {
+      fs: 'empty',
+    },
+  });
+};

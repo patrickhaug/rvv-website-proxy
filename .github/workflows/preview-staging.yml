@@ -11,19 +11,10 @@ on:
      - live_staging_website_deploy_requested # Preview is also deployed because Storyblok allows publishing without calling the deploy preview task
 
 env:
-  AWS_S3_BUCKET: ${{ secrets.PREVIEW_STAGING_AWS_S3_BUCKET }}
   DISTRIBUTION: ${{ secrets.PREVIEW_STAGING_DISTRIBUTION }} 
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
-  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.STAGING_ROCHE_COMPONENTS_LIBRARY_URL }}
   STORYBLOK_API_KEY_NAME: ${{ secrets.PREVIEW_STORYBLOK_API_KEY_NAME }}
-  STORYBLOK_SPACE_ID: ${{ secrets.STAGING_STORYBLOK_SPACE_ID }}
-  STORYBLOK_SPACE_NAME: ${{ secrets.STAGING_STORYBLOK_SPACE_NAME }}
   WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
-  GATSBY_BRIGHTCOVE_ACCOUNT_ID: ${{ secrets.ROCHE_BRIGHTCOVE_ACCOUNT_ID }}
-  GATSBY_BRIGHTCOVE_PLAYER_ID: ${{ secrets.ROCHE_BRIGHTCOVE_PLAYER_ID }}
-  GATSBY_WEBSITE_URL: ${{ secrets.PREVIEW_STAGING_WEBSITE_URL }}
-  GATSBY_CLUDO_ENGINE_ID_LIST: ${{ secrets.CLUDO_ENGINE_ID_LIST_STAGING }}
-  GATSBY_CLUDO_CUSTOMER_ID: ${{ secrets.CLUDO_CUSTOMER_ID }}
 
 jobs:
   build-preview:
@@ -92,6 +83,7 @@ jobs:
         env:
           CI: true
           GATSBY_ENV: preview
+          GATSBY_ACTIVE_ENV: preview-staging
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: false
           NODE_OPTIONS: --max-old-space-size=7168
 

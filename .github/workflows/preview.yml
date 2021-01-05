@@ -16,6 +16,7 @@ env:
   STORYBLOK_API_KEY_NAME: ${{ secrets.PREVIEW_STORYBLOK_API_KEY_NAME }}
   WEBHOOKS_API_URL: ${{ secrets.ROCHE_WEBHOOKS_API_URL }}
   STORYBLOK_SPACE_NAME: roche-website-starter
+  AWS_S3_BUCKET: preview.roche-website-starter
 
 jobs:
   build-preview:

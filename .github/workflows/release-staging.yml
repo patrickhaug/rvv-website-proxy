@@ -107,6 +107,12 @@ jobs:
           GATSBY_ENV: production
           NODE_OPTIONS: --max-old-space-size=7168
 
+      - name: Release with semantic-release
+        run: npm run release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0
         id: package-version

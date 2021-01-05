@@ -1,3 +1,4 @@
+export * from './browser-detection';
 export * from './dom';
 export * from './language';
 export * from './navigation';

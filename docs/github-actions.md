@@ -48,8 +48,8 @@
 - `ROCHE_COMPONENTS_LIBRARY_URL` - The URL of Roche components library version used by the website. Example: `http://live.roche-components-library.roche-infra.com/releases/latest`
 - `ROCHE_GOOGLE_RECAPTCHA_SITE_KEY` - The Google Recaptcha Site Key used to generate Google Recaptcha Validation tokens. Example: `xshso0sdfahdlsd0f`
 - `ROCHE_WEBHOOKS_API_URL` - The URL of Roche Webhooks API responsible for processing website related events. Example: `https://staging.apis.roche-infra.com/webhooks`
--`ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
--`ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
+- `ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
+- `ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
 - `CLUDO_CUSTOMER_ID` - customer id for the cludo account. Example: '12345'
 
 ## Workflows

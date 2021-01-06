@@ -95,3 +95,14 @@ In order for these to be displayed, an entry must be created in Storyblok with s
 Localised behaviour is the same as for every other variation.
 
 *Please note that if you space does not have a 404 page created, the default 404 of your server will be displayed instead.*
+## Environment Variables
+
+_**Warning:** Sensible data must always be stored as a Github secret instead and referenced in the workflow files only_
+
+App related data may be configured, per environment, on the available .env files.
+Each configuration file maps to specific workflow:
+
+- .env.live            -> release.yml
+- .env.live-staging    -> release-staging.yml
+- .env.preview         -> preview.yml
+- .env.preview-staging -> preview-staging.yml

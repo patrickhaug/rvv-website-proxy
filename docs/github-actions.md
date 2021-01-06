@@ -21,6 +21,9 @@
 - `PREVIEW_STAGING_WEBSITE_URL` - The final URL of the website for preview/staging. Example: `https://preview.roche-website-starter-staging.roche-infra.com`
 - `PREVIEW_WEBSITE_URL` - The final URL of the website for preview/prod. Example: `https://preview.roche-website-starter.roche-infra.com`
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
+- `GATSBY_WHITE_LISTED_DOMAINS`- Domain names that won't trigger the "On click Notice" component. Example: '["roche.com"]'```
+on-click-notice, Example: '["roche.com"]'
+- `GATSBY_BASE_DOMAIN` - Website domain name. Example: 'roche'
 
 ### Live Workflow
 - `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'
@@ -39,6 +42,9 @@
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'.
 - `ROCHE_GOOGLE_TAG_MANAGER_ID` - The id from the Google Tag Manager account.
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
+- `GATSBY_WHITE_LISTED_DOMAINS`- List of domains that are whitelisted to redirect without showing the 
+on-click-notice, Example: '["roche.com"]'
+- `GATSBY_BASE_DOMAIN` - Base domain for the website related to this repo, example: 'roche'
 
 ### Organization Level Secrets Shared between projects and workflows
 

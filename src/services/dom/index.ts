@@ -11,6 +11,8 @@ export interface GlobalConfigProps {
   cludoEngineId: string | string[];
   cludoCustomerID: string;
   translationUrl: string;
+  whiteListedDomains: string;
+  baseDomain: string;
   twitterHandle: string;
 }
 
@@ -45,6 +47,8 @@ export const DomService = {
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID || 'eu-central-1_9VwzPiCyy',
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID || '1h7t2vm5sb7ok04v42ld4o17ls',
       translationUrl: `${process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL || 'http://localhost:3333/dist'}/roche-component-library/assets/translations/${parsedLocale}.json`,
+      whiteListedDomains: process.env.GATSBY_WHITE_LISTED_DOMAINS || '["roche.com"]',
+      baseDomain: process.env.GATSBY_BASE_DOMAIN || 'roche',
       twitterHandle: process.env.GATSBY_TWITTER_HANDLE || '@roche',
     };
   },

@@ -7,6 +7,7 @@
 #### Repository Level Secrets
 
 ### Preview Workflow
+- `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'
 
 #### Repository Level Secrets
 
@@ -22,6 +23,7 @@
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
 
 ### Live Workflow
+- `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'
 
 #### Repository Level Secrets
 
@@ -60,5 +62,3 @@ This project follows the GitFlow.
 
 staging > deploys staging
 master  > deploys preview/live
-
-

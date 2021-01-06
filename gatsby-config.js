@@ -10,6 +10,7 @@ module.exports = {
     url: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
     siteUrl: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
     defaultLanguage: 'en',
+    twitterHandle: process.env.GATSBY_TWITTER_HANDLE || '@roche',
   },
   plugins: [
     // Disable "editor" page if it's a public build

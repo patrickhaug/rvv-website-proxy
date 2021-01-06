@@ -45,6 +45,7 @@ export function SEO({
             author
             url
             defaultLanguage
+            twitterHandle
           }
         }
       }
@@ -92,7 +93,7 @@ export function SEO({
         },
         {
           name: 'twitter:creator',
-          content: site.siteMetadata.author,
+          content: site.siteMetadata.twitterHandle,
         },
         {
           name: 'twitter:title',

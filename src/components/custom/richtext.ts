@@ -9,13 +9,23 @@ interface LinkComponentProps {
   icon?: string;
   link: {
     cached_url: string;
+    anchor: string;
+    url: string;
   };
 }
 
+const rootAlias = 'home';
+
 const componentPropRenderer = {
-  'roche-text-link': (blok: LinkComponentProps): string => (
-    `href="/${blok.link.cached_url}" text="${blok.text}" target="${blok.target}" icon="${blok.icon}"`
-  ),
+  'roche-text-link': (blok: LinkComponentProps): string => {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const { cached_url, anchor, url } = blok.link;
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const parsedLink = url || `/${cached_url.replace(rootAlias, '')}${anchor ? `#${anchor}` : ''}`.replace('//', '/');
+    return (
+      `href="${parsedLink}" text="${blok.text}" target="${blok.target}" icon="${blok.icon}"`
+    );
+  },
 };
 
 const storyblokClient = new StoryblokClient({

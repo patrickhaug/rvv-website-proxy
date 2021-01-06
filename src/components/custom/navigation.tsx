@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
+/**
+ * TODO:
+ * Remove mocked code and import actual service once the package has been released
+ *
+ * import { TranslationService } from
+ * '@rocheglobal/component-library/src/services/translation/index';
+ */
+const TranslationService = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  translate: (_: string): string => 'Broken until component-library released.',
+};
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];
   contactUrl: string;
   contactText: string;
   languages: Language[];
+}
+
+interface NavigationState {
+  translations?: {
+    learnMore: string;
+  };
 }
 
 const RocheGenericLink = 'roche-generic-link' as React.ElementType;
@@ -17,7 +34,10 @@ const RocheButton = 'roche-button' as React.ElementType;
 const RocheImage = 'roche-image' as React.ElementType;
 const Navigation = 'roche-navigation' as React.ElementType;
 
-const renderStartPageOverview = (leaf: StoryblokNodeTree): JSX.Element => {
+const renderStartPageOverview = (
+  leaf: StoryblokNodeTree,
+  componentState: NavigationState,
+): JSX.Element => {
   if (leaf.real_path.split('/').length > 3 || !leaf.page?.content) {
     return null;
   }
@@ -38,7 +58,7 @@ const renderStartPageOverview = (leaf: StoryblokNodeTree): JSX.Element => {
       <div slot="left">
         <h3 className="headline" slot="left">{navigation_title}</h3>
         <h4 className="subline" slot="left">{navigation_subline}</h4>
-        <RocheButton target="_self" text="Learn more" secondary icon="overview" is-dark-background href={leaf.real_path}></RocheButton>
+        <RocheButton target="_self" text={componentState.translations?.learnMore} secondary icon="overview" is-dark-background href={leaf.real_path}></RocheButton>
       </div>
       <div slot="right">
         {highlights && highlights.length > 0 && (
@@ -80,7 +100,8 @@ const renderStartPageOverview = (leaf: StoryblokNodeTree): JSX.Element => {
   /* eslint-enable @typescript-eslint/camelcase */
 };
 
-const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
+function renderTree(leaf: StoryblokNodeTree): JSX.Element {
+  const componentState: NavigationState = { ...this };
   const link = (
     <RocheGenericLink
       data-theme="dark"
@@ -98,7 +119,7 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
       <ul key={leaf.id}>
         <li>
           {link}
-          {renderStartPageOverview(leaf)}
+          {renderStartPageOverview(leaf, componentState)}
         </li>
       </ul>
     );
@@ -108,7 +129,7 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
   if (leaf.is_folder && leaf.parent_id === 0) {
     return (
       <ul key={leaf.id}>
-        {leaf.children.map(renderTree)}
+        {leaf.children.map(renderTree, componentState)}
       </ul>
     );
   }
@@ -118,7 +139,7 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
     return (
       <li key={leaf.id}>
         <ul>
-          {leaf.children.map(renderTree)}
+          {leaf.children.map(renderTree, componentState)}
         </ul>
       </li>
     );
@@ -133,10 +154,10 @@ const renderTree = (leaf: StoryblokNodeTree): JSX.Element => {
     <li key={leaf.id}>
       {link}
       <RocheIconComponent icon="chevron-right-bold" />
-      {leaf.is_startpage && renderStartPageOverview(leaf)}
+      {leaf.is_startpage && renderStartPageOverview(leaf, componentState)}
     </li>
   );
-};
+}
 
 export const RocheNavigation = (props: NavigationProps): JSX.Element => {
   const {
@@ -147,6 +168,19 @@ export const RocheNavigation = (props: NavigationProps): JSX.Element => {
     return null;
   }
 
+  const [state, setState] = useState({});
+  useEffect(() => {
+    const getTranslations = async (): Promise<void> => {
+      const newState: NavigationState = {
+        translations: {
+          learnMore: await TranslationService.translate('learn more'),
+        },
+      };
+      setState(newState);
+    };
+    getTranslations();
+  }, []);
+
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Navigation
@@ -154,7 +188,15 @@ export const RocheNavigation = (props: NavigationProps): JSX.Element => {
       contact-text={contactText}
       languages={JSON.stringify(languages)}
     >
-      {tree.map(renderTree)}
+      {
+      /*
+       * NOTE: Only works if renderTree is defined using the function keyword!
+       *
+       * To avoid managing the arguments that are passed to renderTree,
+       * we pass component state as the thisArg to the mapping function.
+       */
+      }
+      {tree.map(renderTree, { ...state })}
     </Navigation>
   );
 };

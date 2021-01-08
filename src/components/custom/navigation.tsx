@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { TranslationService } from '@rocheglobal/component-library/src/services/translation/index';
 import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
-/**
- * TODO:
- * Remove mocked code and import actual service once the package has been released
- *
- * import { TranslationService } from
- * '@rocheglobal/component-library/src/services/translation/index';
- */
-const TranslationService = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  translate: (_: string): string => 'Broken until component-library released.',
-};
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];

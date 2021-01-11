@@ -1,4 +1,4 @@
-const activeEnv = process.env.GATSBY_ACTIVE_ENV || 'preview-staging';
+const activeEnv = process.env.GATSBY_ACTIVE_ENV;
 
 require('dotenv').config({
   path: `.env.${activeEnv}`,

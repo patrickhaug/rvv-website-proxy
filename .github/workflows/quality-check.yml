@@ -10,9 +10,10 @@ on:
 
 env:
   GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
-  GATSBY_ROCHE_COMPONENTS_LIBRARY_URL: ${{ secrets.ROCHE_COMPONENTS_LIBRARY_URL }}
+  GATSBY_WEBSITE_NAME: roche-website-starter-staging
   STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}
   STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
+  GATSBY_AWS_S3_BUCKET: "no_deploy"
 
 jobs:
   build-check:
@@ -31,7 +32,6 @@ jobs:
           key: ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-gatsby-build-${{ env.CACHE_ID }}
-
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -72,5 +72,5 @@ jobs:
         run: npm run build
         env:
           CI: true
-          GATSBY_ENV: production
+          GATSBY_ENV: live
           NODE_OPTIONS: --max-old-space-size=7168

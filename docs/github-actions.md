@@ -5,8 +5,10 @@
 ### Check Workflow
 
 #### Repository Level Secrets
+NOTE: since we no longer build the website in github, most of these vars are no longer set as github secrets but stored in the env files in the configuration folder, or automaticly set in the aws secret manager.
 
 ### Preview Workflow
+- `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'
 
 #### Repository Level Secrets
 
@@ -20,8 +22,12 @@
 - `PREVIEW_STAGING_WEBSITE_URL` - The final URL of the website for preview/staging. Example: `https://preview.roche-website-starter-staging.roche-infra.com`
 - `PREVIEW_WEBSITE_URL` - The final URL of the website for preview/prod. Example: `https://preview.roche-website-starter.roche-infra.com`
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
+- `GATSBY_WHITE_LISTED_DOMAINS`- Domain names that won't trigger the "On click Notice" component. Example: '["roche.com"]'```
+on-click-notice, Example: '["roche.com"]'
+- `GATSBY_BASE_DOMAIN` - Website domain name. Example: 'roche'
 
 ### Live Workflow
+- `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'
 
 #### Repository Level Secrets
 
@@ -37,6 +43,9 @@
 - `ROCHE_ONETRUST_KEY` - The value of Onetrust's cookie consent token. Example: '8831b9b2-8a91-ddd-test'.
 - `ROCHE_GOOGLE_TAG_MANAGER_ID` - The id from the Google Tag Manager account.
 - `CLUDO_ENGINE_LIST` - List of cludo engine ids for this website, 1 engine per language. Example: 'pt:123412, en:1233244'
+- `GATSBY_WHITE_LISTED_DOMAINS`- List of domains that are whitelisted to redirect without showing the 
+on-click-notice, Example: '["roche.com"]'
+- `GATSBY_BASE_DOMAIN` - Base domain for the website related to this repo, example: 'roche'
 
 ### Organization Level Secrets Shared between projects and workflows
 
@@ -46,8 +55,8 @@
 - `ROCHE_COMPONENTS_LIBRARY_URL` - The URL of Roche components library version used by the website. Example: `http://live.roche-components-library.roche-infra.com/releases/latest`
 - `ROCHE_GOOGLE_RECAPTCHA_SITE_KEY` - The Google Recaptcha Site Key used to generate Google Recaptcha Validation tokens. Example: `xshso0sdfahdlsd0f`
 - `ROCHE_WEBHOOKS_API_URL` - The URL of Roche Webhooks API responsible for processing website related events. Example: `https://staging.apis.roche-infra.com/webhooks`
--`ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
--`ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
+- `ROCHE_BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account
+- `ROCHE_BRIGHTCOVE_PLAYER_ID`- The player ID for the Brightcove acccount
 - `CLUDO_CUSTOMER_ID` - customer id for the cludo account. Example: '12345'
 
 ## Workflows
@@ -60,5 +69,3 @@ This project follows the GitFlow.
 
 staging > deploys staging
 master  > deploys preview/live
-
-

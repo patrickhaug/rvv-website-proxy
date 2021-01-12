@@ -1,9 +1,14 @@
+require('dotenv').config({
+  path: `./configuration/${process.env.GATSBY_WEBSITE_NAME}/.env.${process.env.GATSBY_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     author: '@virtualidentityag',
     url: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
     siteUrl: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
     defaultLanguage: 'en',
+    twitterHandle: process.env.GATSBY_TWITTER_HANDLE || '@roche',
   },
   plugins: [
     // Disable "editor" page if it's a public build
@@ -15,11 +20,18 @@ module.exports = {
       },
     }] : []),
     {
-      resolve: 'gatsby-source-storyblok',
+      resolve: 'gatsby-source-graphql',
       options: {
-        accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY || '3987r2nQTnEcd6rppyOv3wtt',
-        homeSlug: 'home',
-        version: process.env.GATSBY_ENV === 'production' ? 'published' : 'draft',
+        accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
+        typeName: 'Storyblok',
+        fieldName: 'storyblok',
+        url: 'https://gapi.storyblok.com/v1/api',
+        headers: {
+          Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
+          Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
+        },
+        // example resolve relations
+        // resolveRelations: 'roche-event-teaser.tags, roche-contact-list.contacts',
       },
     },
     'gatsby-plugin-react-helmet',
@@ -28,6 +40,12 @@ module.exports = {
       options: {
         name: 'images',
         path: `${__dirname}/src/resources/images`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-react-helmet-canonical-urls',
+      options: {
+        siteUrl: process.env.GATSBY_WEBSITE_URL,
       },
     },
     'gatsby-transformer-sharp',
@@ -53,11 +71,19 @@ module.exports = {
       options: {
         // The module of your components (required), eg "@ionic/core".
         module: '@rocheglobal/component-library',
-
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
-          prettyHtml: true,
+          // Prevent flickering when stencil rehydrates client side
+          afterHydrate: (document) => document.querySelectorAll('.hydrated').forEach((el) => el.classList.remove('hydrated')),
         },
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-s3',
+      options: {
+        bucketName: process.env.GATSBY_AWS_S3_BUCKET,
+        region: 'eu-central-1',
+        generateRoutingRules: false,
       },
     },
   ],

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
-import { getComponent, blokToComponent } from './components';
-import { GoogleTagManager } from './components/custom/google-tag-manager';
+import { getComponent, blokToComponent } from '../components';
+import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import {
   DomService,
   GlobalConfigProps,
@@ -11,8 +11,8 @@ import {
   NavigationService,
   Language,
   LanguageService,
-} from './services';
-import { SEO } from './components/custom/seo';
+} from '../services';
+import { SEO } from '../components/custom/seo';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
@@ -32,6 +32,11 @@ export interface EntryData extends GlobalConfigProps {
 
 interface StoryblokEntryProps {
   pageContext: EntryData;
+  location: {
+    state?: {
+      maskUrl?: string;
+    };
+  };
 }
 
 type StoryblokEntryState = EntryData;
@@ -42,11 +47,6 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
   const search = { ...pageContext.search };
-
-  story.content = story.content && JSON.parse(story.content.toString());
-  footer.content = footer.content && JSON.parse(footer.content.toString());
-  onClickNotice.content = onClickNotice.content && JSON.parse(onClickNotice.content.toString());
-  search.content = search.content && JSON.parse(search.content.toString());
 
   return {
     googleTagManagerId,
@@ -79,8 +79,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     this.state = parseEntryData(props);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public componentDidMount(): void {
+    this.maskUrl();
     window.addEventListener('rocheLoginComplete', () => StoryblokService.redirect());
 
     /** fetch is polyfilled */
@@ -153,5 +153,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
+  }
+
+  private maskUrl(): void {
+    const { maskUrl } = this.props.location.state || {};
+    return maskUrl ? window.history.replaceState('', '', maskUrl) : undefined;
   }
 }

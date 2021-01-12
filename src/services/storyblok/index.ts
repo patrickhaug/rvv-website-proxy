@@ -14,7 +14,7 @@ const getUrlParams = (): Record<string, string | true> => window.location.search
 export const StoryblokService = {
   getConfig(): IPluginRefObject {
     return (config.plugins as IPluginRefObject[])
-      .find((item) => item.resolve === 'gatsby-source-storyblok') || {} as IPluginRefObject;
+      .find((item) => item.resolve === 'gatsby-source-graphql') || {} as IPluginRefObject;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

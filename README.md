@@ -87,3 +87,22 @@ Pages tagged as `navigation:contact-page` will be displayed on the top right cor
 In order for the search component to work you need to set a github secret containing the cludo engine ids
 example:
 CLUDO_ENGINE_LIST= pt:123412, en:1233244
+
+## 404 Page
+
+This project provides localised 404 pages.
+In order for these to be displayed, an entry must be created in Storyblok with slug `404` — preferably in the root folder.
+Localised behaviour is the same as for every other variation.
+
+*Please note that if you space does not have a 404 page created, the default 404 of your server will be displayed instead.*
+## Environment Variables
+
+_**Warning:** Sensible data must always be stored as a Github secret instead and referenced in the workflow files only_
+
+App related data may be configured, per environment, on the available .env files.
+Each configuration file maps to specific workflow:
+
+- .env.live            -> release.yml
+- .env.live-staging    -> release-staging.yml
+- .env.preview         -> preview.yml
+- .env.preview-staging -> preview-staging.yml

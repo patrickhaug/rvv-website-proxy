@@ -5,7 +5,7 @@ import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService, LanguageService,
 } from '../services';
-import { EntryData, StoryDataFromGraphQLQuery } from '../template';
+import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 
 type StoryblokEntryState = EntryData;
 

@@ -1,7 +1,5 @@
-const activeEnv = process.env.GATSBY_ACTIVE_ENV;
-
 require('dotenv').config({
-  path: `.env.${activeEnv}`,
+  path: `./configuration/${process.env.GATSBY_WEBSITE_NAME}/.env.${process.env.GATSBY_ENV}`,
 });
 
 module.exports = {
@@ -30,7 +28,7 @@ module.exports = {
         url: 'https://gapi.storyblok.com/v1/api',
         headers: {
           Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
-          Version: `${process.env.GATSBY_ENV === 'production' ? 'published' : 'draft'}`,
+          Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
         },
         // example resolve relations
         // resolveRelations: 'roche-event-teaser.tags, roche-contact-list.contacts',
@@ -78,6 +76,14 @@ module.exports = {
           // Prevent flickering when stencil rehydrates client side
           afterHydrate: (document) => document.querySelectorAll('.hydrated').forEach((el) => el.classList.remove('hydrated')),
         },
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-s3',
+      options: {
+        bucketName: process.env.GATSBY_AWS_S3_BUCKET,
+        region: 'eu-central-1',
+        generateRoutingRules: false,
       },
     },
   ],

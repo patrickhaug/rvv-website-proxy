@@ -5,6 +5,7 @@
 ### Check Workflow
 
 #### Repository Level Secrets
+NOTE: since we no longer build the website in github, most of these vars are no longer set as github secrets but stored in the env files in the configuration folder, or automaticly set in the aws secret manager.
 
 ### Preview Workflow
 - `GATSBY_TWITTER_HANDLE` - Twitter username to be used in the meta content. Eg: '@roche_de'

@@ -62,8 +62,8 @@ jobs:
       - name: Release with semantic-release
         run: npm run release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0

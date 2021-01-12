@@ -104,7 +104,7 @@ function renderTree(leaf: StoryblokNodeTree): JSX.Element {
   );
 
   // home edge case
-  if (leaf.parent_id === 0 && !leaf.is_folder) {
+  if (leaf.parent_id === 0 && !leaf.is_folder && leaf.real_path === '/') {
     return (
       <ul key={leaf.id}>
         <li>

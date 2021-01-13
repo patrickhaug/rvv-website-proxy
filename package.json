@@ -2,7 +2,7 @@
   "name": "roche-website-starter",
   "private": true,
   "description": "A boilerplate project for Roche websites",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "engines": {
     "node": ">=12"
   },

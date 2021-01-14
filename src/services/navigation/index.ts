@@ -14,10 +14,13 @@ interface StoryblokNode {
   real_path: string;
   slug: string;
   uuid: string;
-  page?: StoryData;
+  page?: PageData;
   breadcrumbs?: Breadcrumb[];
 }
 
+export interface PageData extends StoryData {
+  lang?: string;
+}
 export interface Breadcrumb {
   label?: string;
   href?: string;

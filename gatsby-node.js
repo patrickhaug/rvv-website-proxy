@@ -106,30 +106,34 @@ const mandatoryContentKeys = [
 
 const ignoreKeys = [
   'highlights',
+  'page',
+  'content',
 ];
 
 const cleanObject = (data, keys = mandatoryNavKeys) => {
   // Remove unnecessary info
   if (!(data instanceof Array)) {
-    Object.keys(data).filter((key) => keys.indexOf(key) < 0).forEach((key) => {
-      // eslint-disable-next-line no-param-reassign
-      delete data[key];
-    });
+    Object.keys(data)
+      .filter((key) => keys.indexOf(key) < 0)
+      .forEach((key) => {
+        // eslint-disable-next-line no-param-reassign
+        delete data[key];
+      });
   }
 
   // Parse content to remove unnecessary info
-  if (data.page && typeof data.page.content === 'string') {
+  if (data.page && typeof data.page.content !== 'undefined') {
     // eslint-disable-next-line no-param-reassign
-    data.page.content = JSON.stringify(
-      cleanObject(JSON.parse(data.page.content), mandatoryContentKeys),
-    );
+    data.page.content = cleanObject(data.page.content, mandatoryContentKeys);
   }
 
-  Object.keys(data).filter((key) => ignoreKeys.indexOf(key) < 0).forEach((prop) => {
-    if (data[prop] && typeof data[prop] === 'object') {
-      cleanObject(data[prop]);
-    }
-  });
+  Object.keys(data)
+    .filter((key) => ignoreKeys.indexOf(key) < 0)
+    .forEach((prop) => {
+      if (data[prop] && typeof data[prop] === 'object') {
+        cleanObject(data[prop]);
+      }
+    });
 
   return data;
 };

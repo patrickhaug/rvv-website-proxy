@@ -73,6 +73,13 @@ module.exports = {
         module: '@rocheglobal/component-library',
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
+          /*
+           * TODO:
+           * Migrate stencil plugin to use hydrateDocument instead.
+           * Use "excludeComponents" option to create a blacklist of components
+           * which shouldn't be server side hydrated.
+           */
+          beforeHydrate: (document) => document.querySelectorAll('roche-slider').forEach((el) => el.parentNode.removeChild(el)),
           // Prevent flickering when stencil rehydrates client side
           afterHydrate: (document) => document.querySelectorAll('.hydrated').forEach((el) => el.classList.remove('hydrated')),
         },
@@ -81,7 +88,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-s3',
       options: {
-        bucketName: process.env.GATSBY_AWS_S3_BUCKET,
+        bucketName: process.env.GATSBY_AWS_S3_BUCKET || 'no-bucket',
         region: 'eu-central-1',
         generateRoutingRules: false,
       },

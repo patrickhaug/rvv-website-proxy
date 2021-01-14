@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/RocheGlobal/roche-website-starter/compare/v1.0.0...v1.0.1) (2021-01-14)
+
+
+### Bug Fixes
+
+* changed version from 1.0.0 to 2.0.0 ([84019b5](https://github.com/RocheGlobal/roche-website-starter/commit/84019b584ab2186b5920d9d150c075cc11e0e85e))
+
 # 2.0.0 (2021-01-13)
 
 

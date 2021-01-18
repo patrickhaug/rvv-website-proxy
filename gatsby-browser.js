@@ -1,16 +1,16 @@
-const { BrowserDetectionService } = require('./node-services/dist/node-services/index');
-
 /**
- * TODO: Remove custom onClientEntry once we no longer support IE11
  *
  * Context:
- * On IE11, app breaks when serving server side hydrated stencil components.
+ * App consitently breaks on IE11, erratic behaviour for some components in Safari and FF.
+ * Stencil's build time hydrate result is not the same as gatsby's page data.
  *
  * For the first client side render, ReactDOM render is called using gatsby's chunkmaps and data.
  * The result of stencil's hydrate function and gatsby's page-data clash.
+ * Likely due to a racing condition.
  *
  * Fix:
- * When client is IE11, we clear the dom from stencil's server hydrated results.
+ * If javascript is running, we clear the DOM from stencil's server hydrated results.
+ * We then let gatsby take care of serving the content.
  *
  * For more details, please refer to:
  * https://www.gatsbyjs.com/docs/production-app/#first-load
@@ -21,9 +21,6 @@ const { BrowserDetectionService } = require('./node-services/dist/node-services/
  * 2. replaceHydrateFunction (ReactDom.render is called)
  * 3. onInitialClientRender (every page load)
  */
-
 exports.onClientEntry = () => {
-  if (BrowserDetectionService.isIE11()) {
-    document.getElementById('___gatsby').innerHTML = '';
-  }
+  document.getElementById('___gatsby').innerHTML = '';
 };

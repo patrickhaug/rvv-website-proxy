@@ -107,3 +107,62 @@ if nothing is set it uses the local env files
 - .env.prod            -> env files for the production preview/live website
 - .env.staging         -> env files for the production preview/live website
 - .env.local            -> env files for local developement, this env file is used by default when building
+
+## Git Workflow
+
+The figure below shows what the branching model looks like. Arrows to the right (+->) indicate where to branch off from. Arrows to the left (<-+) show where to merge back into. The small dots (•) represent tags/releases.
+
+```ruby
+    |              |              |            |            |
+    <-------------merge-----------+            |            | 
+    |              |              |            |            | 
+    |              |              |            |            |
+    |              |              |            |            |
+    |              |              <----merge---+            |
+    |              |              |            <---squash---+
+    |              |              |            |            |
+    <----squash----+---------squash------------>            |
+    |              |              |            |            |
+    +-------------->              |            +------------>
+    |              |              |            |            |
+    |              |              |            |            |
+    +              +              +            +            +
+  master        hotfix/*        staging      develop     feature/*     
+                                                         bugfix/*
+                                                         refactor/*
+```
+
+## Branches
+### Feature Branches / Bugfix Branches
+
+These branches represent a new feature (a user story in agile projects). Create one of these branches for each story/feature or bugfix you want to develop to separate unfinished work from the code base.
+
+* Branch from development
+* Merge to development (squash merge)
+* Gets deleted after the feature/bugfix has been merged to master and released
+
+### develop
+
+It contains all finished and approved feature branches. It can also be used to share finished stories that another story builds upon but that is not yet released.
+
+The `develop` branch contains the most up-to-date code. Any feature/bugfix branches should be created from this branch.
+To merge your feature/bugfix branch to the `develop` branch, you need to create a Pull Request and have it reviewed.
+
+* Merges to `develop` are always squash merges
+
+### staging
+
+The `staging` branch is used to install a set of features onto a testing environment or staging server. Simply merge develop into this branch to get the latest code on your staging environment. This branch can be used for automated staging tests. With every push on it, an automated build can deploy this branch to your staging server.
+
+* This branch is one-way. Only merge into and only from develop, never branch from or merge staging into another branch
+
+### hotfix/*
+
+These branches are used to merge urgent fixes that cannot wait for the next planned release.
+
+* Branch from master
+* Merge to `master` or `hotfix/*` (squash merge)  and `develop` (squash merge)
+* Gets deleted after the feature/bugfix has been merged to master and develop
+### master
+
+Master is your main branch. Tags and Releases are created in that branch. It can go live anytime and tags here are used for production rollbacks if necessary.

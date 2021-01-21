@@ -24,6 +24,8 @@ const RocheButton = 'roche-button' as React.ElementType;
 const RocheImage = 'roche-image' as React.ElementType;
 const Navigation = 'roche-navigation' as React.ElementType;
 
+const isHomepage = (leaf: StoryblokNodeTree): boolean => (leaf.parent_id === 0 && !leaf.is_folder && leaf.real_path === `/${leaf.page?.lang !== 'default' ? `${leaf.page?.lang}/` : ''}`);
+
 const renderStartPageOverview = (
   leaf: StoryblokNodeTree,
   componentState: NavigationState,
@@ -104,7 +106,7 @@ function renderTree(leaf: StoryblokNodeTree): JSX.Element {
   );
 
   // home edge case
-  if (leaf.parent_id === 0 && !leaf.is_folder && leaf.real_path === '/') {
+  if (isHomepage(leaf)) {
     return (
       <ul key={leaf.id}>
         <li>

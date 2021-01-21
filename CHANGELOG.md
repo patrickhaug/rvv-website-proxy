@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/RocheGlobal/roche-website-starter/compare/v1.0.1...v1.0.2) (2021-01-21)
+
+
+### Bug Fixes
+
+* navigation data ([#215](https://github.com/RocheGlobal/roche-website-starter/issues/215)) ([ee3246a](https://github.com/RocheGlobal/roche-website-starter/commit/ee3246ab2d336ec2431b6bee5e723a2a1c09fdfb))
+* server hydrate issues ([#217](https://github.com/RocheGlobal/roche-website-starter/issues/217)) ([a32478f](https://github.com/RocheGlobal/roche-website-starter/commit/a32478fba3b2ac5e5b41944842fa86ce710287b9))
+
 ## [1.0.1](https://github.com/RocheGlobal/roche-website-starter/compare/v1.0.0...v1.0.1) (2021-01-14)
 
 

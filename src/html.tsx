@@ -23,7 +23,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-document-language="true"
           type="text/javascript"
           charSet="UTF-8"
-          data-domain-script={process.env.ROCHE_ONETRUST_KEY}
+          data-domain-script={process.env.GATSBY_ROCHE_ONETRUST_KEY}
         ></script>
         <script type="text/javascript" dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}></script>
         {/* End Onetrust */}

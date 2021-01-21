@@ -13,9 +13,10 @@ This is the Roche Website Starter, where you can find a boilerplate for Roche we
 ## Building
 Building and serving the application for development can be done using the `npm start` command.
 
-Building the application for production can be done using the `npm run build` command. This will build an app with an "editor" page that can be used to preview new content on Storyblok.
+Building the application can be done using the `npm run build` command. This will build an app with an "editor" page that can be used to preview new content on Storyblok.
 
-You can also build an app without the "editor" page by running `npm run build:public`.
+The build loads the env vars found in /configuration based on the set environment, the default is "local". The environment can be changed by setting an env var "WEBSITE_STAGE". This is done when building the website
+in the build pipeline.
 
 ## Linting
 In your IDE, by using tools capable of reading the `.eslintrc` file and using "on-save" lint fixing, most linting errors should be fixed or at least visible to you during development.
@@ -99,10 +100,10 @@ Localised behaviour is the same as for every other variation.
 
 _**Warning:** Sensible data must always be stored as a Github secret instead and referenced in the workflow files only_
 
-App related data may be configured, per environment, on the available .env files.
-Each configuration file maps to specific workflow:
+App related data may be configured, per environment, on the available .env files found in /configuration.
+Each configuration file maps to specific workflow, which env file gatsby uses depends on the WEBSITE_STAGE env var set on your machine, 
+if nothing is set it uses the local env files
 
-- .env.live            -> release.yml
-- .env.live-staging    -> release-staging.yml
-- .env.preview         -> preview.yml
-- .env.preview-staging -> preview-staging.yml
+- .env.prod            -> env files for the production preview/live website
+- .env.staging         -> env files for the production preview/live website
+- .env.local            -> env files for local developement, this env file is used by default when building

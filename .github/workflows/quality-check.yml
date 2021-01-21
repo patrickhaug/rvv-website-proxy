@@ -8,13 +8,6 @@ on:
       - "**"
       - "!master"
 
-env:
-  GATSBY_GOOGLE_RECAPTCHA_KEY: ${{ secrets.ROCHE_GOOGLE_RECAPTCHA_SITE_KEY }}
-  GATSBY_WEBSITE_NAME: roche-website-starter-staging
-  STORYBLOK_API_KEY_NAME: ${{ secrets.LIVE_STORYBLOK_API_KEY_NAME }}
-  STORYBLOK_SPACE_NAME: ${{ secrets.STORYBLOK_SPACE_NAME }}
-  GATSBY_AWS_S3_BUCKET: "no_deploy"
-
 jobs:
   build-check:
     runs-on: ubuntu-latest
@@ -48,25 +41,6 @@ jobs:
 
       - name: Generate Audit report
         run: npm audit || true # Audit not blocking for while
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ROCHE_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ROCHE_AWS_SECRET_ACCESS_KEY }}
-          aws-region:  ${{ secrets.ROCHE_AWS_DEFAULT_REGION }}
-
-      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY
-        run: . ./scripts/set-gatsby-storyblok-space-api-key.sh
-
-      - name: Set GATSBY_STORYBLOK_SPACE_API_KEY_NAME
-        run: . ./scripts/set-gatsby-storyblok-space-api-key-name.sh
-
-      - name: Set GATSBY_COGNITO_USERPOOL_ID (Depends on STORYBLOK_SPACE_NAME)
-        run: . ./scripts/set-cognito-user-pool.sh
-
-      - name: Set GATSBY_COGNITO_USERPOOL_CLIENT_ID (Depends on STORYBLOK_SPACE_NAME and GATSBY_COGNITO_USERPOOL_ID)
-        run: . ./scripts/set-cognito-user-pool-client.sh
 
       - name: Build the website
         run: npm run build

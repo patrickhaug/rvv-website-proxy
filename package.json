@@ -7,12 +7,9 @@
     "node": ">=12"
   },
   "scripts": {
-    "set:dev-env": "GATSBY_STORYBLOK_SPACE_API_KEY=3987r2nQTnEcd6rppyOv3wtt",
-    "start": "npm run compile:node-services && npm run set:dev-env gatsby develop",
+    "start": "npm run compile:node-services && gatsby develop",
     "compile:node-services": "tsc --project node-services/",
     "build": "npm run compile:node-services && gatsby build --log-pages --write-to-file",
-    "build:debug": "npm run compile:node-services && npm run set:dev-env gatsby build --log-pages --write-to-file",
-    "build:public": "npm run compile:node-services && PUBLIC_BUILD=1 gatsby build --log-pages --write-to-file",
     "deploy": "gatsby-plugin-s3 deploy",
     "serve": "gatsby serve",
     "serve:build": "serve -l 3334 ./public/",

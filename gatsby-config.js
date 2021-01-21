@@ -1,18 +1,20 @@
+const activeEnv = process.env.WEBSITE_STAGE || 'local';
+
 require('dotenv').config({
-  path: `./configuration/${process.env.GATSBY_WEBSITE_NAME}/.env.${process.env.GATSBY_ENV}`,
+  path: `./configuration/.env.${activeEnv}`,
 });
 
 module.exports = {
   siteMetadata: {
     author: '@virtualidentityag',
-    url: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
-    siteUrl: process.env.GATSBY_WEBSITE_URL || 'http://localhost:8000',
+    url: process.env.GATSBY_WEBSITE_URL,
+    siteUrl: process.env.GATSBY_WEBSITE_URL,
     defaultLanguage: 'en',
-    twitterHandle: process.env.GATSBY_TWITTER_HANDLE || '@roche',
+    twitterHandle: process.env.GATSBY_TWITTER_HANDLE,
   },
   plugins: [
     // Disable "editor" page if it's a public build
-    ...(process.env.PUBLIC_BUILD ? [{
+    ...(process.env.GATSBY_ENV === 'live' ? [{
       resolve: 'gatsby-plugin-page-creator',
       options: {
         path: `${__dirname}/src/pages`,

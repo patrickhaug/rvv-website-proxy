@@ -1,8 +1,7 @@
 import React from 'react';
 import { RecaptchaService } from './services';
 
-const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL
-  || 'http://localhost:3333/dist';
+const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL;
 
 interface HTMLProps {
   body: string;
@@ -24,7 +23,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-document-language="true"
           type="text/javascript"
           charSet="UTF-8"
-          data-domain-script={process.env.ROCHE_ONETRUST_KEY || '7e3514ed-1d2a-44e7-b360-72d14229bcab-test'}
+          data-domain-script={process.env.ROCHE_ONETRUST_KEY}
         ></script>
         <script type="text/javascript" dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}></script>
         {/* End Onetrust */}

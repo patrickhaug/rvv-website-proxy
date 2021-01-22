@@ -29,7 +29,18 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         {/* End Onetrust */}
 
         {headComponents}
-        <script src={RecaptchaService.recaptchaApiSource} async defer></script>
+        {/* Recatpcha and Recaptcha triggering on consent */}
+        <script
+          src={RecaptchaService.recaptchaApiSource}
+          type="text/plain"
+          className="optanon-category-C0004"
+        ></script>
+        <script
+          type="text/plain"
+          className="optanon-category-C0004"
+          dangerouslySetInnerHTML={{ __html: 'window.dispatchEvent(new CustomEvent("rocheRecaptchaAvailable"));' }}
+        ></script>
+        {/* End Recaptcha triggering on consent */}
         <link rel="stylesheet" href={`${src}.css`} />
         <script type="module" src={`${src}.esm.js`}></script>
         <script noModule src={`${src}.js`}></script>

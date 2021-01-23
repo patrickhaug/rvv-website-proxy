@@ -1,5 +1,6 @@
 import React from 'react';
 import { StoryblokComponent } from 'storyblok-js-client';
+import StoryblokEditable from 'storyblok-react';
 import { Props } from '../types';
 
 export const blokToComponent = (
@@ -15,6 +16,8 @@ export const blokToComponent = (
   };
 
   return (
-    <CustomChild {...newProps}></CustomChild>
+    <StoryblokEditable content={props.blok}>
+      <CustomChild {...newProps}></CustomChild>
+    </StoryblokEditable>
   );
 };

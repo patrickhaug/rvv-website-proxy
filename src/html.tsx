@@ -17,33 +17,54 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* Onetrust should always be the first script */}
+        {headComponents}
+
+        {/* Onetrust cookie consent */}
         <script
           src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
           data-document-language="true"
           type="text/javascript"
           charSet="UTF-8"
           data-domain-script={process.env.GATSBY_ROCHE_ONETRUST_KEY}
+          async
+          defer
         ></script>
-        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}></script>
-        {/* End Onetrust */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}
+          defer
+        >
+        </script>
 
-        {headComponents}
         {/* Recatpcha and Recaptcha triggering on consent */}
         <script
           src={RecaptchaService.recaptchaApiSource}
           type="text/plain"
           className="optanon-category-C0004"
+          async
+          defer
         ></script>
         <script
           type="text/plain"
           className="optanon-category-C0004"
           dangerouslySetInnerHTML={{ __html: 'window.dispatchEvent(new CustomEvent("rocheRecaptchaAvailable"));' }}
+          async
+          defer
         ></script>
-        {/* End Recaptcha triggering on consent */}
-        <link rel="stylesheet" href={`${src}.css`} />
-        <script type="module" src={`${src}.esm.js`}></script>
-        <script noModule src={`${src}.js`}></script>
+
+        {/* Optimized stylesheet loading */}
+        <link rel="preload" href={`${src}.css`} as="style" />
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: `document.querySelectorAll('link[href="${src}.css"]').forEach(el => el.setAttribute('onload', 'this.onload=null;this.rel="stylesheet"'))` }}
+          async
+          defer
+        ></script>
+        <noscript><link rel="stylesheet" href={`${src}.css`} /></noscript>
+
+        {/* Defered component library load */}
+        <script type="module" src={`${src}.esm.js`} async defer></script>
+        <script noModule src={`${src}.js`} async defer></script>
       </head>
       <body>
         <div id="___gatsby" dangerouslySetInnerHTML={{ __html: body }} />

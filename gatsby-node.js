@@ -229,6 +229,18 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   });
 };
 
+/*
+ * https://www.gatsbyjs.com/docs/scaling-issues/
+ * TODO: Confirm it impacts our build performance
+ */
+exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type SitePage implements Node @dontInfer {
+      path: String!
+    }
+  `);
+};
+
 /**
  * Localized 404 page creation.
  * Refer to the readme for more info.

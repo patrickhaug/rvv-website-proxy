@@ -46,6 +46,7 @@ on-click-notice, Example: '["roche.com"]'
 - `GATSBY_WHITE_LISTED_DOMAINS`- List of domains that are whitelisted to redirect without showing the 
 on-click-notice, Example: '["roche.com"]'
 - `GATSBY_BASE_DOMAIN` - Base domain for the website related to this repo, example: 'roche'
+- `GATSBY_ROCHE_ASSET_URL_MASK` - URL to replace `a.storyblok.com` as the base domain for assets that aren't images or videos. Example: "assets.cwp.roche.com" 
 
 ### Organization Level Secrets Shared between projects and workflows
 

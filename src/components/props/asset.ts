@@ -11,11 +11,22 @@ export interface AssetData {
   fieldtype?: string;
 }
 
+const convertToStoryblokImageService = (url: string): string => url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
+const maskAssetUrl = (url: string): string => url.replace('a.storyblok.com', process.env.GATSBY_ROCHE_ASSET_URL_MASK);
+
+const parseAssetSource = (filename: string): string => {
+  if (typeof filename !== 'string' || StringService.isVideoUrl(filename)) {
+    return filename;
+  }
+
+  return StringService.isImageUrl(filename)
+    ? convertToStoryblokImageService(filename)
+    : maskAssetUrl(filename);
+};
+
 export const asset = (key: string, data: AssetData): Record<string, string> => ({
   [key]: JSON.stringify({
-    src: typeof data.filename === 'string' && !StringService.isVideoUrl(data.filename)
-      ? data.filename.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/')
-      : data.filename,
+    src: parseAssetSource(data.filename),
     caption: data.title,
     copyright: data.copyright,
     alt: data.alt,

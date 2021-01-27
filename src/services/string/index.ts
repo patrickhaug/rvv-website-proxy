@@ -1,5 +1,7 @@
 const characters = 'abcdefghijklmnopqrstuvwxyz0123456789-_'; // base 64
 
+const getExtension = (filename: string): string => filename.split('.').pop().toLowerCase();
+
 export const StringService = {
   generate(length = 32): string {
     return [...new Array(length)]
@@ -20,8 +22,10 @@ export const StringService = {
   },
 
   isVideoUrl(url: string): boolean {
-    const splitUrl = url.split('.');
-    const extension = splitUrl[splitUrl.length - 1];
-    return ['mp4', 'webm', 'avi'].indexOf(extension.toLowerCase()) >= 0;
+    return ['mp4', 'webm', 'avi'].indexOf(getExtension(url)) >= 0;
+  },
+
+  isImageUrl(url: string): boolean {
+    return ['webp', 'jpeg', 'png'].indexOf(getExtension(url)) >= 0;
   },
 };

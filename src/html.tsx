@@ -1,5 +1,4 @@
 import React from 'react';
-import { RecaptchaService } from './services';
 
 const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL;
 
@@ -35,22 +34,6 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           defer
         >
         </script>
-
-        {/* Recatpcha and Recaptcha triggering on consent */}
-        <script
-          src={RecaptchaService.recaptchaApiSource}
-          type="text/plain"
-          className="optanon-category-C0004"
-          async
-          defer
-        ></script>
-        <script
-          type="text/plain"
-          className="optanon-category-C0004"
-          dangerouslySetInnerHTML={{ __html: 'window.dispatchEvent(new CustomEvent("rocheRecaptchaAvailable"));' }}
-          async
-          defer
-        ></script>
 
         {/* Optimized stylesheet loading */}
         <link rel="preload" href={`${src}.css`} as="style" />

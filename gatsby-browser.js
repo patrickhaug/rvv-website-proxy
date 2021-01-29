@@ -23,4 +23,5 @@
  */
 exports.onClientEntry = () => {
   document.getElementById('___gatsby').innerHTML = '';
+  document.getElementById('styles-for-load-time-only').innerHTML = '';
 };

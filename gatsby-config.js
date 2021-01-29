@@ -77,8 +77,16 @@ module.exports = {
         renderToStringOptions: {
           clientHydrateAnnotations: false,
           removeHtmlComments: true,
-          // Prevent flickering when stencil rehydrates client side
-          afterHydrate: (document) => document.querySelectorAll('.hydrated').forEach((el) => el.classList.remove('hydrated')),
+          // Parse the hydrated document and optimize for performance
+          afterHydrate: (document) => {
+            document.querySelectorAll('style, roche-offcanvas').forEach((tag) => tag.parentElement.removeChild(tag));
+
+            const stylesForHydratedContent = document.createElement('style');
+            stylesForHydratedContent.type = 'text/css';
+            stylesForHydratedContent.id = 'styles-for-load-time-only';
+            stylesForHydratedContent.innerHTML = '.hydrated {display: none;}';
+            document.head.appendChild(stylesForHydratedContent);
+          },
         },
       },
     },

@@ -84,13 +84,3 @@ jobs:
           WITH_V: false
           CUSTOM_TAG: ${{ steps.package-version.outputs.current-version }}
           RELEASE_BRANCHES: master
-
-      - name: Create roche-de PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
-        run: |
-          git remote add roche-dot-de https://github.com/RocheGlobal/roche-dot-de.git
-          git pull origin master
-          git checkout -B "website-starter-sync-$(date +'%Y-%m-%d')"
-          git push -u roche-dot-de HEAD
-          gh pr create -R RocheGlobal/roche-dot-de --title "website-starter-sync-$(date +'%Y-%m-%d')" --body "Syncing latest https://github.com/RocheGlobal/roche-website-starter/ master. This PR was created automatically"

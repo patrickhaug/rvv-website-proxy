@@ -2,7 +2,7 @@
   "name": "roche-125-years",
   "private": true,
   "description": "A boilerplate project for Roche websites",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "engines": {
     "node": ">=12"
   },

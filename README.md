@@ -29,9 +29,10 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 Since this repository should be used only as a starting point for a Roche website, you should define your preview and staging environments yourself.
 
-- http://staging.roche-website-starter.roche-infra.com/ - Storyblok Draft / Staging Roche Component Library
-- http://preview.roche-website-starter.roche-infra.com/ - Storyblok Draft / latest released Roche Component Library
-- http://live.roche-website-starter.roche-infra.com/ - Storyblok Live / latest released Roche Component Library
+- http://preview.roche-125-years-staging.cwp.roche.com/ - Storyblok Draft / Staging Roche 125 Years Website
+- http://live.roche-125-years-staging.cwp.roche.com/ - Storyblok Live / Staging Roche 125 Years Website
+- http://preview.roche-125-years.cwp.roche.com/ - Storyblok Draft / latest released Roche 125 Years Website
+- http://live.roche-125-years.cwp.roche.com/ - Storyblok Live / latest released Roche 125 Years Website
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.

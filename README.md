@@ -167,3 +167,7 @@ These branches are used to merge urgent fixes that cannot wait for the next plan
 ### master
 
 Master is your main branch. Tags and Releases are created in that branch. It can go live anytime and tags here are used for production rollbacks if necessary.
+
+## Notes on creating components
+1. Create your own Storyblok space by duplicating the [staging space](https://app.storyblok.com/#!/me/spaces/104984/dashboard) in order to develop features
+2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/RocheGlobal/roche-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.

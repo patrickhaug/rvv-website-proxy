@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/RocheGlobal/roche-125-years/compare/v1.0.0...v1.1.0) (2021-03-01)
+
+
+### Bug Fixes
+
+* start task ([28a80ab](https://github.com/RocheGlobal/roche-125-years/commit/28a80ab16b0e8eba0017bde23ce4a14b3f08a043))
+* updated config ([#17](https://github.com/RocheGlobal/roche-125-years/issues/17)) ([debf5e4](https://github.com/RocheGlobal/roche-125-years/commit/debf5e4373788e45d34dc9bde0ca8ea4b0e573e3))
+
+
+### Features
+
+* theme awareness ([#44](https://github.com/RocheGlobal/roche-125-years/issues/44)) ([5df020c](https://github.com/RocheGlobal/roche-125-years/commit/5df020c5e06305209c04ddd6f87beb6a57dda55c))
+
 # 1.0.0 (2021-02-09)
 
 

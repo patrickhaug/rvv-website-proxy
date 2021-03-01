@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TranslationService } from '@rocheglobal/component-library/src/services/translation/index';
+import { TranslationService } from '@rocheglobal/component-library-125/src/services/translation/index';
 import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
 

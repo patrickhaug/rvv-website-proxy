@@ -1,4 +1,4 @@
-import { Page } from './page';
+import { contentEntries } from './content-entries';
 import { RocheGlobalConfig } from './global-config';
 import { RocheNavigation } from './navigation';
 import { gridComponents } from './grid';
@@ -9,7 +9,7 @@ import { responsiveTable } from './responsive-table';
 
 // eslint-disable-next-line import/no-default-export
 export default {
-  Page,
+  ...contentEntries,
   RocheGlobalConfig,
   ...gridComponents,
   RocheNavigation,

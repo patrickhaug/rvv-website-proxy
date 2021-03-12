@@ -16,7 +16,7 @@ jobs:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.6.0
         with:
-          access_token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          access_token: ${{ secrets.VISUDOBOT_ORGSECRET_ALLREPOS_READWRITE }}
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          token: ${{ secrets.VISUDOBOT_ORGSECRET_ALLREPOS_READWRITE }}
           fetch-depth: "0"
           ref: master
 
@@ -67,8 +67,8 @@ jobs:
       - name: Release with semantic-release
         run: npm run release
         env:
-          NPM_TOKEN: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
-          GH_TOKEN: ${{ secrets.ROCHE_GITHUB_ACCESS_TOKEN }}
+          NPM_TOKEN: ${{ secrets.VISUDOBOT_ORGSECRET_ALLREPOS_READWRITE }}
+          GH_TOKEN: ${{ secrets.VISUDOBOT_ORGSECRET_ALLREPOS_READWRITE }}
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.0.0

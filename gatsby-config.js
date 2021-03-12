@@ -33,7 +33,7 @@ module.exports = {
           Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
         },
         // example resolve relations
-        // resolveRelations: 'roche-event-teaser.tags, roche-contact-list.contacts',
+        // resolveRelations: 'rcm-event-teaser.tags, rcm-contact-list.contacts',
       },
     },
     'gatsby-plugin-react-helmet',
@@ -72,14 +72,14 @@ module.exports = {
       resolve: 'gatsby-plugin-stencil',
       options: {
         // The module of your components (required), eg "@ionic/core".
-        module: '@rocheglobal/component-library-125',
+        module: '@virtualidentity/components-library',
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
           clientHydrateAnnotations: false,
           removeHtmlComments: true,
           // Parse the hydrated document and optimize for performance
           afterHydrate: (document) => {
-            document.querySelectorAll('style, roche-offcanvas').forEach((tag) => tag.parentElement.removeChild(tag));
+            document.querySelectorAll('style, rcm-offcanvas').forEach((tag) => tag.parentElement.removeChild(tag));
 
             const stylesForHydratedContent = document.createElement('style');
             stylesForHydratedContent.type = 'text/css';

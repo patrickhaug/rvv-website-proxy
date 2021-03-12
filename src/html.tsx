@@ -1,6 +1,6 @@
 import React from 'react';
 
-const getComponentsURL = (): string => process.env.GATSBY_ROCHE_COMPONENTS_LIBRARY_URL;
+const getComponentsURL = (): string => process.env.GATSBY_COMPONENTS_LIBRARY_URL;
 
 interface HTMLProps {
   body: string;
@@ -10,7 +10,7 @@ interface HTMLProps {
 
 // eslint-disable-next-line import/no-default-export
 export default function HTML({ body, headComponents, postBodyComponents }: HTMLProps): JSX.Element {
-  const src = `${getComponentsURL()}/roche-component-library/roche-component-library`;
+  const src = `${getComponentsURL()}/rcm-components-library/rcm-components-library`;
   return (
     <html lang="en">
       <head>
@@ -24,7 +24,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-document-language="true"
           type="text/javascript"
           charSet="UTF-8"
-          data-domain-script={process.env.GATSBY_ROCHE_ONETRUST_KEY}
+          data-domain-script={process.env.GATSBY_ONETRUST_KEY}
           async
           defer
         ></script>

@@ -12,7 +12,7 @@ export interface AssetData {
 }
 
 const convertToStoryblokImageService = (url: string): string => url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
-const maskAssetUrl = (url: string): string => url.replace('a.storyblok.com', process.env.GATSBY_ROCHE_ASSET_URL_MASK);
+const maskAssetUrl = (url: string): string => url.replace('a.storyblok.com', process.env.GATSBY_ASSET_URL_MASK);
 
 const parseAssetSource = (filename: string): string => {
   if (typeof filename !== 'string' || StringService.isVideoUrl(filename)) {

@@ -1,6 +1,6 @@
-# Roche Website Starter
+# Rcm Website Starter
 
-This is the Roche Website Starter, where you can find a boilerplate for Roche websites built on Storyblok and the [Roche Components Library](https://github.com/RocheGlobal/roche-component-library).
+This is the Rcm Website Starter, where you can find a boilerplate for Rcm websites built on Storyblok and the [Rcm Components Library](https://github.com/virtualidentityag/rcm-components-library).
 
 ## Pre-requisites
 - node >= 12
@@ -27,12 +27,12 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 ## Environments
 
-Since this repository should be used only as a starting point for a Roche website, you should define your preview and staging environments yourself.
+Since this repository should be used only as a starting point for a Rcm website, you should define your preview and staging environments yourself.
 
-- http://preview.roche-125-years-staging.cwp.roche.com/ - Storyblok Draft / Staging Roche 125 Years Website
-- http://live.roche-125-years-staging.cwp.roche.com/ - Storyblok Live / Staging Roche 125 Years Website
-- http://preview.roche-125-years.cwp.roche.com/ - Storyblok Draft / latest released Roche 125 Years Website
-- http://live.roche-125-years.cwp.roche.com/ - Storyblok Live / latest released Roche 125 Years Website
+- http://preview.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Draft / Staging Rcm rcm corporate Website
+- http://live.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Live / Staging Rcm rcm corporate Website
+- http://preview.rcm-corporate.rcm.frontend.live/ - Storyblok Draft / latest released Rcm rcm corporate Website
+- http://live.rcm-corporate.rcm.frontend.live/ - Storyblok Live / latest released Rcm rcm corporate Website
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.
@@ -170,4 +170,4 @@ Master is your main branch. Tags and Releases are created in that branch. It can
 
 ## Notes on creating components
 1. Create your own Storyblok space by duplicating the [staging space](https://app.storyblok.com/#!/me/spaces/104984/dashboard) in order to develop features
-2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/RocheGlobal/roche-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.
+2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/virtualidentityag/rcm-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.

@@ -58,11 +58,11 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   };
 };
 
-const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Header = 'roche-header' as React.ReactType;
-const OffCanvas = 'roche-offcanvas-panel' as React.ReactType;
-const Navigation = getComponent('roche-navigation') as React.ReactType;
-const Search = 'roche-search' as React.ReactType;
+const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
+const Header = 'rcm-header' as React.ReactType;
+const OffCanvas = 'rcm-offcanvas-panel' as React.ReactType;
+const Navigation = getComponent('rcm-navigation') as React.ReactType;
+const Search = 'rcm-search' as React.ReactType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -81,7 +81,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
   public componentDidMount(): void {
     this.maskUrl();
-    window.addEventListener('rocheLoginComplete', () => StoryblokService.redirect());
+    window.addEventListener('rcmLoginComplete', () => StoryblokService.redirect());
 
     /** fetch is polyfilled */
     // eslint-disable-next-line compat/compat
@@ -124,8 +124,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
-        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
-        <OffCanvas id="roche-offcanvas-menu">
+        <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
+        <OffCanvas id="rcm-offcanvas-menu">
           <Navigation
             tree={navigation}
             contactUrl={contact?.full_slug}
@@ -133,7 +133,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             languages={languages}
           ></Navigation>
         </OffCanvas>
-        <OffCanvas id="roche-offcanvas-search">
+        <OffCanvas id="rcm-offcanvas-search">
           <Search
             close-search-text={search?.content?.close_search_text}
             no-results-text={search?.content?.no_results_text}

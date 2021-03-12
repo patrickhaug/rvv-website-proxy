@@ -2,9 +2,9 @@
 
 declare namespace JSX {
   interface IntrinsicElements {
-    'roche-form': unknown;
-    'roche-input': unknown;
-    'roche-dropdown': unknown;
-    'roche-select': unknown;
+    'rcm-form': unknown;
+    'rcm-input': unknown;
+    'rcm-dropdown': unknown;
+    'rcm-select': unknown;
   }
 }

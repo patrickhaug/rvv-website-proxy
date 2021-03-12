@@ -1,8 +1,8 @@
 import { contentEntries } from './content-entries';
-import { RocheGlobalConfig } from './global-config';
-import { RocheNavigation } from './navigation';
+import { RcmGlobalConfig } from './global-config';
+import { RcmNavigation } from './navigation';
 import { gridComponents } from './grid';
-import { RocheRichtext } from './richtext';
+import { RcmRichtext } from './richtext';
 import { forms } from './forms';
 import { responsiveTable } from './responsive-table';
 // import { SEO } from './seo';
@@ -10,10 +10,10 @@ import { responsiveTable } from './responsive-table';
 // eslint-disable-next-line import/no-default-export
 export default {
   ...contentEntries,
-  RocheGlobalConfig,
+  RcmGlobalConfig,
   ...gridComponents,
-  RocheNavigation,
-  RocheRichtext,
+  RcmNavigation,
+  RcmRichtext,
   ...forms,
   ...responsiveTable,
   // SEO,

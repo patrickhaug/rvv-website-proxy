@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TranslationService } from '@rocheglobal/component-library-125/src/services/translation/index';
+import { TranslationService } from '@virtualidentity/components-library/src/services/translation/index';
 import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
 
@@ -16,13 +16,13 @@ interface NavigationState {
   };
 }
 
-const RocheGenericLink = 'roche-generic-link' as React.ElementType;
-const RocheIconComponent = 'roche-icon' as React.ElementType;
-const RocheGrid = 'roche-grid' as React.ElementType;
-const RocheTeaser = 'roche-teaser' as React.ElementType;
-const RocheButton = 'roche-button' as React.ElementType;
-const RocheImage = 'roche-image' as React.ElementType;
-const Navigation = 'roche-navigation' as React.ElementType;
+const RcmGenericLink = 'rcm-generic-link' as React.ElementType;
+const RcmIconComponent = 'rcm-icon' as React.ElementType;
+const RcmGrid = 'rcm-grid' as React.ElementType;
+const RcmTeaser = 'rcm-teaser' as React.ElementType;
+const RcmButton = 'rcm-button' as React.ElementType;
+const RcmImage = 'rcm-image' as React.ElementType;
+const Navigation = 'rcm-navigation' as React.ElementType;
 
 const isHomepage = (leaf: StoryblokNodeTree): boolean => (leaf.parent_id === 0 && !leaf.is_folder && leaf.real_path === `/${leaf.page?.lang !== 'default' ? `${leaf.page?.lang}/` : ''}`);
 
@@ -46,11 +46,11 @@ const renderStartPageOverview = (
   const { navigation_title, navigation_subline, highlights } = pageContent;
 
   return (
-    <RocheGrid layout="6-6" full-width>
+    <RcmGrid layout="6-6" full-width>
       <div slot="left">
         <h3 className="headline" slot="left">{navigation_title}</h3>
         <h4 className="subline" slot="left">{navigation_subline}</h4>
-        <RocheButton target="_self" text={componentState.translations?.learnMore} secondary icon="overview" is-dark-background href={leaf.real_path}></RocheButton>
+        <RcmButton target="_self" text={componentState.translations?.learnMore} secondary icon="overview" is-dark-background href={leaf.real_path}></RcmButton>
       </div>
       <div slot="right">
         {highlights && highlights.length > 0 && (
@@ -63,14 +63,14 @@ const renderStartPageOverview = (
                 }
 
                 return (
-                  <RocheTeaser
+                  <RcmTeaser
                     // eslint-disable-next-line no-underscore-dangle
                     key={highlight.page.id}
                     size="navigation"
                     teaser-url={highlight.page.cached_url}
                   >
-                    <RocheImage slot="media" src={highlight.image.filename} ratio="16:9" />
-                    <RocheGenericLink
+                    <RcmImage slot="media" src={highlight.image.filename} ratio="16:9" />
+                    <RcmGenericLink
                       slot="link"
                       data-theme="dark"
                       size="navigation"
@@ -79,15 +79,15 @@ const renderStartPageOverview = (
                       url={highlight.page.cached_url}
                       icon="chevron-right-bold"
                     >
-                    </RocheGenericLink>
-                  </RocheTeaser>
+                    </RcmGenericLink>
+                  </RcmTeaser>
                 );
               })}
             </div>
           </>
         )}
       </div>
-    </RocheGrid>
+    </RcmGrid>
   );
   /* eslint-enable @typescript-eslint/camelcase */
 };
@@ -95,14 +95,14 @@ const renderStartPageOverview = (
 function renderTree(leaf: StoryblokNodeTree): JSX.Element {
   const componentState: NavigationState = { ...this };
   const link = (
-    <RocheGenericLink
+    <RcmGenericLink
       data-theme="dark"
       size="navigation"
       target="_self"
       url={leaf.real_path}
       text={leaf.page?.content.navigation_title || leaf.page?.name || 'Page has no name'}
     >
-    </RocheGenericLink>
+    </RcmGenericLink>
   );
 
   // home edge case
@@ -145,13 +145,13 @@ function renderTree(leaf: StoryblokNodeTree): JSX.Element {
   return (
     <li key={leaf.id}>
       {link}
-      <RocheIconComponent icon="chevron-right-bold" />
+      <RcmIconComponent icon="chevron-right-bold" />
       {leaf.is_startpage && renderStartPageOverview(leaf, componentState)}
     </li>
   );
 }
 
-export const RocheNavigation = (props: NavigationProps): JSX.Element => {
+export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
     tree, contactUrl, contactText, languages,
   } = props;

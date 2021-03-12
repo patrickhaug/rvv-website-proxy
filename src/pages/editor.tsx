@@ -9,11 +9,11 @@ import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 
 type StoryblokEntryState = EntryData;
 
-const RocheGlobalConfig = getComponent('roche-global-config') as React.ReactType;
-const Header = 'roche-header' as React.ReactType;
-const OffCanvas = 'roche-offcanvas-panel' as React.ReactType;
-const Navigation = getComponent('roche-navigation') as React.ReactType;
-const Search = 'roche-search' as React.ReactType;
+const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
+const Header = 'rcm-header' as React.ReactType;
+const OffCanvas = 'rcm-offcanvas-panel' as React.ReactType;
+const Navigation = getComponent('rcm-navigation') as React.ReactType;
+const Search = 'rcm-search' as React.ReactType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -42,7 +42,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     });
     loadStoryblokBridge(this.handleStoryblokLoad);
 
-    window.addEventListener('rocheLoginComplete', this.handleLogin);
+    window.addEventListener('rcmLoginComplete', this.handleLogin);
   }
 
   public render(): JSX.Element {
@@ -64,8 +64,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     return (
       <StoryblokReact content={story.content}>
-        <RocheGlobalConfig {...globalConfig}></RocheGlobalConfig>
-        <OffCanvas id="roche-offcanvas-menu">
+        <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
+        <OffCanvas id="rcm-offcanvas-menu">
           <Navigation
             tree={navigation}
             contactUrl={contact?.full_slug}
@@ -74,7 +74,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             languages={languages}
           ></Navigation>
         </OffCanvas>
-        <OffCanvas id="roche-offcanvas-search">
+        <OffCanvas id="rcm-offcanvas-search">
           <Search
             close-search-text={search?.content.close_search_text}
             no-results-text={search?.content.no_results_text}

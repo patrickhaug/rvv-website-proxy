@@ -1,4 +1,4 @@
-const googleTagManagerId = process.env.ROCHE_GOOGLE_TAG_MANAGER_ID;
+const googleTagManagerId = process.env.GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 

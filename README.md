@@ -1,6 +1,6 @@
-# Rcm Website Starter
+# RCM Corporate
 
-This is the Rcm Website Starter, where you can find a boilerplate for Rcm websites built on Storyblok and the [Rcm Components Library](https://github.com/virtualidentityag/rcm-components-library).
+This is the frontend for the RCM Corporate Website, built on Storyblok and the [RCM Component Library](https://github.com/virtualidentityag/rcm-component-library).
 
 ## Pre-requisites
 - node >= 12
@@ -27,12 +27,12 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 ## Environments
 
-Since this repository should be used only as a starting point for a Rcm website, you should define your preview and staging environments yourself.
+Since this repository should be used only as a starting point for a RCM website, you should define your preview and staging environments yourself.
 
-- http://preview.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Draft / Staging Rcm rcm corporate Website
-- http://live.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Live / Staging Rcm rcm corporate Website
-- http://preview.rcm-corporate.rcm.frontend.live/ - Storyblok Draft / latest released Rcm rcm corporate Website
-- http://live.rcm-corporate.rcm.frontend.live/ - Storyblok Live / latest released Rcm rcm corporate Website
+- http://preview.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Draft / Staging RCM corporate Website
+- http://live.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Live / Staging RCM corporate Website
+- http://preview.rcm-corporate.rcm.frontend.live/ - Storyblok Draft / latest released RCM corporate Website
+- http://live.rcm-corporate.rcm.frontend.live/ - Storyblok Live / latest released RCM corporate Website
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.

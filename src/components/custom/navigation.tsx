@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TranslationService } from '@virtualidentityag/components-library-rcm/src/services/translation/index';
+import { TranslationService } from '@virtualidentityag/rcm-component-library/src/services/translation/index';
 import { Language, StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
 

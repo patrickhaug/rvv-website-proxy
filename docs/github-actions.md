@@ -53,7 +53,7 @@ on-click-notice, Example: '["rcm.com"]'
 - `AWS_ACCESS_KEY_ID` - The AWS Access Key ID used to deploy the infrastructure.
 - `AWS_SECRET_ACCESS_KEY` - The AWS Secret Access Key used to deploy the infrastructure.
 - `AWS_DEFAULT_REGION` - The AWS Default regions where the infrastructure is deployed.
-- `COMPONENTS_LIBRARY_URL` - The URL of Rcm components library version used by the website. Example: `http://live.rcm-components-library.rcm.frontend.live/releases/latest`
+- `COMPONENTS_LIBRARY_URL` - The URL of RCM components library version used by the website. Example: `http://live.rcm-components-library.rcm.frontend.live/releases/latest`
 - `GOOGLE_RECAPTCHA_SITE_KEY` - The Google Recaptcha Site Key used to generate Google Recaptcha Validation tokens. Example: `xshso0sdfahdlsd0f`
 - `WEBHOOKS_API_URL` - The URL of Rcm Webhooks API responsible for processing website related events. Example: `https://staging.apis.rcm.frontend.live/webhooks`
 - `BRIGHTCOVE_ACCOUNT_ID`- The account ID for the Brightcove account

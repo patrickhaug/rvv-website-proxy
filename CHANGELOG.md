@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.0.0...v1.1.0) (2021-03-12)
+
+
+### Bug Fixes
+
+* removed roche env prefix ([9e4d3f5](https://github.com/virtualidentityag/rcm-corporate/commit/9e4d3f52610f460fe5b4e2780a1edc4f20f58e26))
+* updated lock file ([a338312](https://github.com/virtualidentityag/rcm-corporate/commit/a33831263d2b0117ee847c7d15cfe1e6674fb759))
+
+
+### Features
+
+* initial commit ([4efc491](https://github.com/virtualidentityag/rcm-corporate/commit/4efc491de124cfbe81a43afa542662b06d59cb04))
+
 # 1.0.0 (2021-03-12)
 
 

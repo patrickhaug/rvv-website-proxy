@@ -173,22 +173,23 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
     getTranslations();
   }, []);
 
+  return <></>;
   // We need the custom component, otherwise jsx does not render the attributes
-  return (
-    <Navigation
-      contact-url={contactUrl}
-      contact-text={contactText}
-      languages={JSON.stringify(languages)}
-    >
-      {
-      /*
+  // return (
+  //  <Navigation
+  //    contact-url={contactUrl}
+  //    contact-text={contactText}
+  //    languages={JSON.stringify(languages)}
+  //  >
+  // {
+  /*
        * NOTE: Only works if renderTree is defined using the function keyword!
        *
        * To avoid managing the arguments that are passed to renderTree,
        * we pass component state as the thisArg to the mapping function.
        */
-      }
-      {tree.map(renderTree, { ...state })}
-    </Navigation>
-  );
+  // }
+  //    {tree.map(renderTree, { ...state })}
+  //  </Navigation>
+  // );
 };

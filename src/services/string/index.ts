@@ -26,6 +26,6 @@ export const StringService = {
   },
 
   isImageUrl(url: string): boolean {
-    return ['webp', 'jpeg', 'png'].indexOf(getExtension(url)) >= 0;
+    return ['webp', 'jpeg', 'jpg', 'png'].indexOf(getExtension(url)) >= 0;
   },
 };

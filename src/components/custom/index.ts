@@ -5,6 +5,7 @@ import { gridComponents } from './grid';
 import { RcmRichtext } from './richtext';
 import { forms } from './forms';
 import { responsiveTable } from './responsive-table';
+import { mockedFundsList } from './mocked-funds-list';
 // import { SEO } from './seo';
 
 // eslint-disable-next-line import/no-default-export
@@ -16,5 +17,6 @@ export default {
   RcmRichtext,
   ...forms,
   ...responsiveTable,
+  ...mockedFundsList,
   // SEO,
 };

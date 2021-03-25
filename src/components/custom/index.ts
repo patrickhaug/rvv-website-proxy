@@ -7,6 +7,7 @@ import { forms } from './forms';
 import { responsiveTable } from './responsive-table';
 import { mockedFundsList } from './mocked-funds-list';
 import { rcmGenericLinkComponents } from './generic-link';
+import { mockedFundsDetails } from './mocked-funds-details';
 // import { SEO } from './seo';
 
 // eslint-disable-next-line import/no-default-export
@@ -20,5 +21,6 @@ export default {
   ...forms,
   ...responsiveTable,
   ...mockedFundsList,
+  ...mockedFundsDetails,
   // SEO,
 };

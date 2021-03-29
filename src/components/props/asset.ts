@@ -11,14 +11,15 @@ export interface AssetData {
   fieldtype?: string;
 }
 
-const convertToStoryblokImageService = (url: string, focus: string | undefined): string => {
-  if (focus) { url.replace('/f/', `filters:focal(${focus})/f/`); }
-  url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
-  return url;
+const convertToStoryblokImageService = (url: string, focus: string): string => {
+  if (focus !== '') {
+    return url.replace('//a.storyblok.com/', `//img2.storyblok.com/$0x/filters:focal(${focus})/`);
+  }
+  return url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
 };
 const maskAssetUrl = (url: string): string => url.replace('a.storyblok.com', process.env.GATSBY_ASSET_URL_MASK);
 
-const parseAssetSource = (filename: string, focus: string | undefined): string => {
+const parseAssetSource = (filename: string, focus: string): string => {
   if (typeof filename !== 'string' || StringService.isVideoUrl(filename)) {
     return filename;
   }

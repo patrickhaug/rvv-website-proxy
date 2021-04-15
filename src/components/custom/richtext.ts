@@ -73,7 +73,7 @@ export const RcmRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.crea
     slot,
     'capitalize-first-Letter': blok.capitalize_first_letter || undefined,
     'right-to-left': blok.right_to_left || undefined,
-    footnote: blok.footnote || undefined,
+    level: blok.level,
     dangerouslySetInnerHTML: { __html: markupFromRichtextField(blok.text) },
   },
 );

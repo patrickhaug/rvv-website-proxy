@@ -30,7 +30,7 @@ const parseAssetSource = (filename: string, focus: string): string => {
 };
 
 export const asset = (key: string, data: AssetData): Record<string, string> => ({
-  [key]: JSON.stringify({
+  [StringService.snakeToKebab(key)]: JSON.stringify({
     src: parseAssetSource(data.filename, data.focus),
     caption: data.title,
     copyright: data.copyright,

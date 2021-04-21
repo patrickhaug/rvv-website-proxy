@@ -13,7 +13,7 @@ export interface AssetData {
 
 const convertToStoryblokImageService = (url: string, focus: string): string => {
   if (focus !== '') {
-    return url.replace('//a.storyblok.com/', `//img2.storyblok.com/$0x/filters:focal(${focus})/`);
+    return url.replace('//a.storyblok.com/', `//img2.storyblok.com/$0x/filters:focal\\(${focus}\\)/`);
   }
   return url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
 };

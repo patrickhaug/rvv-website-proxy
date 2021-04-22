@@ -13,9 +13,9 @@ export interface AssetData {
 
 const convertToStoryblokImageService = (url: string, focus: string): string => {
   if (focus !== '') {
-    return url.replace('//a.storyblok.com/', `//img2.storyblok.com/$0x/filters:focal\\(${focus}\\)/`);
+    return url.replace('//a.storyblok.com/', `//img2.storyblok.com/$0x$1/filters:focal\\(${focus}\\)/`);
   }
-  return url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x/');
+  return url.replace('//a.storyblok.com/', '//img2.storyblok.com/$0x$1/');
 };
 const maskAssetUrl = (url: string): string => url.replace('a.storyblok.com', process.env.GATSBY_ASSET_URL_MASK);
 

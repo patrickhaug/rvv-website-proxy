@@ -9,13 +9,14 @@ export const flattenProps = (comp, blok): React.ClassAttributes<AnyProps> => Obj
       ...accumulator,
       ...(propName.indexOf('_') !== 0 ? getMappedProps(propName, blok[propName]) : { [propName]: blok[propName] }),
     };
+    console.log(props[propName]);
     return {
       ...props,
       // eslint-disable-next-line max-len
-      ...{
-        [propName]: comp.mappings && comp.mappings[propName]
-          ? get(JSON.parse(props[propName]), comp.mappings[propName])
-          : props[propName],
-      },
+
+      [propName]: comp.mappings && comp.mappings[propName] && props[propName]
+        ? get(JSON.parse(props[propName]), comp.mappings[propName])
+        : props[propName],
+
     };
   }, {});

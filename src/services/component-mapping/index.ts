@@ -9,7 +9,6 @@ export const flattenProps = (comp, blok): React.ClassAttributes<AnyProps> => Obj
       ...accumulator,
       ...(propName.indexOf('_') !== 0 ? getMappedProps(propName, blok[propName]) : { [propName]: blok[propName] }),
     };
-    console.log(props[propName]);
     return {
       ...props,
       // eslint-disable-next-line max-len

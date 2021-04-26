@@ -171,3 +171,7 @@ Master is your main branch. Tags and Releases are created in that branch. It can
 ## Notes on creating components
 1. Create your own Storyblok space by duplicating the [staging space](https://app.storyblok.com/#!/me/spaces/104984/dashboard) in order to develop features
 2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/virtualidentityag/rcm-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.
+
+## Storyblok Testing/Debugging
+To test/debug components in storyblok, run the scripts `build` and `serve:build` here and `build` and `serve:prod-build` in the component library. 
+In Storyblok: Switch the preview of the page-edit-view to 'localhost:8000'. Now you should see your new changes in Storyblok directly.

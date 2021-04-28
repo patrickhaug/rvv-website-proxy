@@ -11,9 +11,7 @@ type StoryblokEntryState = EntryData;
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
 const Header = 'rcm-header' as React.ReactType;
-const OffCanvas = 'rcm-offcanvas-panel' as React.ReactType;
 const Navigation = getComponent('rcm-navigation') as React.ReactType;
-const Search = 'rcm-search' as React.ReactType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -65,24 +63,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     return (
       <StoryblokReact content={story.content}>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <OffCanvas id="rcm-offcanvas-menu">
-          <Navigation
-            tree={navigation}
-            contactUrl={contact?.full_slug}
-            contactText={contact?.content?.navigation_title || 'No title'}
-            getComponent={getComponent}
-            languages={languages}
-          ></Navigation>
-        </OffCanvas>
-        <OffCanvas id="rcm-offcanvas-search">
-          <Search
-            close-search-text={search?.content.close_search_text}
-            no-results-text={search?.content.no_results_text}
-            filter-container-text={search?.content.filter_container_text}
-            totalResultsForQuery={search?.content.total_results_for_query}
-            input-placeholder={search?.content.input_placeholder}
-          />
-        </OffCanvas>
+        <Navigation
+          tree={navigation}
+          getComponent={getComponent}
+          languages={languages}
+        ></Navigation>
         <Header
           breadcrumbs={JSON.stringify(breadcrumbs)}
           languages={JSON.stringify(languages)}

@@ -16,14 +16,18 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
    * setting the right value in gatsby.config.js
    */
   if (blok.content) {
-    const props = blok.content;
-
     const linkObject = {
       slug: blok.slug,
       fullSlug: blok.full_slug,
       lang: blok.lang,
       translatedSlugs: blok.translated_slug,
       alternates: blok.alternates,
+    };
+
+    const props = {
+      ...blok.content,
+      // Extracted link props from linked story source
+      link: JSON.stringify(linkObject),
     };
 
     if (props.image_src) {
@@ -33,8 +37,6 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
         // Just for convience to have consistent imageSrc keys in the components
         // eslint-disable-next-line @typescript-eslint/camelcase
         imageSrc: parsedImage,
-        // Extracted link props from linked story source
-        link: JSON.stringify(linkObject),
       };
       return defaultMapper(key, newProps);
     }

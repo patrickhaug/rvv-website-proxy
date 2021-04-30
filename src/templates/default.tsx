@@ -58,11 +58,11 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   };
 };
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
-const Header = 'rcm-header' as React.ReactType;
-const OffCanvas = 'rcm-offcanvas-panel' as React.ReactType;
-const Navigation = getComponent('rcm-navigation') as React.ReactType;
-const Search = 'rcm-search' as React.ReactType;
+const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
+const Header = 'rcm-header' as React.ElementType;
+const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
+const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Search = 'rcm-search' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {

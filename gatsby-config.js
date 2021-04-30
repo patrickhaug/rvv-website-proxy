@@ -4,6 +4,16 @@ require('dotenv').config({
   path: `./configuration/.env.${activeEnv}`,
 });
 
+/**
+ * List all components, that should be resolved automatically with gatsby source graphql.
+ * Format: {componentName}.{key}
+ * With key beeing the field, that is a linked story ressource via options, or multioptions in
+ * in the defined component.
+ */
+const autoResolveField = [
+  'rcm-editorial-big-feature.article',
+];
+
 module.exports = {
   siteMetadata: {
     author: '@virtualidentityag',
@@ -32,8 +42,7 @@ module.exports = {
           Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
           Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
         },
-        // example resolve relations
-        // resolveRelations: 'rcm-event-teaser.tags, rcm-contact-list.contacts',
+        resolveRelations: autoResolveField.join(','),
       },
     },
     'gatsby-plugin-react-helmet',

@@ -27,7 +27,7 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
     };
 
     if (props.image_src) {
-      const parsedImage = asset('image_src', props.image_src).image_src;
+      const parsedImage = asset('image_src', props.image_src)['image-src'];
       const newProps = {
         ...props,
         // Just for convience to have consistent imageSrc keys in the components

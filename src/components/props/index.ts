@@ -15,7 +15,7 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
    * We have a linked story, which is resolved automatically after
    * setting the right value in gatsby.config.js
    */
-  if (blok.content) {
+  if (blok && blok.content) {
     // console.log('story', key, blok);
 
     const linkObject = {

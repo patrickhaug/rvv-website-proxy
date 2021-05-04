@@ -16,6 +16,8 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
    * setting the right value in gatsby.config.js
    */
   if (blok.content) {
+    // console.log('story', key, blok);
+
     const linkObject = {
       slug: blok.slug,
       fullSlug: blok.full_slug,
@@ -27,7 +29,7 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
     const props = {
       ...blok.content,
       // Extracted link props from linked story source
-      link: JSON.stringify(linkObject),
+      link: linkObject,
     };
 
     if (props.image_src) {
@@ -42,13 +44,38 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
     }
     return defaultMapper(key, props);
   }
+  if (blok instanceof Array && blok.length) {
+    /**
+     * We have to deal with an array of items, probably multioptions
+     */
+    const mappedKeys = [];
+    blok.forEach((b) => {
+      const parsedObject = {};
+      Object.keys(b).forEach((k) => {
+        const mappedProps = getMappedProps(k, b[k]);
+        const kebabifiedKey = StringService.snakeToKebab(k);
+
+        if (mappedProps[kebabifiedKey]) {
+          parsedObject[StringService.kebabToCamel(kebabifiedKey)] = mappedProps[kebabifiedKey];
+        }
+      });
+      mappedKeys.push(parsedObject);
+    });
+    return defaultMapper(key, mappedKeys);
+  }
   if (blok instanceof Array && blok.length && typeof blok[0].filename === 'string') {
+    // console.log('mul ass', key);
+
     return multiAsset(key, blok);
   }
   if (blok.fieldtype === 'asset') {
+    // console.log('ass', key);
+
     return asset(key, blok);
   }
   if (blok.fieldtype === 'multilink') {
+    // console.log('mul link', key);
+
     return multiLink(key, blok);
   }
 

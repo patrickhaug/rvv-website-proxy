@@ -10,6 +10,7 @@ const defaultMapper = (key: string, value: unknown): Record<string, string> => (
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line consistent-return
 export const getMappedProps = (key: string, blok: any): Record<string, string> => {
   if (blok) {
     /**
@@ -71,6 +72,6 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
     if (blok.fieldtype === 'multilink') {
       return multiLink(key, blok);
     }
+    return defaultMapper(key, blok);
   }
-  return defaultMapper(key, blok);
 };

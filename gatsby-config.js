@@ -13,6 +13,8 @@ require('dotenv').config({
 const autoResolveField = [
   'rcm-editorial-big-feature.article',
   'editorial-item.page',
+  'rcm-editorial-big-item-image.page',
+
 ];
 
 module.exports = {

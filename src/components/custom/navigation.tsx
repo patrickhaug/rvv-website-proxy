@@ -11,7 +11,14 @@ const Navigation = 'rcm-navigation' as React.ElementType;
 function renderTree(leaf: StoryblokNodeTree): {text: string; href: string} {
   // top level
   if (leaf.is_folder && leaf.parent_id === 0) {
-    const tabEntry = { text: leaf.name, href: leaf.real_path };
+    const tabEntry = { text: leaf.name, href: leaf.real_path, children: [] };
+    leaf.children.forEach((c) => {
+      tabEntry.children.push({
+        text: c.name,
+        href: c.real_path,
+      });
+    });
+
     return tabEntry;
   }
   return { text: '', href: '' };

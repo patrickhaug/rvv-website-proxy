@@ -21,7 +21,7 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@types/react-helmet": "^6.1.0",
+    "@types/react-helmet": "^6.1.1",
     "@virtualidentityag/rcm-component-library": "1.1.2",
     "gatsby": "^2.24.73",
     "gatsby-image": "^3.4.0",

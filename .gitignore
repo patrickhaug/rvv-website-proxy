@@ -79,3 +79,5 @@ TODO
 
 # Services compiled as commonjs modules
 node-services/dist
+
+static

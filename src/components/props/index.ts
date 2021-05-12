@@ -55,7 +55,7 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
           const mappedProps = getMappedProps(k, b[k]);
           const kebabifiedKey = StringService.snakeToKebab(k);
 
-          if (mappedProps[kebabifiedKey]) {
+          if (mappedProps && mappedProps[kebabifiedKey]) {
             parsedObject[StringService.kebabToCamel(kebabifiedKey)] = mappedProps[kebabifiedKey];
           }
         });

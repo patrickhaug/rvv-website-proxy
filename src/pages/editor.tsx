@@ -9,9 +9,11 @@ import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 
 type StoryblokEntryState = EntryData;
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
-const Header = 'rcm-header' as React.ReactType;
-const Navigation = getComponent('rcm-navigation') as React.ReactType;
+const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
+const Header = 'rcm-header' as React.ElementType;
+// const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
+const Navigation = getComponent('rcm-navigation') as React.ElementType;
+// const Search = 'rcm-search' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -47,7 +49,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const {
       story,
       navigation,
-      contact,
+      // contact,
       breadcrumbs,
       footer,
       onClickNotice,

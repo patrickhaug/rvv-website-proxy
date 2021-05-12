@@ -24,7 +24,7 @@ jobs:
           ref: master
 
       - name: Get current package version
-        uses: martinbeentjes/npm-get-version-action@v1.0.0
+        uses: martinbeentjes/npm-get-version-action@v1.1.0
         id: package-version
 
       - name: Print current version from package.json
@@ -71,7 +71,7 @@ jobs:
           GH_TOKEN: ${{ secrets.VISUDOBOT_ORGSECRET_ALLREPOS_READWRITE }}
 
       - name: Get current package version
-        uses: martinbeentjes/npm-get-version-action@v1.0.0
+        uses: martinbeentjes/npm-get-version-action@v1.1.0
         id: package-version
 
       - name: Print current version from package.json

@@ -74,7 +74,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           breadcrumbs={JSON.stringify(breadcrumbs)}
           languages={JSON.stringify(languages)}
         />
-        {blokToComponent({ blok: story.content, getComponent })}
+        {story.content.component === 'article'
+          && <rcm-layout-article article={JSON.stringify(story.content)}>{
+            blokToComponent({ blok: story.content, getComponent })
+          }</rcm-layout-article>
+        }
+        {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         {footer && blokToComponent({ blok: footer?.content, getComponent })}
         {onClickNotice && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </StoryblokReact>

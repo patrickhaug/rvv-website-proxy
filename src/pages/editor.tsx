@@ -15,6 +15,8 @@ const Header = 'rcm-header' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
 // const Search = 'rcm-search' as React.ElementType;
 
+const Article = 'rcm-layout-article' as React.ElementType;
+
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
     src: `//app.storyblok.com/f/storyblok-latest.js?t=${StoryblokService.getConfig().options.accessToken}`,
@@ -75,9 +77,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           languages={JSON.stringify(languages)}
         />
         {story.content.component === 'article'
-          && <rcm-layout-article article={JSON.stringify(story.content)}>{
-            blokToComponent({ blok: story.content, getComponent })
-          }</rcm-layout-article>
+          && <Article
+            article={JSON.stringify(story.content)}
+            related={JSON.stringify(this.state.related)}>{
+              blokToComponent({ blok: story.content, getComponent })
+            }</Article>
         }
         {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         {footer && blokToComponent({ blok: footer?.content, getComponent })}
@@ -120,7 +124,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   private loadStory(): void {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -130,8 +133,27 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           // eslint-disable-next-line @typescript-eslint/camelcase
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
-        ({ story }) => {
-          this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
+        async ({ story }) => {
+          let relatedArticles = null;
+
+          if (story.content && story.content.category) {
+            const data = await this.storyblokClient.get('cdn/stories', {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              filter_query: {
+                category: {
+                  exists: story.content.category.map((c) => c.uuid).join(','),
+                },
+              },
+            });
+            if (data) {
+              relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
+            }
+          }
+          this.setState({
+            story,
+            ...DomService.getGlobalConfig(story.uuid, story.lang),
+            related: relatedArticles,
+          });
           this.loadNavigation(story.lang);
           this.loadFooter(story.lang);
           this.loadOnclickNotice(story.lang);

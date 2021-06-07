@@ -1,8 +1,13 @@
 const googleTagManagerId = process.env.GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
+const StoryblokClient = require('storyblok-js-client');
 
 const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
+
+const storyblokClient = new StoryblokClient({
+  accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
+});
 
 const queryPrepareContentFetch = `
   {
@@ -210,7 +215,21 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const template = resolve('./src/templates/default.tsx');
 
-  allEntries.forEach((entry) => {
+  const promises = allEntries.map(async (entry) => {
+    let relatedArticles = null;
+    if (entry.content && entry.content.category) {
+      const data = await storyblokClient.get('cdn/stories', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        filter_query: {
+          category: {
+            exists: entry.content.category.map((c) => c.uuid).join(','),
+          },
+        },
+      });
+      if (data) {
+        relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
+      }
+    }
     const path = entry.full_slug.includes('home')
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
@@ -221,12 +240,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         googleTagManagerId,
         story: entry,
+        related: relatedArticles,
         footer: navigationReadyStories[entry.lang].find(((story) => story.slug === 'footer')),
         onClickNotice: navigationReadyStories[entry.lang].find(((story) => story.slug === 'on-click-notice')),
         search: navigationReadyStories[entry.lang].find(((story) => story.slug === 'search')),
       },
     });
   });
+  // eslint-disable-next-line compat/compat
+  await Promise.all(promises);
 };
 
 /*

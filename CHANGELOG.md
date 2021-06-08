@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.1.0...v1.1.1) (2021-03-23)
+
+
+### Bug Fixes
+
+* adapt namings/endpoints etc. to rcm infrastructure ([9f21868](https://github.com/virtualidentityag/rcm-corporate/commit/9f21868e5318d66eed96b7a2d4883bf35b197f91))
+* import package name ([e335594](https://github.com/virtualidentityag/rcm-corporate/commit/e335594673400577752d14dcbb1d7d5801faf0cc))
+* local library url ([37797bd](https://github.com/virtualidentityag/rcm-corporate/commit/37797bd13525d992b75fc058c448c7f18cf6d9c6))
+
 # [1.1.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.0.0...v1.1.0) (2021-03-12)
 
 

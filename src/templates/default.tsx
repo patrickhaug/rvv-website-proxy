@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
+
 import { getComponent, blokToComponent } from '../components';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import {
@@ -16,6 +17,7 @@ import { SEO } from '../components/custom/seo';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
+  related?: StoryData;
 }
 
 export interface EntryData extends GlobalConfigProps {
@@ -28,6 +30,7 @@ export interface EntryData extends GlobalConfigProps {
   onClickNotice?: StoryData;
   languages?: Language[];
   search?: StoryData;
+  related?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -43,7 +46,7 @@ type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const { googleTagManagerId } = pageContext;
-  const story = { ...pageContext.story };
+  const story = { ...pageContext.story, related: pageContext.related };
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
   const search = { ...pageContext.search };
@@ -62,6 +65,8 @@ const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const Header = 'rcm-header' as React.ElementType;
 // const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Article = 'rcm-layout-article' as React.ElementType;
+
 // const Search = 'rcm-search' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
@@ -134,9 +139,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           languages={JSON.stringify(languages)}
         />
         {story.content.component === 'article'
-          && <rcm-layout-article article={JSON.stringify(story.content)}>{
-            blokToComponent({ blok: story.content, getComponent })
-          }</rcm-layout-article>
+          && <Article
+            article={JSON.stringify(story.content)}
+            related={JSON.stringify(story.related)}>{
+              blokToComponent({ blok: story.content, getComponent })
+            }</Article>
         }
         {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
 

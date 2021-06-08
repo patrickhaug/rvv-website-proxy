@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
+
 import { getComponent, blokToComponent } from '../components';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import {
@@ -16,6 +17,7 @@ import { SEO } from '../components/custom/seo';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
+  related?: StoryData;
 }
 
 export interface EntryData extends GlobalConfigProps {
@@ -28,6 +30,7 @@ export interface EntryData extends GlobalConfigProps {
   onClickNotice?: StoryData;
   languages?: Language[];
   search?: StoryData;
+  related?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -43,7 +46,7 @@ type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const { googleTagManagerId } = pageContext;
-  const story = { ...pageContext.story };
+  const story = { ...pageContext.story, related: pageContext.related };
   const footer = { ...pageContext.footer };
   const onClickNotice = { ...pageContext.onClickNotice };
   const search = { ...pageContext.search };
@@ -58,11 +61,13 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   };
 };
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ReactType;
-const Header = 'rcm-header' as React.ReactType;
-const OffCanvas = 'rcm-offcanvas-panel' as React.ReactType;
-const Navigation = getComponent('rcm-navigation') as React.ReactType;
-const Search = 'rcm-search' as React.ReactType;
+const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
+const Header = 'rcm-header' as React.ElementType;
+// const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
+const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Article = 'rcm-layout-article' as React.ElementType;
+
+// const Search = 'rcm-search' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -104,7 +109,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       googleTagManagerId,
       story,
       navigation,
-      contact,
+      // contact,
       breadcrumbs,
       footer,
       onClickNotice,
@@ -125,28 +130,23 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <OffCanvas id="rcm-offcanvas-menu">
-          <Navigation
-            tree={navigation}
-            contactUrl={contact?.full_slug}
-            contactText={contact?.content?.navigation_title}
-            languages={languages}
-          ></Navigation>
-        </OffCanvas>
-        <OffCanvas id="rcm-offcanvas-search">
-          <Search
-            close-search-text={search?.content?.close_search_text}
-            no-results-text={search?.content?.no_results_text}
-            filter-container-text={search?.content?.filter_container_text}
-            total-results-for-query={search?.content?.total_results_for_query}
-            input-placeholder={search?.content?.input_placeholder}
-          />
-        </OffCanvas>
+        <Navigation
+          tree={navigation}
+          languages={languages}
+        ></Navigation>
         <Header
           breadcrumbs={JSON.stringify(breadcrumbs)}
           languages={JSON.stringify(languages)}
         />
-        {blokToComponent({ blok: story.content, getComponent })}
+        {story.content.component === 'article'
+          && <Article
+            article={JSON.stringify(story.content)}
+            related={JSON.stringify(story.related)}>{
+              blokToComponent({ blok: story.content, getComponent })
+            }</Article>
+        }
+        {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
+
         {footer.content
           && blokToComponent({ blok: footer.content, getComponent })}
         {onClickNotice.content

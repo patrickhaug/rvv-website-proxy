@@ -16,7 +16,7 @@ export const blokToComponent = (
   };
 
   return (
-    <StoryblokEditable content={props.blok}>
+    <StoryblokEditable content={props.blok} key={key}>
       <CustomChild {...newProps}></CustomChild>
     </StoryblokEditable>
   );

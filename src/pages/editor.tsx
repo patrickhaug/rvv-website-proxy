@@ -14,6 +14,7 @@ const Header = 'rcm-header' as React.ElementType;
 // const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
 // const Search = 'rcm-search' as React.ElementType;
+const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 
@@ -76,14 +77,16 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           breadcrumbs={JSON.stringify(breadcrumbs)}
           languages={JSON.stringify(languages)}
         />
-        {story.content.component === 'article'
+        <Container>
+          {story.content.component === 'article'
           && <Article
             article={JSON.stringify(story.content)}
             related={JSON.stringify(this.state.related)}>{
               blokToComponent({ blok: story.content, getComponent })
             }</Article>
-        }
-        {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
+          }
+          {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
+        </Container>
         {footer && blokToComponent({ blok: footer?.content, getComponent })}
         {onClickNotice && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </StoryblokReact>

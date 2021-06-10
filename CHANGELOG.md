@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.2.0...v1.3.0) (2021-06-10)
+
+
+### Features
+
+* layout container ([676e155](https://github.com/virtualidentityag/rcm-corporate/commit/676e155aa5094e3d2fbaf7e5cb464314ad0f0c42))
+
 # [1.2.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.1.1...v1.2.0) (2021-06-08)
 
 

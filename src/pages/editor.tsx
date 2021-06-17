@@ -17,6 +17,9 @@ const Navigation = getComponent('rcm-navigation') as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
+const FundsListPage = 'rcm-layout-funds' as React.ElementType;
+const FundsList = 'rcm-fonds-list' as React.ElementType;
+const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -65,6 +68,17 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       return <div></div>;
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const grabFundsProps = (obj) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { body, ...rest } = obj;
+      rest.background = rest.background.filename;
+      const moddedObj = Object.fromEntries(
+        Object.entries(rest).map(([key, value]) => [key.replace(/_/g, '-'), value]),
+      );
+      return moddedObj;
+    };
+
     return (
       <StoryblokReact content={story.content}>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
@@ -84,6 +98,21 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             related={JSON.stringify(this.state.related)}>{
               blokToComponent({ blok: story.content, getComponent })
             }</Article>
+          }
+          {story.content.component === 'funds'
+          && <FundsListPage {...grabFundsProps(story.content)}>
+            {/* These are componentd filled with dummy data */}
+            <FundsList/>
+            {
+              blokToComponent({ blok: story.content, getComponent })
+            }</FundsListPage>
+          }
+          {story.content.component === 'fund'
+          && <FundsDetail {...grabFundsProps(story.content)}>
+            {/* These are componentd filled with dummy data */}
+            {
+              blokToComponent({ blok: story.content, getComponent })
+            }</FundsDetail>
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>

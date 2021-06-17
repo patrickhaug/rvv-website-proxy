@@ -67,6 +67,8 @@ const Header = 'rcm-header' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
 const Article = 'rcm-layout-article' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
+const FundsList = 'rcm-layout-funds' as React.ElementType;
+const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 
 // const Search = 'rcm-search' as React.ElementType;
 
@@ -119,6 +121,17 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       ...globalConfig
     } = this.state;
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const grabFundsProps = (obj) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { body, ...rest } = obj;
+      rest.background = rest.background.filename;
+      const moddedObj = Object.fromEntries(
+        Object.entries(rest).map(([key, value]) => [key.replace(/_/g, '-'), value]),
+      );
+      return moddedObj;
+    };
+
     return (
       <>
         <GoogleTagManager
@@ -146,6 +159,18 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             related={JSON.stringify(story.related)}>{
               blokToComponent({ blok: story.content, getComponent })
             }</Article>
+          }
+          {story.content.component === 'funds'
+          && <FundsList {...grabFundsProps(story.content)}>{
+            blokToComponent({ blok: story.content, getComponent })
+          }</FundsList>
+          }
+          {story.content.component === 'fund'
+          && <FundsDetail {...grabFundsProps(story.content)}>
+            {/* These are componentd filled with dummy data */}
+            {
+              blokToComponent({ blok: story.content, getComponent })
+            }</FundsDetail>
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>

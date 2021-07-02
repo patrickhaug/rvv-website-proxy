@@ -1,5 +1,15 @@
 import { LanguageService } from '../language';
 
+const MOCKED_COUNTRY = 'at';
+
+const MOCKED_COUNTRY_CONFIG = [
+  {
+    code: 'at',
+    defaultSlug: 'unsere-vision',
+    locales: ['de', 'en', 'it'],
+  },
+];
+
 export interface GlobalConfigProps {
   baseDomain: string;
   brightcoveAccountId: string;
@@ -8,6 +18,15 @@ export interface GlobalConfigProps {
   cludoEngineId: string | string[];
   cognitoUserpoolClientId: string;
   cognitoUserpoolId: string;
+  country: string;
+  countryConfig: {
+    // 'at'
+    code: string;
+    // '/our-vision'
+    defaultSlug: string;
+    // ['de', 'en']
+    locales: string[];
+  }[];
   locale: string;
   pageId: string;
   recaptchaKey: string;
@@ -44,6 +63,8 @@ export const DomService = {
         .substring(parsedLocale.length + 1, 8),
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID,
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID,
+      country: MOCKED_COUNTRY,
+      countryConfig: MOCKED_COUNTRY_CONFIG,
       locale,
       pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME}:${pageId}`,
       recaptchaKey: process.env.GATSBY_GOOGLE_RECAPTCHA_KEY,

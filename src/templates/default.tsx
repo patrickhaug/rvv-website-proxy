@@ -15,6 +15,7 @@ import {
   GlobalContent,
 } from '../services';
 import { SEO } from '../components/custom/seo';
+import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
@@ -135,6 +136,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
+        <RcmCountrySwitchModal></RcmCountrySwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
         <Navigation

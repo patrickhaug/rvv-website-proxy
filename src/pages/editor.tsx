@@ -6,6 +6,7 @@ import {
   DomService, StoryblokService, NavigationService, LanguageService,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
+import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
 
 type StoryblokEntryState = EntryData;
 
@@ -79,6 +80,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     return (
       <StoryblokReact content={story.content}>
+        <RcmCountrySwitchModal></RcmCountrySwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
         <Navigation

@@ -19,7 +19,11 @@ const buildCompleteSlug = ({
   pageSlug: string;
 }): string => `${SLUG_PREFIX}${countryCode.toUpperCase()}-${locale}/${pageSlug}`;
 
-const convertCountryConfigs = (content: GlobalContent) => Object.keys(content.countryConfigs)
+const convertCountryConfigs = (content: GlobalContent): {
+  value: string;
+  label: string;
+  href: string;
+}[] => Object.keys(content.countryConfigs)
   .map((key) => ({
     value: key,
     label: content.countries[key],

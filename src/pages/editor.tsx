@@ -10,6 +10,7 @@ import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 type StoryblokEntryState = EntryData;
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
+const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Header = 'rcm-header' as React.ElementType;
 // const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
@@ -55,11 +56,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const {
       story,
       navigation,
-      // contact,
       breadcrumbs,
-      footer,
-      onClickNotice,
-      search,
+      globalContent,
       languages,
       ...globalConfig
     } = this.state;
@@ -82,6 +80,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     return (
       <StoryblokReact content={story.content}>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
+        <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
         <Navigation
           tree={navigation}
           getComponent={getComponent}
@@ -93,31 +92,29 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         />
         <Container>
           {story.content.component === 'article'
-          && <Article
-            article={JSON.stringify(story.content)}
-            related={JSON.stringify(this.state.related)}>{
-              blokToComponent({ blok: story.content, getComponent })
-            }</Article>
+            && <Article
+              article={JSON.stringify(story.content)}
+              related={JSON.stringify(this.state.related)}>{
+                blokToComponent({ blok: story.content, getComponent })
+              }</Article>
           }
           {story.content.component === 'funds'
-          && <FundsListPage {...grabFundsProps(story.content)}>
-            {/* These are componentd filled with dummy data */}
-            <FundsList/>
-            {
-              blokToComponent({ blok: story.content, getComponent })
-            }</FundsListPage>
+            && <FundsListPage {...grabFundsProps(story.content)}>
+              {/* These are componentd filled with dummy data */}
+              <FundsList />
+              {
+                blokToComponent({ blok: story.content, getComponent })
+              }</FundsListPage>
           }
           {story.content.component === 'fund'
-          && <FundsDetail {...grabFundsProps(story.content)}>
-            {/* These are componentd filled with dummy data */}
-            {
-              blokToComponent({ blok: story.content, getComponent })
-            }</FundsDetail>
+            && <FundsDetail {...grabFundsProps(story.content)}>
+              {/* These are componentd filled with dummy data */}
+              {
+                blokToComponent({ blok: story.content, getComponent })
+              }</FundsDetail>
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
-        {footer && blokToComponent({ blok: footer?.content, getComponent })}
-        {onClickNotice && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </StoryblokReact>
     );
   }
@@ -153,9 +150,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     });
   }
 
-  private loadStory(): void {
+  async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
+    const storyblokDatasourceEntries = await this.storyblokClient.get('cdn/datasource_entries');
+    const globalContentEntries = await StoryblokService
+      .parseDatasourceEntries(storyblokDatasourceEntries.data);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -185,12 +185,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             story,
             ...DomService.getGlobalConfig(story.uuid, story.lang),
             related: relatedArticles,
+            globalContent: JSON.stringify(globalContentEntries),
           });
           this.loadNavigation(story.lang);
-          this.loadFooter(story.lang);
-          this.loadOnclickNotice(story.lang);
           this.loadLanguages();
-          this.loadSearch(story.lang);
         },
       );
     }
@@ -209,24 +207,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const contact = await NavigationService.getContactPage(lang);
 
     this.setState({ navigation: tree, breadcrumbs, contact });
-  }
-
-  private async loadFooter(lang?: string): Promise<void> {
-    const slugWithLang = lang !== 'default' ? `/${lang}/footer` : 'footer';
-    const { data } = await this.storyblokClient.getStory(slugWithLang);
-    this.setState({ footer: data.story });
-  }
-
-  private async loadSearch(lang?: string): Promise<void> {
-    const slugWithLang = lang !== 'default' ? `/${lang}/search` : 'search';
-    const { data } = await this.storyblokClient.getStory(slugWithLang);
-    this.setState({ search: data.story });
-  }
-
-  private async loadOnclickNotice(lang?: string): Promise<void> {
-    const slugWithLang = lang !== 'default' ? `/${lang}/on-click-notice` : 'on-click-notice';
-    const { data } = await this.storyblokClient.getStory(slugWithLang);
-    this.setState({ onClickNotice: data.story });
   }
 
   private async loadLanguages(): Promise<void> {

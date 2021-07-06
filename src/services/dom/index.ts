@@ -47,6 +47,7 @@ export const DomService = {
         .substring(parsedLocale.length + 1, 8),
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID,
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID,
+      // todo: replace with correct country code
       country: MOCKED_COUNTRY,
       locale,
       pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME}:${pageId}`,

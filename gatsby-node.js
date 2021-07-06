@@ -244,7 +244,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         googleTagManagerId,
         story: entry,
         related: relatedArticles,
-        globalContent: JSON.stringify(globalContentEntries),
+        globalContent: globalContentEntries,
       },
     });
   });

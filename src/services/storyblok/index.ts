@@ -18,6 +18,23 @@ export interface GlobalContent {
       };
     };
   };
+  countries: {
+    [index: string]: string;
+  };
+  countryConfigs: {
+    [index: string]: {
+      locales: string;
+      defaultSlug: string;
+    };
+  };
+  countrySwitchModal: {
+    headline: string;
+    introText: string;
+    imageSrc: string;
+  };
+  languages: {
+    [index: string]: string;
+  };
 }
 
 const deepen = (obj): {[key: string]: string} => {

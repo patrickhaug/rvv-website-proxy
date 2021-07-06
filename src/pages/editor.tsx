@@ -3,7 +3,7 @@ import StoryblokReact from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
-  DomService, StoryblokService, NavigationService, LanguageService,
+  DomService, StoryblokService, NavigationService, LanguageService, GlobalContent,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -80,9 +80,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     return (
       <StoryblokReact content={story.content}>
-        <RcmCountrySwitchModal></RcmCountrySwitchModal>
+        <RcmCountrySwitchModal
+          globalContent={globalContent}
+        ></RcmCountrySwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
+        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
           tree={navigation}
           getComponent={getComponent}
@@ -158,6 +160,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const storyblokDatasourceEntries = await this.storyblokClient.get('cdn/datasource_entries');
     const globalContentEntries = await StoryblokService
       .parseDatasourceEntries(storyblokDatasourceEntries.data);
+
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -187,7 +190,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             story,
             ...DomService.getGlobalConfig(story.uuid, story.lang),
             related: relatedArticles,
-            globalContent: JSON.stringify(globalContentEntries),
+            globalContent: globalContentEntries,
           });
           this.loadNavigation(story.lang);
           this.loadLanguages();

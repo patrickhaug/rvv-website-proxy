@@ -136,9 +136,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal></RcmCountrySwitchModal>
+        <RcmCountrySwitchModal
+          globalContent={globalContent}
+        ></RcmCountrySwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
+        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
           tree={navigation}
           languages={languages}

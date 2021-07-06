@@ -26,7 +26,7 @@ const convertCountryConfigs = (content: GlobalContent): {
 }[] => Object.keys(content.countryConfigs)
   .map((key) => ({
     value: key,
-    label: content.countries[key],
+    label: content.countryNames[key],
     href: buildCompleteSlug({
       countryCode: key,
       locale: content.countryConfigs[key].locales.split(',')[0],

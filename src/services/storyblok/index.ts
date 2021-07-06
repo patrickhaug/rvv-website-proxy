@@ -18,12 +18,16 @@ export interface GlobalContent {
       };
     };
   };
-  countries: {
+  countryNames: {
+    // index being the country code, e.g. "at", "it"
     [index: string]: string;
   };
   countryConfigs: {
+    // index being the country code, e.g. "at", "it"
     [index: string]: {
+      // available locales separated by ','
       locales: string;
+      // slug the user is redirected to when switching country
       defaultSlug: string;
     };
   };
@@ -33,6 +37,7 @@ export interface GlobalContent {
     imageSrc: string;
   };
   languages: {
+    // index being the language code, e.g. "de", "en"
     [index: string]: string;
   };
 }

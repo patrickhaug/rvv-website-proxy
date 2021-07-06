@@ -1,5 +1,6 @@
 import { contentEntries } from './content-entries';
 import { RcmGlobalConfig } from './global-config';
+import { RcmGlobalContent } from './global-content';
 import { RcmNavigation } from './navigation';
 import { gridComponents } from './grid';
 import { RcmRichtext } from './richtext';
@@ -14,6 +15,7 @@ import { mockedFundsDetails } from './mocked-funds-details';
 export default {
   ...contentEntries,
   RcmGlobalConfig,
+  RcmGlobalContent,
   ...gridComponents,
   RcmNavigation,
   RcmRichtext,

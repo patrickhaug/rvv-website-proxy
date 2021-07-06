@@ -12,6 +12,7 @@ import {
   NavigationService,
   Language,
   LanguageService,
+  GlobalContent,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 
@@ -26,11 +27,10 @@ export interface EntryData extends GlobalConfigProps {
   navigation?: StoryblokNodeTree[];
   breadcrumbs?: Breadcrumb[];
   contact?: StoryData;
-  footer?: StoryData;
-  onClickNotice?: StoryData;
   languages?: Language[];
   search?: StoryData;
   related?: StoryData;
+  globalContent?: GlobalContent;
 }
 
 interface StoryblokEntryProps {
@@ -47,21 +47,16 @@ type StoryblokEntryState = EntryData;
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const { googleTagManagerId } = pageContext;
   const story = { ...pageContext.story, related: pageContext.related };
-  const footer = { ...pageContext.footer };
-  const onClickNotice = { ...pageContext.onClickNotice };
-  const search = { ...pageContext.search };
 
   return {
     googleTagManagerId,
     story,
-    footer,
-    onClickNotice,
-    search,
     ...DomService.getGlobalConfig(story.uuid, story.lang),
   };
 };
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
+const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Header = 'rcm-header' as React.ElementType;
 // const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
@@ -112,12 +107,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       googleTagManagerId,
       story,
       navigation,
-      // contact,
       breadcrumbs,
-      footer,
-      onClickNotice,
       languages,
-      search,
+      globalContent,
       ...globalConfig
     } = this.state;
 
@@ -144,6 +136,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
+        <RcmGlobalContent globalContent={globalContent}></RcmGlobalContent>
         <Navigation
           tree={navigation}
           languages={languages}
@@ -174,11 +167,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
-
-        {footer.content
-          && blokToComponent({ blok: footer.content, getComponent })}
-        {onClickNotice.content
-          && blokToComponent({ blok: onClickNotice.content, getComponent })}
       </>
     );
   }

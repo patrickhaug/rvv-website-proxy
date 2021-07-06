@@ -1,6 +1,41 @@
 import { IPluginRefObject } from 'gatsby';
 import config from '../../../gatsby-config';
 
+export interface GlobalContent {
+  article: {
+    sidebar: {
+      firstVisitBox: {
+        headline: string;
+        target: string;
+        text: string;
+      };
+      blogBox: {
+        headline: string;
+        linkTarget: string;
+        linkText: string;
+        image: string;
+        text: string;
+      };
+    };
+  };
+}
+
+const deepen = (obj): {[key: string]: string} => {
+  const result = {};
+  Object.keys(obj).forEach((key) => {
+    const parts = key.split('.');
+    let target = result;
+    while (parts.length > 1) {
+      const part = parts.shift();
+      target[part] = target[part] || {};
+      target = target[part] || {};
+    }
+    target[parts[0]] = obj[key];
+  });
+
+  return result;
+};
+
 const getUrlParams = (): Record<string, string | true> => window.location.search.substr(1)
   .split('&')
   .filter((slug) => !!slug)
@@ -22,6 +57,14 @@ export const StoryblokService = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { storyblok } = window as any;
     return storyblok || undefined;
+  },
+
+  parseDatasourceEntries(datasourceEntries): GlobalContent {
+    const datasourceValues = datasourceEntries.datasource_entries.reduce((object, item) => ({
+      ...object,
+      [item.name]: item.value,
+    }), {} as {[key: string]: string});
+    return deepen(datasourceValues) as unknown as GlobalContent;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

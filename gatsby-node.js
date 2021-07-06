@@ -217,6 +217,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
+    const storyblokDatasourceEntries = await storyblokClient.get('cdn/datasource_entries');
+    const globalContentEntries = await StoryblokService
+      .parseDatasourceEntries(storyblokDatasourceEntries.data);
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -241,9 +244,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         googleTagManagerId,
         story: entry,
         related: relatedArticles,
-        footer: navigationReadyStories[entry.lang].find(((story) => story.slug === 'footer')),
-        onClickNotice: navigationReadyStories[entry.lang].find(((story) => story.slug === 'on-click-notice')),
-        search: navigationReadyStories[entry.lang].find(((story) => story.slug === 'search')),
+        globalContent: JSON.stringify(globalContentEntries),
       },
     });
   });

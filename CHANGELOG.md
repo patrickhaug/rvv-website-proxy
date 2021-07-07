@@ -1,3 +1,20 @@
+# [1.4.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.3.0...v1.4.0) (2021-07-07)
+
+
+### Bug Fixes
+
+* **gatsby node:** storbylokclient ([ea895e4](https://github.com/virtualidentityag/rcm-corporate/commit/ea895e4b8653978f1bc0f004067c8cad76426efe))
+* **lint:** file extension ([e7abafd](https://github.com/virtualidentityag/rcm-corporate/commit/e7abafd112a57d5a9df86c83898cfa36b414566a))
+* **lint:** fle extension ([d108565](https://github.com/virtualidentityag/rcm-corporate/commit/d1085653474c3ac7df7de8a3b6b737a1c99e542d))
+
+
+### Features
+
+* **article:** categories ([a46dcf0](https://github.com/virtualidentityag/rcm-corporate/commit/a46dcf0bae8f638f130bf927c62d60586e922869))
+* get lang folder and pass as props ([af69cd4](https://github.com/virtualidentityag/rcm-corporate/commit/af69cd48aca05b579a6d6e4fd02af93d3f2babaf))
+* **global content:** get datasources ([bfeabb7](https://github.com/virtualidentityag/rcm-corporate/commit/bfeabb75d8a42e8c247335456218852da2981f6c))
+* fund ([c163260](https://github.com/virtualidentityag/rcm-corporate/commit/c163260c773a3f07c08073072f42ab0c9c81be05))
+
 # [1.3.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.2.0...v1.3.0) (2021-06-10)
 
 

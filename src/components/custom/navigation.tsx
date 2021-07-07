@@ -10,7 +10,7 @@ const Navigation = 'rcm-navigation' as React.ElementType;
 
 function renderTree(leaf: StoryblokNodeTree): {text: string; href: string} {
   // top level
-  if (leaf.is_folder && leaf.parent_id === 0) {
+  if (leaf.is_folder) {
     const tabEntry = { text: leaf.name, href: leaf.real_path, children: [] };
     leaf.children.forEach((c) => {
       tabEntry.children.push({
@@ -24,6 +24,14 @@ function renderTree(leaf: StoryblokNodeTree): {text: string; href: string} {
   return { text: '', href: '' };
 }
 
+// TODO correct typing of storyblok repsones
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getCurrentTree(tree: Map<string, any>, lang = 'AT - DE', type = 'Retail'): unknown[] {
+  const currentTree = tree.get(lang).children.filter((c) => c.name === type)[0].children;
+  return currentTree;
+}
+
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
     tree,
@@ -33,10 +41,16 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
     return null;
   }
 
+  // Store the tree in a language map
+  const langMap = new Map();
+  tree.forEach((t) => {
+    if (!langMap.has(t.name)) { langMap.set(t.name, t); }
+  });
+
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Navigation
-      tab-entries={JSON.stringify(tree.map(renderTree))}
+      tab-entries={JSON.stringify(getCurrentTree(langMap).map(renderTree))}
     >
       {
       /*

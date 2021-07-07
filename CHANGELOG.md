@@ -1,3 +1,52 @@
+# [1.3.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.2.0...v1.3.0) (2021-06-10)
+
+
+### Features
+
+* layout container ([676e155](https://github.com/virtualidentityag/rcm-corporate/commit/676e155aa5094e3d2fbaf7e5cb464314ad0f0c42))
+
+# [1.2.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.1.1...v1.2.0) (2021-06-08)
+
+
+### Bug Fixes
+
+* 404 ([d4efa07](https://github.com/virtualidentityag/rcm-corporate/commit/d4efa075028cb1d86c1e064f96360a921286dcc1))
+* blok must be present ([d789df2](https://github.com/virtualidentityag/rcm-corporate/commit/d789df2831c5c497fcbe0fbbd67b3ce432bdbcf6))
+* check for value ([0f14d06](https://github.com/virtualidentityag/rcm-corporate/commit/0f14d06f82daf7ce0ced32a0a8cac0c7c76af121))
+* correct image prop passing ([c1df8fd](https://github.com/virtualidentityag/rcm-corporate/commit/c1df8fd2e1102f0d14deed66914a7a3c4ced2dfb))
+* correct prop ([8ee0f55](https://github.com/virtualidentityag/rcm-corporate/commit/8ee0f55e68308e2d1f6fbf3dd45c12f240cad4c3))
+* deal with unpublished stuff ([f0c03d7](https://github.com/virtualidentityag/rcm-corporate/commit/f0c03d79a2200f2cfc9b80cf87a92e91215ff3cd))
+* deprecated types ([d439574](https://github.com/virtualidentityag/rcm-corporate/commit/d43957487d7b45f0a055576d61d15d53f1e27fcf))
+* disable for now ([d3304c1](https://github.com/virtualidentityag/rcm-corporate/commit/d3304c184cf57800a200359ceba0c3e4d2543e64))
+* **assets:** keys to kebab case ([bbb9ee6](https://github.com/virtualidentityag/rcm-corporate/commit/bbb9ee69aa5320b7f38119d61d25abe21662f55d))
+* **build:** package lock ([9f69072](https://github.com/virtualidentityag/rcm-corporate/commit/9f69072d92eeedd2ea56b6cda26118de097f83f0))
+* **build:** package lock ([cee5e9d](https://github.com/virtualidentityag/rcm-corporate/commit/cee5e9d9de5653b91114dca6026ea0115539e96b))
+* **flatten:** doesnt flatten object with empty string ([8fcdddb](https://github.com/virtualidentityag/rcm-corporate/commit/8fcdddb735c03f64bb226ecdfe5436998b192aee))
+* **focus:** url ([b942679](https://github.com/virtualidentityag/rcm-corporate/commit/b942679d28211d4474d63c616db3c800d6794a05))
+* **focus:** url replace ([99df167](https://github.com/virtualidentityag/rcm-corporate/commit/99df16722901cc5bbfca1008b5090a6e41fd5cd1))
+* **generic link:** revert changes from poc implementation ([bea6e77](https://github.com/virtualidentityag/rcm-corporate/commit/bea6e7719f8f38d8a01eec2b10bbe742bd3f58c2))
+* **image:** height variable ([4aaef20](https://github.com/virtualidentityag/rcm-corporate/commit/4aaef20792f0969c4e001d8b4467c94e732c57e1))
+* **richtext:** level ([c115553](https://github.com/virtualidentityag/rcm-corporate/commit/c115553cbbd9e1cbcd1165efdce2e2db4efe98d3))
+* **url:** with focus point ([2752639](https://github.com/virtualidentityag/rcm-corporate/commit/27526393024b9d12715d1c3240ce22cc488048f2))
+* right-to-left prop ([fa880d3](https://github.com/virtualidentityag/rcm-corporate/commit/fa880d3002c540feca345732a10a8ff720ba85d4))
+
+
+### Features
+
+* add generic link connector ([e16c4bf](https://github.com/virtualidentityag/rcm-corporate/commit/e16c4bf9555d652506f9deca313d7e459c41cc73))
+* add mocked funds details ([ca79817](https://github.com/virtualidentityag/rcm-corporate/commit/ca79817fd9b200384396fbf5a78f051bdf37b876))
+* add mocked funds list ([7d1a1f2](https://github.com/virtualidentityag/rcm-corporate/commit/7d1a1f23a212dcc2bf0fda26cd215e8154ad580a))
+* add subpages to props ([5dba88e](https://github.com/virtualidentityag/rcm-corporate/commit/5dba88ec5835578be5b509da946c6efb1710370b))
+* auto resolve ([eb1f5e7](https://github.com/virtualidentityag/rcm-corporate/commit/eb1f5e742265f0c25d2ff918c931eb4d116c2489))
+* editorial stuff ([8cf89b7](https://github.com/virtualidentityag/rcm-corporate/commit/8cf89b7e53a96dd4749738e4a475278cf40328db))
+* extend link with download asset ([3103387](https://github.com/virtualidentityag/rcm-corporate/commit/3103387a18c0600bea5ce332a83218f7319e69f4))
+* related ([63baade](https://github.com/virtualidentityag/rcm-corporate/commit/63baade9f632e93dc7bbd2de8f333ad71b5960a0))
+* resolve article ([a7f0d83](https://github.com/virtualidentityag/rcm-corporate/commit/a7f0d83516bfd0c49e7ed2ec02ac4b0b3820a60d))
+* resolve for big feature ([5e79e99](https://github.com/virtualidentityag/rcm-corporate/commit/5e79e99770dd3944d09627552bbb51bb31e43cf0))
+* resolve multi ([14d4c5d](https://github.com/virtualidentityag/rcm-corporate/commit/14d4c5d9c581687e31651facc16fc0a5a948b056))
+* **img:** focus point ([428ed1c](https://github.com/virtualidentityag/rcm-corporate/commit/428ed1c5b34136f0ce855235342fedda7edcaca1))
+* **navigation:** get top navigation taps ([810272c](https://github.com/virtualidentityag/rcm-corporate/commit/810272c2ac304876fa13aaa95a91c7b5bcfbb930))
+
 ## [1.1.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.1.0...v1.1.1) (2021-03-23)
 
 

@@ -221,7 +221,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const storyblokDatasourceEntries = await storyblokClient.get('cdn/datasource_entries');
     const globalContentEntries = await StoryblokService
       .parseDatasourceEntries(storyblokDatasourceEntries.data);
-    const articleCategories = await this.storyblokClient.get('cdn/stories', {
+    const articleCategories = await storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       filter_query: {
         component: {
@@ -232,7 +232,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       // eslint-disable-next-line compat/compat
     const articleCategorieTabs = await Promise.all(articleCategories.data.stories
       .map(async (category) => {
-        const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
+        const articlesInCategory = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
           filter_query: {
             category: {

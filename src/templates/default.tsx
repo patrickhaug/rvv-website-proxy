@@ -12,7 +12,6 @@ import {
   NavigationService,
   Language,
   LanguageService,
-  GlobalContent,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 
@@ -30,7 +29,8 @@ export interface EntryData extends GlobalConfigProps {
   languages?: Language[];
   search?: StoryData;
   related?: StoryData;
-  globalContent?: GlobalContent;
+  globalContent?: string;
+  articleCategories?: string;
 }
 
 interface StoryblokEntryProps {
@@ -110,6 +110,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       breadcrumbs,
       languages,
       globalContent,
+      articleCategories,
       ...globalConfig
     } = this.state;
 
@@ -149,7 +150,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component === 'article'
           && <Article
             article={JSON.stringify(story.content)}
-            related={JSON.stringify(story.related)}>{
+            related={JSON.stringify(story.related)}
+            categories={articleCategories}>{
               blokToComponent({ blok: story.content, getComponent })
             }</Article>
           }

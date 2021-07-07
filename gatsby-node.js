@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
 
+// eslint-disable-next-line import/extensions
 const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({

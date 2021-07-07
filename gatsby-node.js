@@ -220,6 +220,28 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const storyblokDatasourceEntries = await storyblokClient.get('cdn/datasource_entries');
     const globalContentEntries = await StoryblokService
       .parseDatasourceEntries(storyblokDatasourceEntries.data);
+    const articleCategories = await this.storyblokClient.get('cdn/stories', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      filter_query: {
+        component: {
+          in: 'category',
+        },
+      },
+    });
+      // eslint-disable-next-line compat/compat
+    const articleCategorieTabs = await Promise.all(articleCategories.data.stories
+      .map(async (category) => {
+        const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+          filter_query: {
+            category: {
+              exists: category.uuid,
+            },
+          },
+        });
+        const count = articlesInCategory.data.stories.length;
+        return { name: category.name, link: '#', count };
+      }));
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -245,6 +267,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         story: entry,
         related: relatedArticles,
         globalContent: JSON.stringify(globalContentEntries),
+        articleCategories: JSON.stringify(articleCategorieTabs),
       },
     });
   });

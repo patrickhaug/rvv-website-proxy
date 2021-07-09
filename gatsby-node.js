@@ -218,9 +218,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
-    const storyblokDatasourceEntries = await storyblokClient.get('cdn/datasource_entries');
+    const timeStamp = new Date().toString();
+    const storyblokDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+    });
     const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries.data);
+      .parseDatasourceEntries(storyblokDatasourceEntries);
     const articleCategories = await storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       filter_query: {

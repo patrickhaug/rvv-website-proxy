@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.0...v1.4.1) (2021-07-13)
+
+
+### Bug Fixes
+
+* **datasources:** caching ([89b1a66](https://github.com/virtualidentityag/rcm-corporate/commit/89b1a66e9274884ced1dc01ed82dfa144c11a1f8))
+* **gatsby-node:** parse datasources ([8357b96](https://github.com/virtualidentityag/rcm-corporate/commit/8357b96c8dc29213b7f3ebfc5166847336c135a5))
+* rm item image auto resolve ([93eb5c2](https://github.com/virtualidentityag/rcm-corporate/commit/93eb5c23883e9020897990bbafc5ba8431ead2a4))
+
 # [1.4.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.3.0...v1.4.0) (2021-07-07)
 
 

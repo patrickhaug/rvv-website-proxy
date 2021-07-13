@@ -155,9 +155,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-    const storyblokDatasourceEntries = await this.storyblokClient.get('cdn/datasource_entries');
+    const timeStamp = new Date().toString();
+    const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+    });
     const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries.data);
+      .parseDatasourceEntries(storyblokDatasourceEntries);
     const articleCategories = await this.storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       filter_query: {

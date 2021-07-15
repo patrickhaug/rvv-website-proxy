@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
 
+// eslint-disable-next-line import/extensions
 const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({
@@ -217,9 +218,34 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
-    const storyblokDatasourceEntries = await storyblokClient.get('cdn/datasource_entries');
+    const timeStamp = new Date().toString();
+    const storyblokDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+    });
     const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries.data);
+      .parseDatasourceEntries(storyblokDatasourceEntries);
+    const articleCategories = await storyblokClient.get('cdn/stories', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      filter_query: {
+        component: {
+          in: 'category',
+        },
+      },
+    });
+      // eslint-disable-next-line compat/compat
+    const articleCategorieTabs = await Promise.all(articleCategories.data.stories
+      .map(async (category) => {
+        const articlesInCategory = await storyblokClient.get('cdn/stories', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+          filter_query: {
+            category: {
+              exists: category.uuid,
+            },
+          },
+        });
+        const count = articlesInCategory.data.stories.length;
+        return { name: category.name, link: '#', count };
+      }));
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -244,7 +270,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         googleTagManagerId,
         story: entry,
         related: relatedArticles,
-        globalContent: globalContentEntries,
+        globalContent: JSON.stringify(globalContentEntries),
+        articleCategories: JSON.stringify(articleCategorieTabs),
       },
     });
   });

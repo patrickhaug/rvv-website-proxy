@@ -82,7 +82,7 @@ export const StoryblokService = {
   },
 
   parseDatasourceEntries(datasourceEntries): GlobalContent {
-    const datasourceValues = datasourceEntries.datasource_entries.reduce((object, item) => ({
+    const datasourceValues = datasourceEntries.reduce((object, item) => ({
       ...object,
       [item.name]: item.value,
     }), {} as {[key: string]: string});

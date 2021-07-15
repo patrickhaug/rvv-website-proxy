@@ -59,6 +59,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       navigation,
       breadcrumbs,
       globalContent,
+      articleCategories,
       languages,
       ...globalConfig
     } = this.state;
@@ -98,7 +99,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           {story.content.component === 'article'
             && <Article
               article={JSON.stringify(story.content)}
-              related={JSON.stringify(this.state.related)}>{
+              related={JSON.stringify(this.state.related)}
+              categories={articleCategories}>{
                 blokToComponent({ blok: story.content, getComponent })
               }</Article>
           }
@@ -157,10 +159,34 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-    const storyblokDatasourceEntries = await this.storyblokClient.get('cdn/datasource_entries');
+    const timeStamp = new Date().toString();
+    const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+    });
     const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries.data);
-
+      .parseDatasourceEntries(storyblokDatasourceEntries);
+    const articleCategories = await this.storyblokClient.get('cdn/stories', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      filter_query: {
+        component: {
+          in: 'category',
+        },
+      },
+    });
+    // eslint-disable-next-line compat/compat
+    const articleCategorieTabs = await Promise.all(articleCategories.data.stories
+      .map(async (category) => {
+        const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+          filter_query: {
+            category: {
+              exists: category.uuid,
+            },
+          },
+        });
+        const count = articlesInCategory.data.stories.length;
+        return { name: category.name, link: '#', count };
+      }));
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -190,7 +216,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             story,
             ...DomService.getGlobalConfig(story.uuid, story.lang),
             related: relatedArticles,
-            globalContent: globalContentEntries,
+            globalContent: JSON.stringify(globalContentEntries),
+            articleCategories: JSON.stringify(articleCategorieTabs),
           });
           this.loadNavigation(story.lang);
           this.loadLanguages();

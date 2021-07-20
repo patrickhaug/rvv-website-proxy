@@ -7,32 +7,16 @@ const modal = typeof document !== 'undefined' ? document.getElementById('global-
 
 const Modal = 'rcm-country-switch-modal' as React.ElementType;
 
-const SLUG_PREFIX = 'RCM';
-
-const buildCompleteSlug = ({
-  countryCode,
-  locale,
-  pageSlug,
-}: {
-  countryCode: string;
-  locale: string;
-  pageSlug: string;
-}): string => `${SLUG_PREFIX}${countryCode.toUpperCase()}-${locale}/${pageSlug}`;
-
 const convertCountryConfigs = (content: GlobalContent): {
   value: string;
   label: string;
   href: string;
-}[] => Object.keys(content.countryConfigs)
+}[] => (content.countryConfigs ? Object.keys(content.countryConfigs)
   .map((key) => ({
     value: key,
     label: content.countryNames[key],
-    href: buildCompleteSlug({
-      countryCode: key,
-      locale: content.countryConfigs[key].locales.split(',')[0],
-      pageSlug: content.countryConfigs[key].defaultSlug,
-    }),
-  }));
+    href: content.countryConfigs[key].defaultSlug,
+  })) : []);
 
 export const RcmCountrySwitchModal = ({
   globalContent,
@@ -40,8 +24,8 @@ export const RcmCountrySwitchModal = ({
   globalContent: GlobalContent;
 }): JSX.Element => <>
   {ReactDOM.createPortal(<Modal
-    image-src={globalContent.countrySwitchModal.imageSrc}
-    headline={globalContent.countrySwitchModal.headline}
-    intro-text={globalContent.countrySwitchModal.introText}
+    image-src={globalContent?.countrySwitchModal?.imageSrc}
+    headline={globalContent?.countrySwitchModal?.headline}
+    intro-text={globalContent?.countrySwitchModal?.introText}
     countries={JSON.stringify(convertCountryConfigs(globalContent))}/>, modal)}
 </>;

@@ -1,4 +1,5 @@
 import StoryblokClient from 'storyblok-js-client';
+// eslint-disable-next-line import/no-cycle
 import { StoryblokService } from '../storyblok';
 
 export interface Language {
@@ -7,7 +8,9 @@ export interface Language {
 }
 
 export const LanguageService = {
-  defaultLocale: 'en',
+  defaultLocale: 'de',
+  defaultCountry: 'at',
+  defaultCountryCode: 'at-de',
   storyblokClient: new StoryblokClient({
     accessToken: StoryblokService.getConfig().options.accessToken as string,
   }),

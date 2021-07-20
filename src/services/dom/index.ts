@@ -1,6 +1,8 @@
+// eslint-disable-next-line import/no-cycle
 import { LanguageService } from '../language';
 
-const MOCKED_COUNTRY = 'at';
+export type Country = 'at' | 'bg' | 'ch' | 'cz' | 'de' | 'es' | 'fr' | 'hr' | 'hu' | 'it' | 'li' | 'lu' | 'pl' | 'ro' | 'si' | 'sk';
+export type Locale = 'de' | 'en' | 'it' | 'bg' | 'fr';
 
 export interface GlobalConfigProps {
   baseDomain: string;
@@ -10,8 +12,8 @@ export interface GlobalConfigProps {
   cludoEngineId: string | string[];
   cognitoUserpoolClientId: string;
   cognitoUserpoolId: string;
-  country: string;
-  locale: string;
+  country: Country;
+  locale: Locale;
   pageId: string;
   recaptchaKey: string;
   translationUrl: string;
@@ -31,8 +33,9 @@ export const DomService = {
     return element;
   },
 
-  getGlobalConfig(pageId: string, locale: string): GlobalConfigProps {
-    const parsedLocale = locale === 'default' ? LanguageService.defaultLocale : locale;
+  getGlobalConfig(pageId: string, locale: string, country: string): GlobalConfigProps {
+    const parsedLocale: Locale = locale === 'default' ? LanguageService.defaultLocale as Locale : locale as Locale;
+    const parsedCountry: Country = country === 'default' ? LanguageService.defaultCountry as Country : country as Country;
 
     return {
       baseDomain: process.env.GATSBY_BASE_DOMAIN,
@@ -48,8 +51,8 @@ export const DomService = {
       cognitoUserpoolClientId: process.env.GATSBY_COGNITO_USERPOOL_CLIENT_ID,
       cognitoUserpoolId: process.env.GATSBY_COGNITO_USERPOOL_ID,
       // todo: replace with correct country code
-      country: MOCKED_COUNTRY,
-      locale,
+      country: parsedCountry,
+      locale: parsedLocale,
       pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME}:${pageId}`,
       recaptchaKey: process.env.GATSBY_GOOGLE_RECAPTCHA_KEY,
       translationUrl: `${process.env.GATSBY_COMPONENTS_LIBRARY_URL}/rcm-component-library/assets/translations/${parsedLocale}.json`,

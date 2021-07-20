@@ -1,5 +1,7 @@
 import { IPluginRefObject } from 'gatsby';
 import config from '../../../gatsby-config';
+// eslint-disable-next-line import/no-cycle
+import { LanguageService } from '..';
 
 export interface GlobalContent {
   article: {
@@ -8,6 +10,7 @@ export interface GlobalContent {
         headline: string;
         target: string;
         text: string;
+        linkText: string;
       };
       blogBox: {
         headline: string;
@@ -84,9 +87,17 @@ export const StoryblokService = {
   parseDatasourceEntries(datasourceEntries): GlobalContent {
     const datasourceValues = datasourceEntries.reduce((object, item) => ({
       ...object,
-      [item.name]: item.value,
+      [item.name]: item.dimension_value || item.value,
     }), {} as {[key: string]: string});
     return deepen(datasourceValues) as unknown as GlobalContent;
+  },
+
+  getCountryCode(story): {locale: string; country: string; countryCode: string} {
+    return {
+      countryCode: story.default_full_slug?.split('/')[0] || LanguageService.defaultCountryCode,
+      country: story.default_full_slug?.split('/')[0]?.split('-')[0] || LanguageService.defaultCountry,
+      locale: story.default_full_slug?.split('/')[0]?.split('-')[1] || LanguageService.defaultLocale,
+    };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

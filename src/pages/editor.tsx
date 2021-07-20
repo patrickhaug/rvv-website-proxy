@@ -3,7 +3,7 @@ import StoryblokReact from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
-  DomService, StoryblokService, NavigationService, LanguageService, GlobalContent,
+  DomService, StoryblokService, NavigationService, LanguageService,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -12,10 +12,7 @@ type StoryblokEntryState = EntryData;
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
-const Header = 'rcm-header' as React.ElementType;
-// const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
-// const Search = 'rcm-search' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
@@ -57,7 +54,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const {
       story,
       navigation,
-      breadcrumbs,
       globalContent,
       articleCategories,
       languages,
@@ -91,10 +87,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           getComponent={getComponent}
           languages={languages}
         ></Navigation>
-        <Header
-          breadcrumbs={JSON.stringify(breadcrumbs)}
-          languages={JSON.stringify(languages)}
-        />
         <Container>
           {story.content.component === 'article'
             && <Article
@@ -138,7 +130,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
         if (currentStory && currentStory.id === story.id) {
           story.content = storyblok.addComments(story.content, story.id);
-          this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
+          this.setState({
+            story,
+            ...DomService.getGlobalConfig(story.uuid,
+              StoryblokService.getCountryCode(story).locale,
+              StoryblokService.getCountryCode(story).country),
+          });
         }
       });
 
@@ -152,19 +149,17 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
   private handleLogin(): void {
     StoryblokService.redirect(({ story }) => {
-      this.setState({ story, ...DomService.getGlobalConfig(story.uuid, story.lang) });
+      this.setState({
+        story,
+        ...DomService.getGlobalConfig(story.uuid, StoryblokService.getCountryCode(story).locale,
+          StoryblokService.getCountryCode(story).country),
+      });
     });
   }
 
   async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-    const timeStamp = new Date().toString();
-    const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-    });
-    const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries);
     const articleCategories = await this.storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       filter_query: {
@@ -212,11 +207,21 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
             }
           }
+          const timeStamp = new Date().toString();
+          const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
+            cv: timeStamp,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            dimension: StoryblokService.getCountryCode(story).countryCode,
+          });
+          const globalContentEntries = await StoryblokService
+            .parseDatasourceEntries(storyblokDatasourceEntries);
           this.setState({
             story,
-            ...DomService.getGlobalConfig(story.uuid, story.lang),
+            ...DomService.getGlobalConfig(story.uuid,
+              StoryblokService.getCountryCode(story).locale,
+              StoryblokService.getCountryCode(story).country),
             related: relatedArticles,
-            globalContent: JSON.stringify(globalContentEntries),
+            globalContent: globalContentEntries,
             articleCategories: JSON.stringify(articleCategorieTabs),
           });
           this.loadNavigation(story.lang);
@@ -235,10 +240,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
     const tree = await NavigationService.getNavigation(allStories, lang);
-    const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, tree);
     const contact = await NavigationService.getContactPage(lang);
 
-    this.setState({ navigation: tree, breadcrumbs, contact });
+    this.setState({ navigation: tree, contact });
   }
 
   private async loadLanguages(): Promise<void> {

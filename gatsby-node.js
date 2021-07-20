@@ -94,12 +94,10 @@ const mandatoryNavKeys = [
   'is_folder',
   'is_startpage',
   'children',
-  'breadcrumbs',
   'page',
   // page attributes
   'name',
   'content',
-  // breadcrumbs attributes
   'href',
   'label',
 ];
@@ -270,7 +268,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         googleTagManagerId,
         story: entry,
         related: relatedArticles,
-        globalContent: JSON.stringify(globalContentEntries),
+        globalContent: globalContentEntries,
         articleCategories: JSON.stringify(articleCategorieTabs),
       },
     });

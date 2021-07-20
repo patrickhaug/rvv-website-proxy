@@ -8,10 +8,10 @@ import {
   GlobalConfigProps,
   StoryblokNodeTree,
   StoryblokService,
-  Breadcrumb,
   NavigationService,
   Language,
   LanguageService,
+  GlobalContent,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -25,12 +25,11 @@ export interface EntryData extends GlobalConfigProps {
   googleTagManagerId: string;
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
-  breadcrumbs?: Breadcrumb[];
   contact?: StoryData;
   languages?: Language[];
   search?: StoryData;
   related?: StoryData;
-  globalContent?: string;
+  globalContent?: GlobalContent;
   articleCategories?: string;
 }
 
@@ -52,21 +51,19 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   return {
     googleTagManagerId,
     story,
-    ...DomService.getGlobalConfig(story.uuid, story.lang),
+    ...DomService.getGlobalConfig(story.uuid,
+      StoryblokService.getCountryCode(story).locale,
+      StoryblokService.getCountryCode(story).country),
   };
 };
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
-const Header = 'rcm-header' as React.ElementType;
-// const OffCanvas = 'rcm-offcanvas-panel' as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
 const Article = 'rcm-layout-article' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
-
-// const Search = 'rcm-search' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -92,8 +89,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     fetch(`/navigation-data-${this.state.story.lang}.json`)
       .then((res) => res.json())
       .then((navigationData) => {
-        const breadcrumbs = NavigationService.getBreadcrumbs(this.state.story.uuid, navigationData);
-        this.setState({ navigation: navigationData, breadcrumbs });
+        this.setState({ navigation: navigationData });
       });
 
     NavigationService.getContactPage(this.state.story.lang)
@@ -108,7 +104,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       googleTagManagerId,
       story,
       navigation,
-      breadcrumbs,
       languages,
       globalContent,
       articleCategories,
@@ -133,7 +128,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}
-          lang={story.lang}
+          lang={StoryblokService.getCountryCode(story).locale}
           slug={story.full_slug}
           authorized_roles = {story.content.authorized_roles}
         ></SEO>
@@ -146,10 +141,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           tree={navigation}
           languages={languages}
         ></Navigation>
-        <Header
-          breadcrumbs={JSON.stringify(breadcrumbs)}
-          languages={JSON.stringify(languages)}
-        />
         <Container>
           {story.content.component === 'article'
           && <Article

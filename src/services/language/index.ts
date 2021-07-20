@@ -1,5 +1,4 @@
 import StoryblokClient from 'storyblok-js-client';
-// eslint-disable-next-line import/no-cycle
 import { StoryblokService } from '../storyblok';
 
 export interface Language {

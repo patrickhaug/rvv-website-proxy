@@ -1,7 +1,6 @@
 import StoryblokClient, { StoryData } from 'storyblok-js-client';
 import { unflatten } from './utils/unflatten';
 import { sortTree } from './utils/sort-tree';
-// eslint-disable-next-line import/no-cycle
 import { StoryblokService } from '../storyblok';
 
 interface StoryblokNode {

@@ -11,7 +11,7 @@ const convertCountryConfigs = (content: GlobalContent): {
   value: string;
   label: string;
   href: string;
-}[] => (content.countryConfigs ? Object.keys(content.countryConfigs)
+}[] => (content?.countryConfigs ? Object.keys(content.countryConfigs)
   .map((key) => ({
     value: key,
     label: content.countryNames[key],

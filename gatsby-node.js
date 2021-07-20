@@ -216,12 +216,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
-    const timeStamp = new Date().toString();
-    const storyblokDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-    });
-    const globalContentEntries = await StoryblokService
-      .parseDatasourceEntries(storyblokDatasourceEntries);
     const articleCategories = await storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       filter_query: {
@@ -257,6 +251,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
       }
     }
+    const timeStamp = new Date().toString();
+    const storyblokDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+      dimension: StoryblokService.getCountryCode(entry).countryCode,
+    });
+    const globalContentEntries = await StoryblokService
+      .parseDatasourceEntries(storyblokDatasourceEntries);
     const path = entry.full_slug.includes('home')
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;

@@ -210,7 +210,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           const timeStamp = new Date().toString();
           const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
             cv: timeStamp,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             dimension: StoryblokService.getCountryCode(story).countryCode,
           });
           const globalContentEntries = await StoryblokService

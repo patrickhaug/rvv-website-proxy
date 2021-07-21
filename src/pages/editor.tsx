@@ -3,7 +3,8 @@ import StoryblokReact from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
-  DomService, StoryblokService, NavigationService, LanguageService,
+  DomService, StoryblokService, NavigationService,
+  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -182,6 +183,24 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         const count = articlesInCategory.data.stories.length;
         return { name: category.name, link: '#', count };
       }));
+    const timeStamp = new Date().toString();
+    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
+      cv: timeStamp,
+    });
+    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
+      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
+    ).flat().filter(
+      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
+    );
+    const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+    });
+    const storyblokDatasourceEntriesPromises: Promise<StoryblokDatasourceEntry[]>[] = storyblokDatasourceDimensions.map(async (dimension) => this.storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+      dimension,
+    }) as unknown as Promise<StoryblokDatasourceEntry[]>);
+    // eslint-disable-next-line compat/compat
+    const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -207,13 +226,15 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
             }
           }
-          const timeStamp = new Date().toString();
-          const storyblokDatasourceEntries = await this.storyblokClient.getAll('cdn/datasource_entries', {
-            cv: timeStamp,
-            dimension: StoryblokService.getCountryCode(story).countryCode,
-          });
-          const globalContentEntries = await StoryblokService
-            .parseDatasourceEntries(storyblokDatasourceEntries);
+          const globalContentEntries = StoryblokService
+            .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
+              {
+                datasourceEntries: storyblokDatasourceEntries,
+                dimensions: storyblokDatasourceDimensions,
+                countryCode: StoryblokService.getCountryCode(story).countryCode,
+                defaultValue: defaultDatasourceEntries,
+              },
+            ));
           this.setState({
             story,
             ...DomService.getGlobalConfig(story.uuid,

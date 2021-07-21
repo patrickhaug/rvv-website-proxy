@@ -43,6 +43,26 @@ export interface GlobalContent {
   };
 }
 
+export type StoryblokDatasource =
+  {
+    id: string;
+    name: string;
+    slug: string;
+    dimensions:
+    {
+      id: string;
+      entry_value: string;
+      name: string;
+    }[];
+  }
+export type StoryblokDatasourceEntry =
+  {
+    id: string;
+    name: string;
+    value: string;
+    dimension_value: string;
+  }
+
 const deepen = (obj): {[key: string]: string} => {
   const result = {};
   Object.keys(obj).forEach((key) => {
@@ -80,6 +100,22 @@ export const StoryblokService = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { storyblok } = window as any;
     return storyblok || undefined;
+  },
+
+  getLocalizedDatasourceEntries(
+    localizeDatasourceEntries: {datasourceEntries: StoryblokDatasourceEntry[][];
+      dimensions: string[];
+      countryCode: string;
+      defaultValue: StoryblokDatasourceEntry[];},
+  ): StoryblokDatasourceEntry[] {
+    const {
+      datasourceEntries, dimensions, countryCode, defaultValue,
+    } = localizeDatasourceEntries;
+    if (dimensions.indexOf(countryCode) === -1) { return defaultValue; }
+    if (dimensions.indexOf(countryCode) && datasourceEntries[dimensions.indexOf(countryCode)]) {
+      return datasourceEntries[dimensions.indexOf(countryCode)];
+    }
+    return defaultValue;
   },
 
   parseDatasourceEntries(datasourceEntries): GlobalContent {

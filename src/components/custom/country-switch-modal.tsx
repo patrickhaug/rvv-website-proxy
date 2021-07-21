@@ -23,7 +23,7 @@ export const RcmCountrySwitchModal = ({
 }: {
   globalContent: GlobalContent;
 }): JSX.Element => <>
-  {ReactDOM.createPortal(<Modal
+  {modal && ReactDOM.createPortal(<Modal
     image-src={globalContent?.countrySwitchModal?.imageSrc}
     headline={globalContent?.countrySwitchModal?.headline}
     intro-text={globalContent?.countrySwitchModal?.introText}

@@ -21,8 +21,8 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@types/react-helmet": "^6.1.1",
-    "@virtualidentityag/rcm-component-library": "1.5.0",
+    "@virtualidentityag/rcm-component-library": "1.5.1",
+    "@types/react-helmet": "^6.1.2",
     "gatsby": "^2.32.13",
     "gatsby-image": "^3.5.0",
     "gatsby-plugin-manifest": "^2.4.23",
@@ -51,7 +51,7 @@
     "@semantic-release/git": "9.0.0",
     "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.0.1",
     "semantic-release": "17.4.4"
   },
   "config": {

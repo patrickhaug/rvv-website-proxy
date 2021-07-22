@@ -50,6 +50,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         <script noModule src={`${src}.js`} async defer></script>
       </head>
       <body>
+        <div id="global-modal"/>
         <div id="___gatsby" dangerouslySetInnerHTML={{ __html: body }} />
         {postBodyComponents}
       </body>

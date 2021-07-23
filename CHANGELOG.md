@@ -1,3 +1,30 @@
+# [1.5.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.1...v1.5.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* **build:** country switch modal ([621d2f0](https://github.com/virtualidentityag/rcm-corporate/commit/621d2f0dc961cbdae10e2334ea8a1f084b55a994))
+* **build:** import cycle ([01a5900](https://github.com/virtualidentityag/rcm-corporate/commit/01a59009d62813daf71bd2b6e4c5a3165d59f212))
+* **global config:** add use effect ([b081be0](https://github.com/virtualidentityag/rcm-corporate/commit/b081be0c79f14f8578d23239e2ff4596eaa1df87))
+* **gtm:** remove doube gtm-no script tag ([ec74a5e](https://github.com/virtualidentityag/rcm-corporate/commit/ec74a5e08ab69b01b454662e867aed34b224b417))
+* **localization:** set correct locales and countries ([793a9d9](https://github.com/virtualidentityag/rcm-corporate/commit/793a9d90863ed95c54eb0d645177ac4e3b9233b9))
+* **state:** remove unused value ([947b4ac](https://github.com/virtualidentityag/rcm-corporate/commit/947b4acba24f179cda43d5b3b022353a6142e4da))
+
+
+### Features
+
+* **datasource:** dimesnion for gatsby-node ([56f7bcb](https://github.com/virtualidentityag/rcm-corporate/commit/56f7bcb2a6b0cd0e4da47908e3734256f71ba560))
+* **gtm:** add gtm ([b3a285f](https://github.com/virtualidentityag/rcm-corporate/commit/b3a285ff971c7df5103050a6bfb97bbe8adbd56d))
+* add country switch modal ([640fb0e](https://github.com/virtualidentityag/rcm-corporate/commit/640fb0e4d7849aa54744ed2c78cee71cb11e13be))
+* add missing return type ([e22211b](https://github.com/virtualidentityag/rcm-corporate/commit/e22211b4693fbd0fb0834ce7cddef34e63f7a72c))
+* connect modal to real content ([fbe6cd6](https://github.com/virtualidentityag/rcm-corporate/commit/fbe6cd62ef93cdc6ad5880d7b03e94270ec3bbf5))
+* extend global config interface ([d39e4da](https://github.com/virtualidentityag/rcm-corporate/commit/d39e4dabcd77d5b6ca86c32c28dda3541362748c))
+
+
+### Reverts
+
+* **tsconfig:** to old config ([3e4f0ac](https://github.com/virtualidentityag/rcm-corporate/commit/3e4f0ac88e28c40685e853e8317888e4e6fca9c3))
+
 ## [1.4.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.0...v1.4.1) (2021-07-13)
 
 

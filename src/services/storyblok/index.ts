@@ -41,6 +41,7 @@ export interface GlobalContent {
     // index being the language code, e.g. "de", "en"
     [index: string]: string;
   };
+  gtmId: string;
 }
 
 export type StoryblokDatasource =

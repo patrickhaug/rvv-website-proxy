@@ -22,7 +22,6 @@ export interface StoryDataFromGraphQLQuery extends StoryData {
 }
 
 export interface EntryData extends GlobalConfigProps {
-  googleTagManagerId: string;
   story?: StoryDataFromGraphQLQuery;
   navigation?: StoryblokNodeTree[];
   contact?: StoryData;
@@ -45,11 +44,9 @@ interface StoryblokEntryProps {
 type StoryblokEntryState = EntryData;
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
-  const { googleTagManagerId } = pageContext;
   const story = { ...pageContext.story, related: pageContext.related };
 
   return {
-    googleTagManagerId,
     story,
     ...DomService.getGlobalConfig(story.uuid,
       StoryblokService.getCountryCode(story).locale,
@@ -101,7 +98,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
   public render(): JSX.Element {
     const {
-      googleTagManagerId,
       story,
       navigation,
       languages,
@@ -124,7 +120,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     return (
       <>
         <GoogleTagManager
-          googleTagManagerId={googleTagManagerId}
+          googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}
@@ -139,6 +135,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
           tree={navigation}
+          getComponent={getComponent}
           languages={languages}
         ></Navigation>
         <Container>
@@ -164,6 +161,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        {/* End Google Tag Manager (noscript) */}
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
       </>
     );
   }

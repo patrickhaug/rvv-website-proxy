@@ -16,6 +16,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         {headComponents}
 
         {/* Onetrust cookie consent */}
@@ -53,6 +54,10 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         <div id="global-modal"/>
         <div id="___gatsby" dangerouslySetInnerHTML={{ __html: body }} />
         {postBodyComponents}
+        {/* End Google Tag Manager (noscript) */}
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KKV7T5J"
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
       </body>
     </html>
   );

@@ -124,7 +124,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     return (
       <>
         <GoogleTagManager
-          googleTagManagerId={googleTagManagerId}
+          googleTagManagerId={globalContent.gtmId}
         ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}
@@ -139,6 +139,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
           tree={navigation}
+          getComponent={getComponent}
           languages={languages}
         ></Navigation>
         <Container>
@@ -164,6 +165,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        {/* End Google Tag Manager (noscript) */}
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent.gtmId}`}
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
       </>
     );
   }

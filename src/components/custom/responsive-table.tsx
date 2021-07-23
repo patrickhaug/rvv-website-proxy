@@ -3,13 +3,15 @@ import { AnyProps } from '../types';
 
 const RcmResponsiveTable = ({ blok, ...rest }: AnyProps): JSX.Element => {
   // map headers
-  const headersArray = blok.table.thead.map((tableHeader) => tableHeader.value);
+  const headersArray = blok.table.thead?.map((tableHeader) => tableHeader.value);
 
   // map rows
   const rowsArray = [];
-  blok.table.tbody.forEach((tableRow) => {
-    rowsArray.push(tableRow.body.map((tableCell) => tableCell.value));
-  });
+  if (blok.table.tbody) {
+    blok.table.tbody.forEach((tableRow) => {
+      rowsArray.push(tableRow.body?.map((tableCell) => tableCell.value));
+    });
+  }
 
   return Default({
     blok: {

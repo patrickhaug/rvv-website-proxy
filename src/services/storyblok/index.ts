@@ -8,6 +8,7 @@ export interface GlobalContent {
         headline: string;
         target: string;
         text: string;
+        linkText: string;
       };
       blogBox: {
         headline: string;
@@ -18,7 +19,50 @@ export interface GlobalContent {
       };
     };
   };
+  countryNames: {
+    // index being the country code, e.g. "at", "it"
+    [index: string]: string;
+  };
+  countryConfigs: {
+    // index being the country code, e.g. "at", "it"
+    [index: string]: {
+      // available locales separated by ','
+      locales: string;
+      // slug the user is redirected to when switching country
+      defaultSlug: string;
+    };
+  };
+  countrySwitchModal: {
+    headline: string;
+    introText: string;
+    imageSrc: string;
+  };
+  languages: {
+    // index being the language code, e.g. "de", "en"
+    [index: string]: string;
+  };
+  gtmId: string;
 }
+
+export type StoryblokDatasource =
+  {
+    id: string;
+    name: string;
+    slug: string;
+    dimensions:
+    {
+      id: string;
+      entry_value: string;
+      name: string;
+    }[];
+  }
+export type StoryblokDatasourceEntry =
+  {
+    id: string;
+    name: string;
+    value: string;
+    dimension_value: string;
+  }
 
 const deepen = (obj): {[key: string]: string} => {
   const result = {};
@@ -59,12 +103,36 @@ export const StoryblokService = {
     return storyblok || undefined;
   },
 
+  getLocalizedDatasourceEntries(
+    localizeDatasourceEntries: {datasourceEntries: StoryblokDatasourceEntry[][];
+      dimensions: string[];
+      countryCode: string;
+      defaultValue: StoryblokDatasourceEntry[];},
+  ): StoryblokDatasourceEntry[] {
+    const {
+      datasourceEntries, dimensions, countryCode, defaultValue,
+    } = localizeDatasourceEntries;
+    if (dimensions.indexOf(countryCode) === -1) { return defaultValue; }
+    if (dimensions.indexOf(countryCode) && datasourceEntries[dimensions.indexOf(countryCode)]) {
+      return datasourceEntries[dimensions.indexOf(countryCode)];
+    }
+    return defaultValue;
+  },
+
   parseDatasourceEntries(datasourceEntries): GlobalContent {
     const datasourceValues = datasourceEntries.reduce((object, item) => ({
       ...object,
-      [item.name]: item.value,
+      [item.name]: item.dimension_value || item.value,
     }), {} as {[key: string]: string});
     return deepen(datasourceValues) as unknown as GlobalContent;
+  },
+
+  getCountryCode(story): {locale: string; country: string; countryCode: string} {
+    return {
+      countryCode: story.default_full_slug?.split('/')[0] || 'at-de',
+      country: story.default_full_slug?.split('/')[0]?.split('-')[0] || 'at',
+      locale: story.default_full_slug?.split('/')[0]?.split('-')[1] || 'de',
+    };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

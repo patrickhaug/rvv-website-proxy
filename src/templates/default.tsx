@@ -124,7 +124,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     return (
       <>
         <GoogleTagManager
-          googleTagManagerId={globalContent.gtmId}
+          googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}

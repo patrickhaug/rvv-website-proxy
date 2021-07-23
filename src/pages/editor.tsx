@@ -8,6 +8,7 @@ import {
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { GoogleTagManager } from '../components/custom/google-tag-manager';
 
 type StoryblokEntryState = EntryData;
 
@@ -78,6 +79,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
     return (
       <StoryblokReact content={story.content}>
+        {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
+        <GoogleTagManager
+          googleTagManagerId={globalContent?.gtmId}
+        ></GoogleTagManager>
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
@@ -114,6 +119,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        {/* End Google Tag Manager (noscript) */}
+        {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
       </StoryblokReact>
     );
   }

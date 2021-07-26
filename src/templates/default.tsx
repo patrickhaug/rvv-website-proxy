@@ -57,6 +57,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Footer = getComponent('rcm-footer') as React.ElementType;
 const Article = 'rcm-layout-article' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 const FundsList = 'rcm-layout-funds' as React.ElementType;
@@ -161,6 +162,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+        ></Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
           height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>

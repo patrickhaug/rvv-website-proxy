@@ -15,6 +15,7 @@ type StoryblokEntryState = EntryData;
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Footer = getComponent('rcm-footer') as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
@@ -119,6 +120,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+        ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
         <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}

@@ -9,12 +9,14 @@ import {
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
+import { RcmIEModal } from '../components/custom/ie-modal';
 
-type StoryblokEntryState = EntryData;
+type StoryblokEntryState = EntryData & {showIEModal: boolean};
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Footer = getComponent('rcm-footer') as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
@@ -40,7 +42,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
-    this.state = {} as EntryData;
+    this.state = {} as StoryblokEntryState;
   }
 
   public componentDidMount(): void {
@@ -50,6 +52,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     loadStoryblokBridge(this.handleStoryblokLoad);
 
     window.addEventListener('rcmLoginComplete', this.handleLogin);
+
+    const ua = window.navigator.userAgent;
+    const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
+    this.setState({ showIEModal: isIE });
   }
 
   public render(): JSX.Element {
@@ -59,6 +65,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       globalContent,
       articleCategories,
       languages,
+      showIEModal,
       ...globalConfig
     } = this.state;
 
@@ -86,6 +93,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
@@ -119,6 +127,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+        ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
         <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}

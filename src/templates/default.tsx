@@ -15,6 +15,7 @@ import {
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmIEModal } from '../components/custom/ie-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
@@ -41,13 +42,14 @@ interface StoryblokEntryProps {
   };
 }
 
-type StoryblokEntryState = EntryData;
+type StoryblokEntryState = EntryData & {showIEModal: boolean};
 
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const story = { ...pageContext.story, related: pageContext.related };
 
   return {
     story,
+    showIEModal: false,
     ...DomService.getGlobalConfig(story.uuid,
       StoryblokService.getCountryCode(story).locale,
       StoryblokService.getCountryCode(story).country),
@@ -95,6 +97,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     LanguageService.getLanguages()
       .then((languages) => this.setState({ languages }));
+
+    const ua = window.navigator.userAgent;
+    const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
+    this.setState({ showIEModal: isIE });
   }
 
   public render(): JSX.Element {
@@ -104,6 +110,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       languages,
       globalContent,
       articleCategories,
+      showIEModal,
       ...globalConfig
     } = this.state;
 
@@ -132,6 +139,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation

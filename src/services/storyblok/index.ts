@@ -41,6 +41,10 @@ export interface GlobalContent {
     // index being the language code, e.g. "de", "en"
     [index: string]: string;
   };
+  ieModal: {
+    headline: string;
+    introText: string;
+  };
   gtmId: string;
   userSwitchModal: {
     countryDescription: string;

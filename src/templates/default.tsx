@@ -15,6 +15,7 @@ import {
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
@@ -131,6 +132,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmUserSwitchModal
+          globalContent={globalContent}
+          country={globalConfig.country}
+          inArticle={story.content.component === 'article'}
+        ></RcmUserSwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation

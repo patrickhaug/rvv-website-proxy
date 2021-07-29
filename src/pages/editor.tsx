@@ -8,6 +8,7 @@ import {
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 
 type StoryblokEntryState = EntryData;
@@ -86,6 +87,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmUserSwitchModal
+          globalContent={globalContent}
+          country={globalConfig.country}
+          inArticle={story.content.component === 'article'}
+        ></RcmUserSwitchModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation

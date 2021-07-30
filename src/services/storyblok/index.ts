@@ -46,6 +46,34 @@ export interface GlobalContent {
     introText: string;
   };
   gtmId: string;
+  userSwitchModal: {
+    countryDescription: string;
+    countrySwitchLabel: string;
+    imageSrc: string;
+    headline: string;
+    introText: string;
+    footnoteText: string;
+  };
+  userTypeConfigs: {
+    // index being usertype (insti, retail, advanced)
+    [index: string]: {
+      label: string;
+      value: string;
+      href: string;
+      description: string;
+    };
+  };
+  navigation: {
+    cta: {
+      label: string;
+      href: string;
+    };
+    userTypeSwitch: {
+      advanced: string;
+      retail: string;
+      insti: string;
+    };
+  };
 }
 
 export type StoryblokDatasource =
@@ -126,7 +154,8 @@ export const StoryblokService = {
   parseDatasourceEntries(datasourceEntries): GlobalContent {
     const datasourceValues = datasourceEntries.reduce((object, item) => ({
       ...object,
-      [item.name]: item.dimension_value || item.value,
+      // empty datasource returns "''"
+      [item.name]: item.dimension_value?.replace(/^''$/, '') || item.value?.replace(/^''$/, ''),
     }), {} as {[key: string]: string});
     return deepen(datasourceValues) as unknown as GlobalContent;
   },

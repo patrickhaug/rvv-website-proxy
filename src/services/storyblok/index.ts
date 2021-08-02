@@ -45,6 +45,40 @@ export interface GlobalContent {
     headline: string;
     introText: string;
   };
+  contact: {
+    button: {
+      name: string;
+      link: string;
+    };
+    form: {
+      headline: string;
+      description: string;
+      buttonText: string;
+      imageSrc: string;
+      checkboxText: string;
+      labels: {
+        name: string;
+        email: string;
+        theme: string;
+        message: string;
+      };
+      placeholders: {
+        theme: string;
+      };
+      emailHelperText: string;
+      themeOptions: [
+        { label: string; value: string },
+        { label: string; value: string },
+        { label: string; value: string },
+      ];
+    };
+    success: {
+      headline: string;
+      description: string;
+      buttonText: string;
+      imageSrc: string;
+    };
+  };
   gtmId: string;
   userSwitchModal: {
     countryDescription: string;

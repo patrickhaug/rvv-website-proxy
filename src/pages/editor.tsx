@@ -8,6 +8,7 @@ import {
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import { RcmIEModal } from '../components/custom/ie-modal';
 
@@ -23,6 +24,7 @@ const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
 const FundsList = 'rcm-fonds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
+const ContactButton = 'rcm-contact-button' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -93,6 +95,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmUserSwitchModal
+          globalContent={globalContent}
+          country={globalConfig.country}
+          inArticle={story.content.component === 'article'}
+        ></RcmUserSwitchModal>
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
@@ -127,6 +134,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <ContactButton
+          link={globalContent?.contact?.button?.link}
+          name={globalContent?.contact?.button?.name}>
+        </ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}

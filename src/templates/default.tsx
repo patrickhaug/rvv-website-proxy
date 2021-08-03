@@ -15,6 +15,7 @@ import {
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { RcmIEModal } from '../components/custom/ie-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
@@ -64,6 +65,7 @@ const Article = 'rcm-layout-article' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
+const ContactButton = 'rcm-contact-button' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -139,6 +141,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmUserSwitchModal
+          globalContent={globalContent}
+          country={globalConfig.country}
+          inArticle={story.content.component === 'article'}
+        ></RcmUserSwitchModal>
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
@@ -170,6 +177,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <ContactButton
+          link={globalContent?.contact?.button?.link}
+          name={globalContent?.contact?.button?.name}>
+        </ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}

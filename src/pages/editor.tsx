@@ -24,6 +24,7 @@ const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
 const FundsList = 'rcm-fonds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
+const Articles = 'rcm-layout-articles' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -67,6 +68,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       articleCategories,
       languages,
       showIEModal,
+      articles,
       ...globalConfig
     } = this.state;
 
@@ -115,6 +117,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               categories={articleCategories}>{
                 blokToComponent({ blok: story.content, getComponent })
               }</Article>
+          }
+          {story.content.component === 'articles'
+            && <Articles
+              articles={articles}
+              categories={articleCategories}
+            ></Articles>
           }
           {story.content.component === 'funds'
             && <FundsListPage {...grabFundsProps(story.content)}>
@@ -189,28 +197,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-    const articleCategories = await this.storyblokClient.get('cdn/stories', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      filter_query: {
-        component: {
-          in: 'category',
-        },
-      },
-    });
-    // eslint-disable-next-line compat/compat
-    const articleCategorieTabs = await Promise.all(articleCategories.data.stories
-      .map(async (category) => {
-        const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-          filter_query: {
-            category: {
-              exists: category.uuid,
-            },
-          },
-        });
-        const count = articlesInCategory.data.stories.length;
-        return { name: category.name, link: '#', count };
-      }));
     const timeStamp = new Date().toString();
     const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
       cv: timeStamp,
@@ -240,6 +226,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         },
         async ({ story }) => {
           let relatedArticles = null;
+          let articles = null;
 
           if (story.content && story.content.category) {
             const data = await this.storyblokClient.get('cdn/stories', {
@@ -254,6 +241,51 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
             }
           }
+
+          const folder = story.full_slug.split('/');
+          const articleCategories = await this.storyblokClient.get('cdn/stories', {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            starts_with: `${folder[0]}/`,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            filter_query: {
+              component: {
+                in: 'category',
+              },
+            },
+          });
+          // eslint-disable-next-line compat/compat
+          const articleCategorieTabs = await Promise.all(articleCategories.data.stories
+            .map(async (category) => {
+              const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+                filter_query: {
+                  category: {
+                    exists: category.uuid,
+                  },
+                },
+              });
+              const count = articlesInCategory.data.stories.length;
+
+              return {
+                name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
+              };
+            }));
+
+          const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            starts_with: `${folder[0]}/`,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            filter_query: {
+              component: {
+                in: 'article',
+              },
+            },
+          });
+          if (fetchedArticles) {
+            articles = await Promise.all(fetchedArticles.data.stories
+              .map(async (article) => ({ ...article })));
+          }
+
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
@@ -271,6 +303,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             related: relatedArticles,
             globalContent: globalContentEntries,
             articleCategories: JSON.stringify(articleCategorieTabs),
+            articles: JSON.stringify(articles),
           });
           this.loadNavigation(story.lang);
           this.loadLanguages();

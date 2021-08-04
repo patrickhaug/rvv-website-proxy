@@ -32,6 +32,7 @@ export interface EntryData extends GlobalConfigProps {
   related?: StoryData;
   globalContent?: GlobalContent;
   articleCategories?: string;
+  articles?: string;
 }
 
 interface StoryblokEntryProps {
@@ -65,6 +66,7 @@ const Article = 'rcm-layout-article' as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
+const Articles = 'rcm-layout-articles' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -111,6 +113,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       languages,
       globalContent,
       articleCategories,
+      articles,
       showIEModal,
       ...globalConfig
     } = this.state;
@@ -161,6 +164,12 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             categories={articleCategories}>{
               blokToComponent({ blok: story.content, getComponent })
             }</Article>
+          }
+          {story.content.component === 'articles'
+            && <Articles
+              articles={articles}
+              categories={articleCategories}
+            ></Articles>
           }
           {story.content.component === 'funds'
           && <FundsList {...grabFundsProps(story.content)}>{

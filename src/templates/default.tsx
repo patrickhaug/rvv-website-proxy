@@ -67,6 +67,7 @@ const Container = 'rcm-layout-container' as React.ElementType;
 const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
+const ContactButton = 'rcm-contact-button' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -185,6 +186,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <ContactButton
+          link={globalContent?.contact?.button?.link}
+          name={globalContent?.contact?.button?.name}>
+        </ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}

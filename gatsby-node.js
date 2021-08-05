@@ -214,29 +214,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const template = resolve('./src/templates/default.tsx');
 
-  const articleCategories = await storyblokClient.get('cdn/stories', {
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    filter_query: {
-      component: {
-        in: 'category',
-      },
-    },
-  });
-    // eslint-disable-next-line compat/compat
-  const articleCategorieTabs = await Promise.all(articleCategories.data.stories
-    .map(async (category) => {
-      const articlesInCategory = await storyblokClient.get('cdn/stories', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-        filter_query: {
-          category: {
-            exists: category.uuid,
-          },
-        },
-      });
-      const count = articlesInCategory.data.stories.length;
-      return { name: category.name, link: '#', count };
-    }));
-
   const timeStamp = new Date().toString();
   const storyblokDatasources = await storyblokClient.getAll('cdn/datasources', {
     cv: timeStamp,
@@ -258,6 +235,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
+    let articles = null;
+    let articleCategorieTabs = null;
+    const source = entry.full_slug.split('/');
 
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
@@ -272,6 +252,53 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
       }
     }
+
+    if (entry.content.component === 'articles' || entry.content.component === 'page') {
+      const fetchedArticles = await storyblokClient.get('cdn/stories', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        starts_with: `${source[0]}/`,
+        filter_query: {
+          component: {
+            in: 'article',
+          },
+        },
+      });
+      if (fetchedArticles) {
+        articles = await Promise.all(fetchedArticles.data.stories
+          .map(async (article) => ({ ...article })));
+      }
+    }
+
+    if (entry.content.component === 'article' || entry.content.component === 'articles' || entry.content.component === 'page') {
+      const articleCategories = await storyblokClient.get('cdn/stories', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+        starts_with: `${source[0]}/`,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        filter_query: {
+          component: {
+            in: 'category',
+          },
+        },
+      });
+      // eslint-disable-next-line compat/compat
+      articleCategorieTabs = await Promise.all(articleCategories.data.stories
+        .map(async (category) => {
+          const articlesInCategory = await storyblokClient.get('cdn/stories', {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            filter_query: {
+              category: {
+                exists: category.uuid,
+              },
+            },
+          });
+          const count = articlesInCategory.data.stories.length;
+
+          return {
+            name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
+          };
+        }));
+    }
+
     const globalContentEntries = StoryblokService
       .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
         {
@@ -294,6 +321,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         related: relatedArticles,
         globalContent: globalContentEntries,
         articleCategories: JSON.stringify(articleCategorieTabs),
+        articles: JSON.stringify(articles),
       },
     });
   });

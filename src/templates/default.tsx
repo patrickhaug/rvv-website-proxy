@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StoryData } from 'storyblok-js-client';
-
+import { SbEditableContent } from 'storyblok-react';
 import { getComponent, blokToComponent } from '../components';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import {
@@ -130,6 +130,15 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       return moddedObj;
     };
 
+    if (story.content.component === 'page') {
+      const nestableArticles = story.content.body.find((item: SbEditableContent) => item.component === 'articles');
+      if (nestableArticles) {
+        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.articles = articles;
+        nestableArticles.categories = articleCategories;
+      }
+    }
+
     return (
       <>
         <GoogleTagManager
@@ -170,7 +179,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             && <Articles
               articles={articles}
               categories={articleCategories}
-            ></Articles>
+              dropdown-label={story.content.dropdown_label}
+              headline={story.content.headline}
+              max-articles-number={story.content.max_articles_number}
+              text={story.content.text}
+            >{blokToComponent({ blok: story.content, getComponent })}</Articles>
           }
           {story.content.component === 'funds'
           && <FundsList {...grabFundsProps(story.content)}>{

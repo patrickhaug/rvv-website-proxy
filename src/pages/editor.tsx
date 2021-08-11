@@ -89,7 +89,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     };
 
     if (story.content.component === 'page') {
-      const nestableArticles = story.content.body.find((item: SbEditableContent) => item.component === 'articles');
+      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
         nestableArticles.articles = articles;

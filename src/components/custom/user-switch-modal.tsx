@@ -35,7 +35,9 @@ export const RcmUserSwitchModal = ({
     image-src={globalContent.userSwitchModal.imageSrc}
     headline={globalContent.userSwitchModal.headline}
     intro-text={globalContent.userSwitchModal.introText}
-    footnote-text={globalContent.userSwitchModal.footnoteText}
+    footnote-text={globalContent.footer.infoText}
+    checkbox-label={globalContent.userSwitchModal.checkboxLabel}
+    disclaimer={globalContent.userSwitchModal.disclaimer}
     users={JSON.stringify(convertUserConfigs(globalContent))}
     in-article={inArticle}/>, modal)}
 </>;

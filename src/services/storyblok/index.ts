@@ -52,7 +52,8 @@ export interface GlobalContent {
     imageSrc: string;
     headline: string;
     introText: string;
-    footnoteText: string;
+    checkboxLabel: string;
+    disclaimer: string;
   };
   userTypeConfigs: {
     // index being usertype (insti, retail, advanced)
@@ -73,6 +74,14 @@ export interface GlobalContent {
       retail: string;
       insti: string;
     };
+  };
+  footer: {
+    infoText: string;
+    copyRightText: string;
+    bottomLinks: {[index: string]: {
+      label: string;
+      link: string;
+    };};
   };
 }
 

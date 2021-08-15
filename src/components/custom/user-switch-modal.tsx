@@ -32,10 +32,12 @@ export const RcmUserSwitchModal = ({
     country-label={globalContent?.countryNames[country] || ''}
     country-switch-label={globalContent?.userSwitchModal?.countrySwitchLabel}
     country-value={country}
-    image-src={globalContent?.userSwitchModal?.imageSrc}
-    headline={globalContent?.userSwitchModal?.headline}
-    intro-text={globalContent?.userSwitchModal?.introText}
-    footnote-text={globalContent?.userSwitchModal?.footnoteText}
+    image-src={globalContent.userSwitchModal.imageSrc}
+    headline={globalContent.userSwitchModal.headline}
+    intro-text={globalContent.userSwitchModal.introText}
+    footnote-text={globalContent.footer.infoText}
+    checkbox-label={globalContent.userSwitchModal.checkboxLabel}
+    disclaimer={globalContent.userSwitchModal.disclaimer}
     users={JSON.stringify(convertUserConfigs(globalContent))}
     in-article={inArticle}/>, modal)}
 </>;

@@ -28,9 +28,9 @@ export const RcmUserSwitchModal = ({
   country: Country;
 }): JSX.Element => <>
   {modal && ReactDOM.createPortal(<Modal
-    country-description={globalContent.userSwitchModal.countryDescription}
-    country-label={globalContent.countryNames[country] || ''}
-    country-switch-label={globalContent.userSwitchModal.countrySwitchLabel}
+    country-description={globalContent?.userSwitchModal?.countryDescription}
+    country-label={globalContent?.countryNames[country] || ''}
+    country-switch-label={globalContent?.userSwitchModal?.countrySwitchLabel}
     country-value={country}
     image-src={globalContent.userSwitchModal.imageSrc}
     headline={globalContent.userSwitchModal.headline}

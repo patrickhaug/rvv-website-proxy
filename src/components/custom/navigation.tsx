@@ -4,6 +4,8 @@ import { Props } from '../types';
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];
+  countryCode: string;
+  userType: 'insti' | 'retail' | 'advanced';
 }
 
 const Navigation = 'rcm-navigation' as React.ElementType;

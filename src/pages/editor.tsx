@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StoryblokReact from 'storyblok-react';
+import StoryblokReact, { SbEditableContent } from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
@@ -88,6 +88,15 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       return moddedObj;
     };
 
+    if (story.content.component === 'page') {
+      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
+      if (nestableArticles) {
+        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.articles = articles;
+        nestableArticles.categories = articleCategories;
+      }
+    }
+
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -123,7 +132,13 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             && <Articles
               articles={articles}
               categories={articleCategories}
-            ></Articles>
+              dropdown-label={story.content.dropdown_label}
+              headline={story.content.headline}
+              max-articles-number={story.content.max_articles_number}
+              text={story.content.text}
+            >
+              { blokToComponent({ blok: story.content, getComponent })}
+            </Articles>
           }
           {story.content.component === 'funds'
             && <FundsListPage {...grabFundsProps(story.content)}>

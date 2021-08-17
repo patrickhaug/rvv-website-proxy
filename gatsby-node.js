@@ -235,9 +235,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
-    let articles = null;
-    let articleCategorieTabs = null;
     const source = entry.full_slug.split('/');
+    const articlesByFolder = {};
+    const categoriesByFolder = {};
 
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
@@ -253,7 +253,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     }
 
-    if (entry.content.component === 'articles' || entry.content.component === 'page') {
+    if (!Object.keys(articlesByFolder).includes(source[0])) {
       const fetchedArticles = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
         starts_with: `${source[0]}/`,
@@ -264,12 +264,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       if (fetchedArticles) {
-        articles = await Promise.all(fetchedArticles.data.stories
+        articlesByFolder[source[0]] = await Promise.all(fetchedArticles.data.stories
           .map(async (article) => ({ ...article })));
       }
     }
 
-    if (entry.content.component === 'article' || entry.content.component === 'articles' || entry.content.component === 'page') {
+    if (!Object.keys(categoriesByFolder).includes(source[0])) {
       const articleCategories = await storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
         starts_with: `${source[0]}/`,
@@ -281,7 +281,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       // eslint-disable-next-line compat/compat
-      articleCategorieTabs = await Promise.all(articleCategories.data.stories
+      categoriesByFolder[source[0]] = await Promise.all(articleCategories.data.stories
         .map(async (category) => {
           const articlesInCategory = await storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -320,8 +320,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         story: entry,
         related: relatedArticles,
         globalContent: globalContentEntries,
-        articleCategories: JSON.stringify(articleCategorieTabs),
-        articles: JSON.stringify(articles),
+        articleCategories: categoriesByFolder[source[0]],
+        articles: articlesByFolder[source[0]],
       },
     });
   });

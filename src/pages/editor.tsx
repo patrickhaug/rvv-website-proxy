@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StoryblokReact from 'storyblok-react';
+import StoryblokReact, { SbEditableContent } from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
@@ -8,18 +8,24 @@ import {
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
+import { GoogleTagManager } from '../components/custom/google-tag-manager';
+import { RcmIEModal } from '../components/custom/ie-modal';
 
-type StoryblokEntryState = EntryData;
+type StoryblokEntryState = EntryData & {showIEModal: boolean};
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
 const Navigation = getComponent('rcm-navigation') as React.ElementType;
+const Footer = getComponent('rcm-footer') as React.ElementType;
 const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
 const FundsList = 'rcm-fonds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
+const Articles = 'rcm-layout-articles' as React.ElementType;
+const ContactButton = 'rcm-contact-button' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -39,7 +45,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
     this.loadStory = this.loadStory.bind(this);
 
-    this.state = {} as EntryData;
+    this.state = {} as StoryblokEntryState;
   }
 
   public componentDidMount(): void {
@@ -49,6 +55,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     loadStoryblokBridge(this.handleStoryblokLoad);
 
     window.addEventListener('rcmLoginComplete', this.handleLogin);
+
+    const ua = window.navigator.userAgent;
+    const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
+    this.setState({ showIEModal: isIE });
   }
 
   public render(): JSX.Element {
@@ -58,6 +68,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       globalContent,
       articleCategories,
       languages,
+      showIEModal,
+      articles,
       ...globalConfig
     } = this.state;
 
@@ -76,11 +88,30 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       return moddedObj;
     };
 
+    if (story.content.component === 'page') {
+      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
+      if (nestableArticles) {
+        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.articles = articles;
+        nestableArticles.categories = articleCategories;
+      }
+    }
+
     return (
       <StoryblokReact content={story.content}>
+        {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
+        <GoogleTagManager
+          googleTagManagerId={globalContent?.gtmId}
+        ></GoogleTagManager>
         <RcmCountrySwitchModal
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
+        <RcmUserSwitchModal
+          globalContent={globalContent}
+          country={globalConfig.country}
+          inArticle={story.content.component === 'article'}
+        ></RcmUserSwitchModal>
+        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
         <Navigation
@@ -96,6 +127,18 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               categories={articleCategories}>{
                 blokToComponent({ blok: story.content, getComponent })
               }</Article>
+          }
+          {story.content.component === 'articles'
+            && <Articles
+              articles={articles}
+              categories={articleCategories}
+              dropdown-label={story.content.dropdown_label}
+              headline={story.content.headline}
+              max-articles-number={story.content.max_articles_number}
+              text={story.content.text}
+            >
+              { blokToComponent({ blok: story.content, getComponent })}
+            </Articles>
           }
           {story.content.component === 'funds'
             && <FundsListPage {...grabFundsProps(story.content)}>
@@ -114,6 +157,19 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
         </Container>
+        <ContactButton
+          link={globalContent?.contact?.button?.link}
+          name={globalContent?.contact?.button?.name}>
+        </ContactButton>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+        ></Footer>
+        {/* End Google Tag Manager (noscript) */}
+        {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* End Google Tag Manager (noscript) */}
       </StoryblokReact>
     );
   }
@@ -161,28 +217,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   async loadStory(): Promise<void> {
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
-    const articleCategories = await this.storyblokClient.get('cdn/stories', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      filter_query: {
-        component: {
-          in: 'category',
-        },
-      },
-    });
-    // eslint-disable-next-line compat/compat
-    const articleCategorieTabs = await Promise.all(articleCategories.data.stories
-      .map(async (category) => {
-        const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-          filter_query: {
-            category: {
-              exists: category.uuid,
-            },
-          },
-        });
-        const count = articlesInCategory.data.stories.length;
-        return { name: category.name, link: '#', count };
-      }));
     const timeStamp = new Date().toString();
     const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
       cv: timeStamp,
@@ -212,6 +246,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         },
         async ({ story }) => {
           let relatedArticles = null;
+          let articles = null;
 
           if (story.content && story.content.category) {
             const data = await this.storyblokClient.get('cdn/stories', {
@@ -226,6 +261,51 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
             }
           }
+
+          const folder = story.full_slug.split('/');
+          const articleCategories = await this.storyblokClient.get('cdn/stories', {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            starts_with: `${folder[0]}/`,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            filter_query: {
+              component: {
+                in: 'category',
+              },
+            },
+          });
+          // eslint-disable-next-line compat/compat
+          const articleCategorieTabs = await Promise.all(articleCategories.data.stories
+            .map(async (category) => {
+              const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+                filter_query: {
+                  category: {
+                    exists: category.uuid,
+                  },
+                },
+              });
+              const count = articlesInCategory.data.stories.length;
+
+              return {
+                name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
+              };
+            }));
+
+          const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            starts_with: `${folder[0]}/`,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            filter_query: {
+              component: {
+                in: 'article',
+              },
+            },
+          });
+          if (fetchedArticles) {
+            articles = await Promise.all(fetchedArticles.data.stories
+              .map(async (article) => ({ ...article })));
+          }
+
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
@@ -243,6 +323,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             related: relatedArticles,
             globalContent: globalContentEntries,
             articleCategories: JSON.stringify(articleCategorieTabs),
+            articles: JSON.stringify(articles),
           });
           this.loadNavigation(story.lang);
           this.loadLanguages();

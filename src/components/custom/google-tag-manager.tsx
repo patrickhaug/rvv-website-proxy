@@ -11,7 +11,8 @@ export const GoogleTagManager = ({ googleTagManagerId }: GoogleTagManagerProps):
   }
   return (
     <Helmet>
-      <script type="text/plain" className="optanon-category-C0002">{`
+      {/* TODO: add cookie for tracking */}
+      <script type="text/javascript">{`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=

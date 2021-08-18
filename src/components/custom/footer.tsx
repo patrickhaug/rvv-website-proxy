@@ -2,28 +2,26 @@ import React from 'react';
 import { StoryblokNodeTree } from '../../services';
 import { Props } from '../types';
 
-interface NavigationProps extends Props {
+interface FooterProps extends Props {
   tree: StoryblokNodeTree[];
-  countryCode: string;
-  userType: 'insti' | 'retail' | 'advanced';
 }
 
-const Navigation = 'rcm-navigation' as React.ElementType;
+const Footer = 'rcm-footer' as React.ElementType;
 
-function renderTree(leaf: StoryblokNodeTree): {text: string; href: string} {
+function renderTree(leaf: StoryblokNodeTree): {text: string; href: string}[] {
   // top level
   if (leaf.is_folder) {
-    const tabEntry = { text: leaf.name, href: leaf.real_path, children: [] };
+    const sitemapLinks = [{ text: leaf.name, href: leaf.real_path }];
     leaf.children.forEach((c) => {
-      tabEntry.children.push({
+      sitemapLinks.push({
         text: c.name,
         href: c.real_path,
       });
     });
 
-    return tabEntry;
+    return sitemapLinks;
   }
-  return { text: '', href: '' };
+  return [{ text: '', href: '' }];
 }
 
 // TODO correct typing of storyblok repsones
@@ -34,7 +32,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'AT - DE', type = 'Retail
   return currentTree;
 }
 
-export const RcmNavigation = (props: NavigationProps): JSX.Element => {
+export const RcmFooter = (props: FooterProps): JSX.Element => {
   const {
     tree,
   } = props;
@@ -51,8 +49,8 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
 
   // We need the custom component, otherwise jsx does not render the attributes
   return (
-    <Navigation
-      tab-entries={JSON.stringify(getCurrentTree(langMap).map(renderTree))}
+    <Footer
+      sitemap-links={JSON.stringify(getCurrentTree(langMap).map(renderTree))}
     >
       {
       /*
@@ -62,6 +60,6 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
        * we pass component state as the thisArg to the mapping function.
        */
       }
-    </Navigation>
+    </Footer>
   );
 };

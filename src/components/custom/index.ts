@@ -2,6 +2,7 @@ import { contentEntries } from './content-entries';
 import { RcmGlobalConfig } from './global-config';
 import { RcmGlobalContent } from './global-content';
 import { RcmNavigation } from './navigation';
+import { RcmFooter } from './footer';
 import { gridComponents } from './grid';
 import { RcmRichtext } from './richtext';
 import { forms } from './forms';
@@ -18,6 +19,7 @@ export default {
   RcmGlobalContent,
   ...gridComponents,
   RcmNavigation,
+  RcmFooter,
   RcmRichtext,
   ...rcmGenericLinkComponents,
   ...forms,

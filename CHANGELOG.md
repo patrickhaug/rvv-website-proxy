@@ -1,3 +1,26 @@
+# [1.6.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.5.0...v1.6.0) (2021-08-19)
+
+
+### Bug Fixes
+
+* fix build ([dff6fe7](https://github.com/virtualidentityag/rcm-corporate/commit/dff6fe7c43c25bec76ed5e090d2e57a4e7d02bda))
+* **article-list:** add prop maping to article list comp ([55bc37e](https://github.com/virtualidentityag/rcm-corporate/commit/55bc37e4fb16c098e041715fca74406717aad25f))
+* **article-list:** fix articles in default template ([ca8b42c](https://github.com/virtualidentityag/rcm-corporate/commit/ca8b42c61f2c8ed76e0bf39f58d905d53ca202e7))
+* **gtm:** remove cookie functionality - always on ([22721fd](https://github.com/virtualidentityag/rcm-corporate/commit/22721fdf74d3fe4e0270c120149f5cc9f0a2a44e))
+* **richtext:** add width prop to richtext ([005e544](https://github.com/virtualidentityag/rcm-corporate/commit/005e54491b18c3ee14aaa9f52b46f7d1567f68f9))
+* **richtext:** replace width prop ([b4031ba](https://github.com/virtualidentityag/rcm-corporate/commit/b4031ba33c75557553c5563ced7de573a8f8d15a))
+
+
+### Features
+
+* **article list:** add article list ([9853d56](https://github.com/virtualidentityag/rcm-corporate/commit/9853d56fa2b50a0c36b388db2bece832e159b968))
+* **article list:** merge develop ([f832aa4](https://github.com/virtualidentityag/rcm-corporate/commit/f832aa4d7dc0e9e7a2f6643f4d9abe147328c883))
+* **contact:** add contact button ([ecef686](https://github.com/virtualidentityag/rcm-corporate/commit/ecef686a4cbe271883437d375b08a2fff5e83b98))
+* **footer:** add footer ([92d9f96](https://github.com/virtualidentityag/rcm-corporate/commit/92d9f966fbebedd77e9d7d5bdc8d82e996166038))
+* **ie-modal:** create ie-modal ([b55dcd1](https://github.com/virtualidentityag/rcm-corporate/commit/b55dcd11657ad6240f65b70e04e5e7acc2a8d174))
+* **user type switch:** add modal ([85c03e9](https://github.com/virtualidentityag/rcm-corporate/commit/85c03e93534804287274a18d274db7ca5ce37764))
+* **wizzards:** footer ([d3d0c5b](https://github.com/virtualidentityag/rcm-corporate/commit/d3d0c5bf5e9732a769ca50e82fb8c6e882ebb0d7))
+
 # [1.5.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.1...v1.5.0) (2021-07-23)
 
 

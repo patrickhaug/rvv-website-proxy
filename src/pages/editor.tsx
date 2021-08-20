@@ -266,10 +266,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             }
           }
 
-          const folder = story.full_slug.split('/');
           const articleCategories = await this.storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
-            starts_with: `${folder[0]}/`,
+            starts_with: StoryblokService.getCountryCode(story).countryCode,
             // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {
@@ -297,7 +296,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
           const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
-            starts_with: `${folder[0]}/`,
+            starts_with: StoryblokService.getCountryCode(story).countryCode,
             // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {

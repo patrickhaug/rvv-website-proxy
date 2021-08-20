@@ -107,6 +107,7 @@ module.exports = {
         bucketName: process.env.GATSBY_AWS_S3_BUCKET || 'no-bucket',
         region: 'eu-central-1',
         generateRoutingRules: false,
+        acl: null,
       },
     },
   ],

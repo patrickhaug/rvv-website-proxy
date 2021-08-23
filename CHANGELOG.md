@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.6.0...v1.7.0) (2021-08-23)
+
+
+### Bug Fixes
+
+* fix component lib version and use country code service ([5ce5f7c](https://github.com/virtualidentityag/rcm-corporate/commit/5ce5f7cd8dab82917d73c7e2b814775cd72318bd))
+* upgrade component-lib version ([317551c](https://github.com/virtualidentityag/rcm-corporate/commit/317551cce952f29c3bab9f49da7c559374a04393))
+
+
+### Features
+
+* **funds-search:** add search props to fundslist, fix typo ([c24f464](https://github.com/virtualidentityag/rcm-corporate/commit/c24f4649863c31b7ba6b581b194c7230f7018cae))
+
 # [1.6.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.5.0...v1.6.0) (2021-08-19)
 
 

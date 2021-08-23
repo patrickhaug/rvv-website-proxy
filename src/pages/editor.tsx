@@ -22,7 +22,7 @@ const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsList = 'rcm-fonds-list' as React.ElementType;
+const FundsList = 'rcm-funds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
@@ -143,7 +143,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           {story.content.component === 'funds'
             && <FundsListPage {...grabFundsProps(story.content)}>
               {/* These are componentd filled with dummy data */}
-              <FundsList />
+              <FundsList
+                error-message={story.content.error_message}
+                search-label={story.content.search_label}
+                search-placeholder={story.content.search_placeholder}
+              />
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
@@ -262,10 +266,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             }
           }
 
-          const folder = story.full_slug.split('/');
           const articleCategories = await this.storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
-            starts_with: `${folder[0]}/`,
+            starts_with: StoryblokService.getCountryCode(story).countryCode,
             // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {
@@ -293,7 +296,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
           const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
-            starts_with: `${folder[0]}/`,
+            starts_with: StoryblokService.getCountryCode(story).countryCode,
             // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {

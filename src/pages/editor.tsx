@@ -12,7 +12,7 @@ import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import { RcmIEModal } from '../components/custom/ie-modal';
 
-type StoryblokEntryState = EntryData & {showIEModal: boolean};
+type StoryblokEntryState = EntryData & { showIEModal: boolean };
 
 const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
 const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
@@ -61,7 +61,35 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     this.setState({ showIEModal: isIE });
   }
 
+  /*
+   * While editing, mismatches between the "real" DOM and React's virtual DOM might happen.
+   * When errors like these occur React DOM unmounts, resulting in a blank page.
+   *
+   * To minimise editor frustration we handle these using error boundaries.
+   *
+   * More info:
+   * https://reactjs.org/docs/reconciliation.html
+   * https://reactjs.org/docs/error-boundaries.html
+   */
+  static getDerivedStateFromError(): { hasError: true } {
+    return { hasError: true };
+  }
+
   public render(): JSX.Element {
+    if (this.state.hasError) {
+      return (
+        <div>
+          <h1>Something went wrong!</h1>
+          <p>Your work is not lost, but you will not see any new changes until you save.</p>
+          <button
+            onClick={(): void => window.location.reload()}
+          >
+            Refresh editor view
+          </button>
+        </div>
+      );
+    }
+
     const {
       story,
       navigation,
@@ -95,6 +123,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         nestableArticles.articles = articles;
         nestableArticles.categories = articleCategories;
       }
+      const nestableCategoryArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'rcm-category-articles');
+      if (nestableCategoryArticles) {
+        nestableCategoryArticles.articles = articles;
+        nestableCategoryArticles.categories = articleCategories;
+      }
     }
 
     return (
@@ -122,6 +155,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <Container>
           {story.content.component === 'article'
             && <Article
+              slot='content'
               article={JSON.stringify(story.content)}
               related={JSON.stringify(this.state.related)}
               categories={articleCategories}>{
@@ -130,6 +164,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
           {story.content.component === 'articles'
             && <Articles
+              slot='content'
               articles={articles}
               categories={articleCategories}
               dropdown-label={story.content.dropdown_label}
@@ -137,11 +172,11 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
             >
-              { blokToComponent({ blok: story.content, getComponent })}
+              {blokToComponent({ blok: story.content, getComponent })}
             </Articles>
           }
           {story.content.component === 'funds'
-            && <FundsListPage {...grabFundsProps(story.content)}>
+            && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
               {/* These are componentd filled with dummy data */}
               <FundsList
                 error-message={story.content.error_message}
@@ -153,13 +188,14 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               }</FundsListPage>
           }
           {story.content.component === 'fund'
-            && <FundsDetail {...grabFundsProps(story.content)}>
+            && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
               {/* These are componentd filled with dummy data */}
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsDetail>
           }
-          {story.content.component !== 'article' && blokToComponent({ blok: story.content, getComponent })}
+          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
@@ -280,7 +316,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           const articleCategorieTabs = await Promise.all(articleCategories.data.stories
             .map(async (category) => {
               const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
-              // eslint-disable-next-line @typescript-eslint/camelcase
+                // eslint-disable-next-line @typescript-eslint/camelcase
                 filter_query: {
                   category: {
                     exists: category.uuid,

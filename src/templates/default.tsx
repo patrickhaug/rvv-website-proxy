@@ -142,6 +142,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         nestableArticles.articles = JSON.stringify(story.articles);
         nestableArticles.categories = JSON.stringify(story.articleCategories);
       }
+      const nestableCategoryArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'rcm-category-articles');
+      if (nestableCategoryArticles) {
+        nestableCategoryArticles.articles = JSON.stringify(story.articles);
+        nestableCategoryArticles.categories = JSON.stringify(story.articleCategories);
+      }
     }
 
     return (

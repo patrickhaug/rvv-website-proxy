@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryblokClient, { Richtext } from 'storyblok-js-client';
+import StoryblokClient from 'storyblok-js-client';
 import { StoryblokService } from '../../services';
 import { AnyProps } from '../types';
 

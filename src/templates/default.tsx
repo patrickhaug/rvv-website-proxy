@@ -175,6 +175,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <Container>
           {story.content.component === 'article' && (
             <Article
+              slot='content'
               article={JSON.stringify(story.content)}
               related={JSON.stringify(story.related)}
               categories={JSON.stringify(story.articleCategories)}
@@ -184,6 +185,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           )}
           {story.content.component === 'articles' && (
             <Articles
+              slot='content'
               articles={JSON.stringify(story.articles)}
               categories={JSON.stringify(story.articleCategories)}
               dropdown-label={story.content.dropdown_label}
@@ -193,18 +195,18 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             >{blokToComponent({ blok: story.content, getComponent })}</Articles>
           )}
           {story.content.component === 'funds' && (
-            <FundsList {...grabFundsProps(story.content)}>
+            <FundsList slot='content' {...grabFundsProps(story.content)}>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
           {story.content.component === 'fund' && (
-            <FundsDetail {...grabFundsProps(story.content)}>
+            <FundsDetail slot='content' {...grabFundsProps(story.content)}>
               {/* These are componentd filled with dummy data */}
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsDetail>
           )}
           {story.content.component !== 'article'
-            && blokToComponent({ blok: story.content, getComponent })}
+            && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}

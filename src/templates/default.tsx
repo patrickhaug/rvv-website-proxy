@@ -109,6 +109,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
+    DomService.activateConsentScript();
+
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
     this.setState({ showIEModal: isIE });

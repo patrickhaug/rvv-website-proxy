@@ -150,6 +150,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           tree={navigation}
           getComponent={getComponent}
           languages={languages}
+          currentCountry={StoryblokService.getCountryCode(story).country}
+          currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
         <Container>
           {story.content.component === 'article'

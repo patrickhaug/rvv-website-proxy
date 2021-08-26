@@ -59,6 +59,10 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
     this.setState({ showIEModal: isIE });
+
+    if (!StoryblokService.getObject()?.isInEditor()) {
+      DomService.activateConsentScript();
+    }
   }
 
   /*

@@ -1,9 +1,10 @@
 import StoryblokClient, { StoryData } from 'storyblok-js-client';
 import { unflatten } from './utils/unflatten';
-import { sortTree } from './utils/sort-tree';
+import { sortTree, SortableItem } from './utils/sort-tree';
 import { StoryblokService } from '../storyblok';
 
 interface StoryblokNode {
+  children?: SortableItem[];
   id: number;
   is_folder: boolean;
   is_startpage: boolean;
@@ -46,10 +47,6 @@ const pruneHiddenBranches = (leaf: StoryblokNodeTree): StoryblokNodeTree => ({
     : leaf.page,
   children: leaf.children.map(pruneHiddenBranches),
 });
-
-const flattenTree = (el: StoryblokNodeTree): StoryblokNodeTree[] => (
-  [el, ...el.children.flatMap(flattenTree)]
-);
 
 export const NavigationService = {
   navigationExclusionTags: ['access:private', 'navigation:hide'],

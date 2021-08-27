@@ -12,6 +12,7 @@ import {
   Language,
   LanguageService,
   GlobalContent,
+  calculateReadingTime,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -178,7 +179,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component === 'article' && (
             <Article
               slot='content'
-              article={JSON.stringify(story.content)}
+              article={JSON.stringify(
+                { ...story.content, readingTime: calculateReadingTime(story) },
+              )}
               related={JSON.stringify(story.related)}
               categories={JSON.stringify(story.articleCategories)}
             >

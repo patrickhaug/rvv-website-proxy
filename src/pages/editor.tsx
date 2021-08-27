@@ -4,7 +4,7 @@ import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry,
+  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -160,7 +160,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           {story.content.component === 'article'
             && <Article
               slot='content'
-              article={JSON.stringify(story.content)}
+              article={JSON.stringify(
+                { ...story.content, readingTime: calculateReadingTime(story) },
+              )}
               related={JSON.stringify(this.state.related)}
               categories={articleCategories}>{
                 blokToComponent({ blok: story.content, getComponent })
@@ -302,7 +304,12 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
               },
             });
             if (data) {
-              relatedArticles = data.data.stories.filter((e) => e.uuid !== story.uuid);
+              relatedArticles = data.data.stories.reduce((acc, article) => {
+                if (article.uuid !== story.uuid) {
+                  acc.push({ ...article, readingTime: calculateReadingTime(article) });
+                }
+                return acc;
+              }, []);
             }
           }
 
@@ -346,7 +353,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           });
           if (fetchedArticles) {
             articles = await Promise.all(fetchedArticles.data.stories
-              .map(async (article) => ({ ...article })));
+              .map(async (article) => (
+                { ...article, readingTime: calculateReadingTime(article) }
+              )));
           }
 
           const globalContentEntries = StoryblokService

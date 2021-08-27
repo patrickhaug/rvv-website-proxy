@@ -48,10 +48,6 @@ const pruneHiddenBranches = (leaf: StoryblokNodeTree): StoryblokNodeTree => ({
   children: leaf.children.map(pruneHiddenBranches),
 });
 
-const flattenTree = (el: StoryblokNodeTree): StoryblokNodeTree[] => (
-  [el, ...el.children.flatMap(flattenTree)]
-);
-
 export const NavigationService = {
   navigationExclusionTags: ['access:private', 'navigation:hide'],
   navigationForcedInclusionTags: ['navigation:force-show'],

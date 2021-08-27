@@ -4,7 +4,7 @@ import { sortTree } from './utils/sort-tree';
 import { StoryblokService } from '../storyblok';
 
 interface StoryblokNode {
-  children: any;
+  children: unknown;
   id: number;
   is_folder: boolean;
   is_startpage: boolean;

@@ -12,6 +12,7 @@ import {
   Language,
   LanguageService,
   GlobalContent,
+  calculateReadingTime,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -144,6 +145,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         nestableArticles.articles = JSON.stringify(story.articles);
         nestableArticles.categories = JSON.stringify(story.articleCategories);
       }
+      const nestableCategoryArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'rcm-category-articles');
+      if (nestableCategoryArticles) {
+        nestableCategoryArticles.articles = JSON.stringify(story.articles);
+        nestableCategoryArticles.categories = JSON.stringify(story.articleCategories);
+      }
     }
 
     return (
@@ -178,7 +184,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component === 'article' && (
             <Article
               slot='content'
-              article={JSON.stringify(story.content)}
+              article={JSON.stringify(
+                { ...story.content, readingTime: calculateReadingTime(story) },
+              )}
               related={JSON.stringify(story.related)}
               categories={JSON.stringify(story.articleCategories)}
             >

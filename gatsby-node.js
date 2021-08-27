@@ -4,7 +4,7 @@ const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
 
 // eslint-disable-next-line import/extensions
-const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
+const { NavigationService, StoryblokService, calculateReadingTime } = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({
   accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
@@ -235,7 +235,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const promises = allEntries.map(async (entry) => {
     let relatedArticles = null;
-    const source = entry.full_slug.split('/');
+    const { countryCode } = StoryblokService.getCountryCode(entry);
     const articlesByFolder = {};
     const categoriesByFolder = {};
 
@@ -249,14 +249,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       if (data) {
-        relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
+        relatedArticles = data.data.stories.reduce((acc, article) => {
+          if (article.uuid !== entry.uuid) {
+            acc.push({ ...article, readingTime: calculateReadingTime(article) });
+          }
+          return acc;
+        }, []);
       }
     }
 
-    if (!Object.keys(articlesByFolder).includes(source[0])) {
+    if (!Object.keys(articlesByFolder).includes(countryCode)) {
       const fetchedArticles = await storyblokClient.get('cdn/stories', {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        starts_with: `${source[0]}/`,
+        starts_with: countryCode,
         filter_query: {
           component: {
             in: 'article',
@@ -264,15 +269,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       if (fetchedArticles) {
-        articlesByFolder[source[0]] = await Promise.all(fetchedArticles.data.stories
-          .map(async (article) => ({ ...article })));
+        articlesByFolder[countryCode] = await Promise.all(fetchedArticles.data.stories
+          .map(async (article) => ({ ...article, readingTime: calculateReadingTime(article) })));
       }
     }
 
-    if (!Object.keys(categoriesByFolder).includes(source[0])) {
+    if (!Object.keys(categoriesByFolder).includes(countryCode)) {
       const articleCategories = await storyblokClient.get('cdn/stories', {
       // eslint-disable-next-line @typescript-eslint/camelcase
-        starts_with: `${source[0]}/`,
+        starts_with: countryCode,
         // eslint-disable-next-line @typescript-eslint/camelcase
         filter_query: {
           component: {
@@ -281,7 +286,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       // eslint-disable-next-line compat/compat
-      categoriesByFolder[source[0]] = await Promise.all(articleCategories.data.stories
+      categoriesByFolder[countryCode] = await Promise.all(articleCategories.data.stories
         .map(async (category) => {
           const articlesInCategory = await storyblokClient.get('cdn/stories', {
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -320,8 +325,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         story: entry,
         related: relatedArticles,
         globalContent: globalContentEntries,
-        articleCategories: categoriesByFolder[source[0]],
-        articles: articlesByFolder[source[0]],
+        articleCategories: categoriesByFolder[countryCode],
+        articles: articlesByFolder[countryCode],
       },
     });
   });

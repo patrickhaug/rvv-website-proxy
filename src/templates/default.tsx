@@ -157,6 +157,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         ></SEO>
         <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
         <RcmUserSwitchModal
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
@@ -168,6 +169,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           tree={navigation}
           getComponent={getComponent}
           languages={languages}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>

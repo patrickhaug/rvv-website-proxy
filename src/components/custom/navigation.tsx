@@ -4,7 +4,8 @@ import { Props } from '../types';
 
 interface NavigationProps extends Props {
   tree: StoryblokNodeTree[];
-  countryCode: string;
+  currentCountry: string;
+  currentLanguage: string;
   userType: 'insti' | 'retail' | 'advanced';
 }
 
@@ -37,6 +38,8 @@ function getCurrentTree(tree: Map<string, any>, lang = 'AT - DE', type = 'Retail
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
     tree,
+    currentCountry,
+    currentLanguage,
   } = props;
 
   if (!tree) {
@@ -53,6 +56,8 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   return (
     <Navigation
       tab-entries={JSON.stringify(getCurrentTree(langMap).map(renderTree))}
+      current-language={currentLanguage}
+      current-country={currentCountry}
     >
       {
       /*

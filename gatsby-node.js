@@ -4,7 +4,7 @@ const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
 
 // eslint-disable-next-line import/extensions
-const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
+const { NavigationService, StoryblokService, calculateReadingTime } = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({
   accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
@@ -249,7 +249,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         },
       });
       if (data) {
-        relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
+        relatedArticles = data.data.stories.reduce((acc, article) => {
+          if (article.uuid !== entry.uuid) {
+            acc.push({ ...article, readingTime: calculateReadingTime(article) });
+          }
+          return acc;
+        }, []);
       }
     }
 
@@ -265,7 +270,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       });
       if (fetchedArticles) {
         articlesByFolder[countryCode] = await Promise.all(fetchedArticles.data.stories
-          .map(async (article) => ({ ...article })));
+          .map(async (article) => ({ ...article, readingTime: calculateReadingTime(article) })));
       }
     }
 

@@ -12,6 +12,7 @@ import {
   Language,
   LanguageService,
   GlobalContent,
+  calculateReadingTime,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -109,6 +110,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
+    DomService.activateConsentScript();
+
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
     this.setState({ showIEModal: isIE });
@@ -171,12 +174,16 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           tree={navigation}
           getComponent={getComponent}
           languages={languages}
+          currentCountry={StoryblokService.getCountryCode(story).country}
+          currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
         <Container>
           {story.content.component === 'article' && (
             <Article
               slot='content'
-              article={JSON.stringify(story.content)}
+              article={JSON.stringify(
+                { ...story.content, readingTime: calculateReadingTime(story) },
+              )}
               related={JSON.stringify(story.related)}
               categories={JSON.stringify(story.articleCategories)}
             >

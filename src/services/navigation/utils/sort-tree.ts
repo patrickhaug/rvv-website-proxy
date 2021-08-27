@@ -1,4 +1,4 @@
-interface SortableItem {
+export interface SortableItem {
   position: number;
   children?: SortableItem[];
 }

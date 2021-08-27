@@ -1,10 +1,10 @@
 import StoryblokClient, { StoryData } from 'storyblok-js-client';
 import { unflatten } from './utils/unflatten';
-import { sortTree } from './utils/sort-tree';
+import { sortTree, SortableItem } from './utils/sort-tree';
 import { StoryblokService } from '../storyblok';
 
 interface StoryblokNode {
-  children: unknown;
+  children?: SortableItem[];
   id: number;
   is_folder: boolean;
   is_startpage: boolean;

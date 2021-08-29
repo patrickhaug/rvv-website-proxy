@@ -99,7 +99,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       navigation,
       globalContent,
       articleCategories,
-      languages,
       showIEModal,
       articles,
       ...globalConfig

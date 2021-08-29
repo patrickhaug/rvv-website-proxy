@@ -121,7 +121,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const {
       story,
       navigation,
-      languages,
       globalContent,
       showIEModal,
       ...globalConfig

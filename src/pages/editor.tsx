@@ -155,7 +155,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <Navigation
           tree={navigation}
           getComponent={getComponent}
-          languages={languages}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
@@ -215,6 +214,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <Footer
           tree={navigation}
           getComponent={getComponent}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}

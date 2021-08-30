@@ -369,10 +369,23 @@ exports.onCreatePage = async ({ page, actions }) => {
 // This is needed so that the build process does not fail because in gatby-config.js
 // the fs module is not available and therefore it throws an error because dotenv has
 // it as a dependency.
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({ actions, stage, plugins }) => {
+  if (stage === 'build-javascript' || stage === 'develop') {
+    actions.setWebpackConfig({
+      plugins: [
+        plugins.provide({ process: 'process/browser' }),
+      ],
+    });
+  }
+
   actions.setWebpackConfig({
-    node: {
-      fs: 'empty',
+    resolve: {
+      alias: {
+        path: require.resolve('path-browserify'),
+      },
+      fallback: {
+        fs: false,
+      },
     },
   });
 };

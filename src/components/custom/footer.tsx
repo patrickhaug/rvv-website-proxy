@@ -33,7 +33,7 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
-  const currentTree = tree.get(lang).children;
+  const currentTree = tree.get(lang)?.children;
   return currentTree;
 }
 
@@ -54,10 +54,13 @@ export const RcmFooter = (props: FooterProps): JSX.Element => {
     if (!langMap.has(t.slug)) { langMap.set(t.slug, t); }
   });
 
+  const currentTree = getCurrentTree(langMap, countryCode);
+  const items = currentTree ? tree.map(renderTree) : [];
+
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Footer
-      sitemap-links={JSON.stringify(getCurrentTree(langMap).map(renderTree))}
+      sitemap-links={JSON.stringify(items)}
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
     >

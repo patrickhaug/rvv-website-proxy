@@ -31,7 +31,6 @@ const attachStoryToLeaf = (stories: StoryData[], lang: string) => (
     const page = stories.find((story) => story.uuid === leaf.uuid);
     return {
       ...leaf,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       real_path: `/${lang !== 'default' ? lang : ''}${leaf.real_path}`.replace('//', '/'),
       children: leaf.children.map(attachStoryToLeaf(stories, lang)),
       page,
@@ -81,17 +80,14 @@ export const NavigationService = {
     return tree;
   },
   async getContactPage(lang: string): Promise<StoryData> {
-    /* eslint-disable @typescript-eslint/camelcase */
     const queryOptions = {
       with_tag: this.navigationContactTag[0],
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
     };
-    /* eslint-enable @typescript-eslint/camelcase */
     const { data } = await this.storyblokClient.get('cdn/stories/', queryOptions);
     const contactPage = data.stories[0];
 
     if (contactPage) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       contactPage.full_slug = `/${contactPage?.full_slug}`.replace('//', '/');
     }
     return contactPage;

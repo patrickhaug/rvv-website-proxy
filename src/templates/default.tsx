@@ -65,7 +65,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
       StoryblokService.getCountryCode(story).locale,
       StoryblokService.getCountryCode(story).country,
     ),
-    globalContent: pageContext.globalContent
+    globalContent: pageContext.globalContent,
   };
 };
 

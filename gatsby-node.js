@@ -241,7 +241,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     if (entry.content && entry.content.category) {
       const data = await storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         filter_query: {
           category: {
             exists: entry.content.category.map((c) => c.uuid).join(','),
@@ -260,7 +259,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     if (!Object.keys(articlesByFolder).includes(countryCode)) {
       const fetchedArticles = await storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         starts_with: countryCode,
         filter_query: {
           component: {
@@ -276,9 +274,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     if (!Object.keys(categoriesByFolder).includes(countryCode)) {
       const articleCategories = await storyblokClient.get('cdn/stories', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
         starts_with: countryCode,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         filter_query: {
           component: {
             in: 'category',
@@ -289,7 +285,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       categoriesByFolder[countryCode] = await Promise.all(articleCategories.data.stories
         .map(async (category) => {
           const articlesInCategory = await storyblokClient.get('cdn/stories', {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               category: {
                 exists: category.uuid,

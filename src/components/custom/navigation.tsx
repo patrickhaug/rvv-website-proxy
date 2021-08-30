@@ -55,9 +55,11 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    const key = t.slug ? t.slug :  t.name.toLowerCase().replace(' - ', '-');
-    if (!langMap.has(key)) { langMap.set(key, t); 
-  }});
+    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
+    if (!langMap.has(key)) {
+      langMap.set(key, t);
+    }
+  });
 
   // We need the custom component, otherwise jsx does not render the attributes
   return (

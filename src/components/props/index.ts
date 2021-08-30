@@ -37,7 +37,6 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
         const newProps = {
           ...props,
           // Just for convience to have consistent imageSrc keys in the components
-          // eslint-disable-next-line @typescript-eslint/camelcase
           imageSrc: parsedImage,
         };
         return defaultMapper(key, newProps);

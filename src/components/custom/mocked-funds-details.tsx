@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { AnyProps } from '../types';
 
 const FUNDS_API_URL = 'https://1xe0hbssol.execute-api.eu-west-1.amazonaws.com/dev/reports';
 
@@ -10,7 +9,7 @@ interface FundsResponse {
   };
 }
 
-const MockedFundsDetails = ({ blok, ...rest }: AnyProps): JSX.Element => {
+const MockedFundsDetails = (): JSX.Element => {
   const [id, setId] = useState<string>();
   const [data, setData] = useState<FundsResponse>(undefined);
 

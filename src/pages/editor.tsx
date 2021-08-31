@@ -36,10 +36,11 @@ const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry extends Component<object, StoryblokEntryState> {
+export default class StoryblokEntry
+  extends Component<Record<string, unknown>, StoryblokEntryState> {
   private storyblokClient: StoryblokClient;
 
-  public constructor(props: object) {
+  public constructor(props: Record<string, unknown>) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStoryblokLoad = this.handleStoryblokLoad.bind(this);
@@ -99,7 +100,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
       navigation,
       globalContent,
       articleCategories,
-      languages,
       showIEModal,
       articles,
       ...globalConfig
@@ -144,6 +144,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           globalContent={globalContent}
         ></RcmCountrySwitchModal>
         <RcmUserSwitchModal
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
@@ -154,7 +155,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <Navigation
           tree={navigation}
           getComponent={getComponent}
-          languages={languages}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
@@ -212,6 +214,8 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         <Footer
           tree={navigation}
           getComponent={getComponent}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -289,7 +293,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
         {
           slug: currentPath === '/' ? '/home' : currentPath,
           version: 'draft',
-          // eslint-disable-next-line @typescript-eslint/camelcase
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
@@ -298,7 +301,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
 
           if (story.content && story.content.category) {
             const data = await this.storyblokClient.get('cdn/stories', {
-              // eslint-disable-next-line @typescript-eslint/camelcase
               filter_query: {
                 category: {
                   exists: story.content.category.map((c) => c.uuid).join(','),
@@ -316,9 +318,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           }
 
           const articleCategories = await this.storyblokClient.get('cdn/stories', {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             starts_with: StoryblokService.getCountryCode(story).countryCode,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {
                 in: 'category',
@@ -329,7 +329,6 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
           const articleCategorieTabs = await Promise.all(articleCategories.data.stories
             .map(async (category) => {
               const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 filter_query: {
                   category: {
                     exists: category.uuid,
@@ -344,9 +343,7 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
             }));
 
           const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             starts_with: StoryblokService.getCountryCode(story).countryCode,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             filter_query: {
               component: {
                 in: 'article',
@@ -387,11 +384,9 @@ export default class StoryblokEntry extends Component<object, StoryblokEntryStat
   }
 
   private async loadNavigation(lang?: string): Promise<void> {
-    /* eslint-disable @typescript-eslint/camelcase */
     const queryOptions = {
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
     };
-    /* eslint-enable @typescript-eslint/camelcase */
 
     const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
     const tree = await NavigationService.getNavigation(allStories, lang);

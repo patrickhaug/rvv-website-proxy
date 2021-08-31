@@ -65,6 +65,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
       StoryblokService.getCountryCode(story).locale,
       StoryblokService.getCountryCode(story).country,
     ),
+    globalContent: pageContext.globalContent,
   };
 };
 
@@ -121,7 +122,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const {
       story,
       navigation,
-      languages,
       globalContent,
       showIEModal,
       ...globalConfig
@@ -161,8 +161,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
+        {/* <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal> */}
         <RcmUserSwitchModal
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
@@ -173,7 +174,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <Navigation
           tree={navigation}
           getComponent={getComponent}
-          languages={languages}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
@@ -219,7 +221,12 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           link={globalContent?.contact?.button?.link}
           name={globalContent?.contact?.button?.name}
         ></ContactButton>
-        <Footer tree={navigation} getComponent={getComponent}></Footer>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}>
+        </Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript>
           <iframe

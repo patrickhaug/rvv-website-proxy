@@ -15,14 +15,12 @@ const storyblokLayoutMap = {
 };
 
 const storyblokGridAreasMap = {
-  /* eslint-disable @typescript-eslint/camelcase */
   slotted_left: 'left',
   slotted_center_left: 'center-left',
   slotted_center: 'center',
   slotted_center_right: 'center-right',
   slotted_right: 'right',
   slotted: '',
-  /* eslint-enable @typescript-eslint/camelcase */
 };
 
 const getLayoutType = (id: string): string => {

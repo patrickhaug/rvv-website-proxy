@@ -19,6 +19,7 @@ export interface GlobalConfigProps {
   translationUrl: string;
   twitterHandle: string;
   whiteListedDomains: string;
+  storyblokAccessToken: string;
 }
 
 type HTMLElementContent = string | { toString: () => string };
@@ -81,6 +82,7 @@ export const DomService = {
       translationUrl: `${process.env.GATSBY_COMPONENTS_LIBRARY_URL}/rcm-component-library/assets/translations/${parsedLocale}.json`,
       twitterHandle: process.env.GATSBY_TWITTER_HANDLE,
       whiteListedDomains: process.env.GATSBY_WHITE_LISTED_DOMAINS,
+      storyblokAccessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
     };
   },
 };

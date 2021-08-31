@@ -65,6 +65,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
       StoryblokService.getCountryCode(story).locale,
       StoryblokService.getCountryCode(story).country,
     ),
+    globalContent: pageContext.globalContent,
   };
 };
 
@@ -160,7 +161,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
+        {/* <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal> */}
         <RcmUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}

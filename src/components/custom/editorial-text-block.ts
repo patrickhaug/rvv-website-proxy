@@ -18,9 +18,7 @@ const rootAlias = 'home';
 
 const componentPropRenderer = {
   'rcm-text-link': (blok: LinkComponentProps): string => {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     const { cached_url, anchor, url } = blok.link;
-    // eslint-disable-next-line @typescript-eslint/camelcase
     const parsedLink = url || `/${cached_url.replace(rootAlias, '')}${anchor ? `#${anchor}` : ''}`.replace('//', '/');
     return (
       `href="${parsedLink}" text="${blok.text}" target="${blok.target}" icon="${blok.icon}"`

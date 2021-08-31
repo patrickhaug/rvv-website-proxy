@@ -28,14 +28,14 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     return { text: '', href: '' };
   });
 
-  return { userTypeSlug: leaf.slug, tree };
+  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path, tree };
 }
 
 // TODO correct typing of storyblok repsones
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
-  const currentTree = tree.get(lang).children;
+  const currentTree = tree.get(lang)?.children;
   return currentTree;
 }
 
@@ -55,7 +55,10 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    if (!langMap.has(t.slug)) { langMap.set(t.slug, t); }
+    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
+    if (!langMap.has(key)) {
+      langMap.set(key, t);
+    }
   });
 
   // We need the custom component, otherwise jsx does not render the attributes

@@ -99,9 +99,7 @@ export default class StoryblokEntry
       story,
       navigation,
       globalContent,
-      articleCategories,
       showIEModal,
-      articles,
       ...globalConfig
     } = this.state;
 
@@ -124,13 +122,6 @@ export default class StoryblokEntry
       const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
-        nestableArticles.articles = articles;
-        nestableArticles.categories = articleCategories;
-      }
-      const nestableCategoryArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'rcm-category-articles');
-      if (nestableCategoryArticles) {
-        nestableCategoryArticles.articles = articles;
-        nestableCategoryArticles.categories = articleCategories;
       }
     }
 
@@ -167,16 +158,14 @@ export default class StoryblokEntry
               article={JSON.stringify(
                 { ...story.content, readingTime: calculateReadingTime(story) },
               )}
-              related={JSON.stringify(this.state.related)}
-              categories={articleCategories}>{
-                blokToComponent({ blok: story.content, getComponent })
-              }</Article>
+              story-uuid={story.uuid}
+            >
+              {blokToComponent({ blok: story.content, getComponent })}
+            </Article>
           }
           {story.content.component === 'articles'
             && <Articles
               slot='content'
-              articles={articles}
-              categories={articleCategories}
               dropdown-label={story.content.dropdown_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
@@ -296,67 +285,6 @@ export default class StoryblokEntry
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
-          let relatedArticles = null;
-          let articles = null;
-
-          if (story.content && story.content.category) {
-            const data = await this.storyblokClient.get('cdn/stories', {
-              filter_query: {
-                category: {
-                  exists: story.content.category.map((c) => c.uuid).join(','),
-                },
-              },
-            });
-            if (data) {
-              relatedArticles = data.data.stories.reduce((acc, article) => {
-                if (article.uuid !== story.uuid) {
-                  acc.push({ ...article, readingTime: calculateReadingTime(article) });
-                }
-                return acc;
-              }, []);
-            }
-          }
-
-          const articleCategories = await this.storyblokClient.get('cdn/stories', {
-            starts_with: StoryblokService.getCountryCode(story).countryCode,
-            filter_query: {
-              component: {
-                in: 'category',
-              },
-            },
-          });
-          // eslint-disable-next-line compat/compat
-          const articleCategorieTabs = await Promise.all(articleCategories.data.stories
-            .map(async (category) => {
-              const articlesInCategory = await this.storyblokClient.get('cdn/stories', {
-                filter_query: {
-                  category: {
-                    exists: category.uuid,
-                  },
-                },
-              });
-              const count = articlesInCategory.data.stories.length;
-
-              return {
-                name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
-              };
-            }));
-
-          const fetchedArticles = await this.storyblokClient.get('cdn/stories', {
-            starts_with: StoryblokService.getCountryCode(story).countryCode,
-            filter_query: {
-              component: {
-                in: 'article',
-              },
-            },
-          });
-          if (fetchedArticles) {
-            articles = await Promise.all(fetchedArticles.data.stories
-              .map(async (article) => (
-                { ...article, readingTime: calculateReadingTime(article) }
-              )));
-          }
-
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
@@ -371,10 +299,7 @@ export default class StoryblokEntry
             ...DomService.getGlobalConfig(story.uuid,
               StoryblokService.getCountryCode(story).locale,
               StoryblokService.getCountryCode(story).country),
-            related: relatedArticles,
             globalContent: globalContentEntries,
-            articleCategories: JSON.stringify(articleCategorieTabs),
-            articles: JSON.stringify(articles),
           });
           this.loadNavigation(story.lang);
           this.loadLanguages();

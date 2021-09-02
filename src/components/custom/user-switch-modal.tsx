@@ -7,7 +7,7 @@ const modal = typeof document !== 'undefined' ? document.getElementById('global-
 
 const Modal = 'rcm-user-switch-modal' as React.ElementType;
 
-const convertUserConfigs = (content: GlobalContent): {
+const convertUserConfigs = (content: GlobalContent | undefined): {
   value: string;
   description: string;
   label: string;
@@ -21,23 +21,25 @@ const convertUserConfigs = (content: GlobalContent): {
   })) : []);
 
 export const RcmUserSwitchModal = ({
-  globalContent, inArticle, country,
+  globalContent, inArticle, country, userTypeFromSlug,
 }: {
   globalContent: GlobalContent;
   inArticle: boolean;
   country: Country;
+  userTypeFromSlug: string;
 }): JSX.Element => <>
   {modal && ReactDOM.createPortal(<Modal
     country-description={globalContent?.userSwitchModal?.countryDescription}
     country-label={globalContent?.countryNames[country] || ''}
     country-switch-label={globalContent?.userSwitchModal?.countrySwitchLabel}
     country-value={country}
-    image-src={globalContent.userSwitchModal.imageSrc}
-    headline={globalContent.userSwitchModal.headline}
-    intro-text={globalContent.userSwitchModal.introText}
-    footnote-text={globalContent.footer.infoText}
-    checkbox-label={globalContent.userSwitchModal.checkboxLabel}
-    disclaimer={globalContent.userSwitchModal.disclaimer}
+    image-src={globalContent?.userSwitchModal?.imageSrc}
+    headline={globalContent?.userSwitchModal?.headline}
+    intro-text={globalContent?.userSwitchModal?.introText}
+    footnote-text={globalContent?.footer?.infoText}
+    checkbox-label={globalContent?.userSwitchModal?.checkboxLabel}
+    disclaimer={globalContent?.userSwitchModal?.disclaimer}
     users={JSON.stringify(convertUserConfigs(globalContent))}
-    in-article={inArticle}/>, modal)}
+    in-article={inArticle}
+    user-type-from-slug={userTypeFromSlug}/>, modal)}
 </>;

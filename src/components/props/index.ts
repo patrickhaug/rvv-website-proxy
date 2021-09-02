@@ -9,8 +9,7 @@ const defaultMapper = (key: string, value: unknown): Record<string, string> => (
     : value.toString(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,  consistent-return
 export const getMappedProps = (key: string, blok: any): Record<string, string> => {
   if (blok) {
     /**
@@ -37,7 +36,6 @@ export const getMappedProps = (key: string, blok: any): Record<string, string> =
         const newProps = {
           ...props,
           // Just for convience to have consistent imageSrc keys in the components
-          // eslint-disable-next-line @typescript-eslint/camelcase
           imageSrc: parsedImage,
         };
         return defaultMapper(key, newProps);

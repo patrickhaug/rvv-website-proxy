@@ -234,71 +234,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
 
   const promises = allEntries.map(async (entry) => {
-    let relatedArticles = null;
-    const source = entry.full_slug.split('/');
-    const articlesByFolder = {};
-    const categoriesByFolder = {};
-
-    if (entry.content && entry.content.category) {
-      const data = await storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        filter_query: {
-          category: {
-            exists: entry.content.category.map((c) => c.uuid).join(','),
-          },
-        },
-      });
-      if (data) {
-        relatedArticles = data.data.stories.filter((e) => e.uuid !== entry.uuid);
-      }
-    }
-
-    if (!Object.keys(articlesByFolder).includes(source[0])) {
-      const fetchedArticles = await storyblokClient.get('cdn/stories', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        starts_with: `${source[0]}/`,
-        filter_query: {
-          component: {
-            in: 'article',
-          },
-        },
-      });
-      if (fetchedArticles) {
-        articlesByFolder[source[0]] = await Promise.all(fetchedArticles.data.stories
-          .map(async (article) => ({ ...article })));
-      }
-    }
-
-    if (!Object.keys(categoriesByFolder).includes(source[0])) {
-      const articleCategories = await storyblokClient.get('cdn/stories', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-        starts_with: `${source[0]}/`,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        filter_query: {
-          component: {
-            in: 'category',
-          },
-        },
-      });
-      // eslint-disable-next-line compat/compat
-      categoriesByFolder[source[0]] = await Promise.all(articleCategories.data.stories
-        .map(async (category) => {
-          const articlesInCategory = await storyblokClient.get('cdn/stories', {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            filter_query: {
-              category: {
-                exists: category.uuid,
-              },
-            },
-          });
-          const count = articlesInCategory.data.stories.length;
-
-          return {
-            name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
-          };
-        }));
-    }
-
     const globalContentEntries = StoryblokService
       .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
         {
@@ -318,10 +253,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         googleTagManagerId,
         story: entry,
-        related: relatedArticles,
         globalContent: globalContentEntries,
-        articleCategories: categoriesByFolder[source[0]],
-        articles: articlesByFolder[source[0]],
       },
     });
   });
@@ -364,10 +296,23 @@ exports.onCreatePage = async ({ page, actions }) => {
 // This is needed so that the build process does not fail because in gatby-config.js
 // the fs module is not available and therefore it throws an error because dotenv has
 // it as a dependency.
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({ actions, stage, plugins }) => {
+  if (stage === 'build-javascript' || stage === 'develop') {
+    actions.setWebpackConfig({
+      plugins: [
+        plugins.provide({ process: 'process/browser' }),
+      ],
+    });
+  }
+
   actions.setWebpackConfig({
-    node: {
-      fs: 'empty',
+    resolve: {
+      alias: {
+        path: require.resolve('path-browserify'),
+      },
+      fallback: {
+        fs: false,
+      },
     },
   });
 };

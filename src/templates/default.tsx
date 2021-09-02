@@ -12,6 +12,7 @@ import {
   Language,
   LanguageService,
   GlobalContent,
+  calculateReadingTime,
 } from '../services';
 import { SEO } from '../components/custom/seo';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -20,9 +21,6 @@ import { RcmIEModal } from '../components/custom/ie-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
-  related?: StoryData;
-  articleCategories?: StoryData;
-  articles?: StoryData;
 }
 
 export interface EntryData extends GlobalConfigProps {
@@ -31,10 +29,7 @@ export interface EntryData extends GlobalConfigProps {
   contact?: StoryData;
   languages?: Language[];
   search?: StoryData;
-  related?: StoryData;
   globalContent?: GlobalContent;
-  articleCategories?: StoryData;
-  articles?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -51,9 +46,6 @@ type StoryblokEntryState = EntryData & { showIEModal: boolean };
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const story = {
     ...pageContext.story,
-    related: pageContext.related,
-    articles: pageContext.articles,
-    articleCategories: pageContext.articleCategories,
   };
 
   return {
@@ -64,6 +56,7 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
       StoryblokService.getCountryCode(story).locale,
       StoryblokService.getCountryCode(story).country,
     ),
+    globalContent: pageContext.globalContent,
   };
 };
 
@@ -109,6 +102,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
+    DomService.activateConsentScript();
+
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
     this.setState({ showIEModal: isIE });
@@ -118,7 +113,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     const {
       story,
       navigation,
-      languages,
       globalContent,
       showIEModal,
       ...globalConfig
@@ -139,8 +133,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
-        nestableArticles.articles = JSON.stringify(story.articles);
-        nestableArticles.categories = JSON.stringify(story.articleCategories);
       }
     }
 
@@ -155,6 +147,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         ></SEO>
         <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
         <RcmUserSwitchModal
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
@@ -165,22 +158,26 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <Navigation
           tree={navigation}
           getComponent={getComponent}
-          languages={languages}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
+          currentCountry={StoryblokService.getCountryCode(story).country}
+          currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
         <Container>
           {story.content.component === 'article' && (
             <Article
-              article={JSON.stringify(story.content)}
-              related={JSON.stringify(story.related)}
-              categories={JSON.stringify(story.articleCategories)}
+              slot='content'
+              article={JSON.stringify(
+                { ...story.content, readingTime: calculateReadingTime(story) },
+              )}
+              story-uuid={story.uuid}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
           )}
           {story.content.component === 'articles' && (
             <Articles
-              articles={JSON.stringify(story.articles)}
-              categories={JSON.stringify(story.articleCategories)}
+              slot='content'
               dropdown-label={story.content.dropdown_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
@@ -188,24 +185,29 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             >{blokToComponent({ blok: story.content, getComponent })}</Articles>
           )}
           {story.content.component === 'funds' && (
-            <FundsList {...grabFundsProps(story.content)}>
+            <FundsList slot='content' {...grabFundsProps(story.content)}>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
           {story.content.component === 'fund' && (
-            <FundsDetail {...grabFundsProps(story.content)}>
+            <FundsDetail slot='content' {...grabFundsProps(story.content)}>
               {/* These are componentd filled with dummy data */}
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsDetail>
           )}
           {story.content.component !== 'article'
-            && blokToComponent({ blok: story.content, getComponent })}
+            && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
           name={globalContent?.contact?.button?.name}
         ></ContactButton>
-        <Footer tree={navigation} getComponent={getComponent}></Footer>
+        <Footer
+          tree={navigation}
+          getComponent={getComponent}
+          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+          countryCode={StoryblokService.getCountryCode(story).countryCode}>
+        </Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript>
           <iframe

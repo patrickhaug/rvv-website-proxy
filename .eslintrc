@@ -1,3 +1,23 @@
 {
-  "extends": "./node_modules/@biotope/quality-gate/config/.eslintrc.js"
+  "extends": "./node_modules/@biotope/quality-gate/config/.eslintrc.js",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "no-use-before-define": [0],
+    "@typescript-eslint/no-use-before-define": [1],
+    "camelcase": [0],
+    "@typescript-eslint/naming-convention": [
+      0, 
+      { "selector": "default", "format": ["camelCase"], "leadingUnderscore": "allowSingleOrDouble", "trailingUnderscore": "allowSingleOrDouble" },
+      { "selector": "variableLike", "format": ["camelCase", "PascalCase"] },
+      { "selector": "parameter", "format": ["strictCamelCase"], "leadingUnderscore": "allowSingleOrDouble", "trailingUnderscore": "allowSingleOrDouble" },
+      { "selector": "class", "format": ["PascalCase"] },
+      { "selector": "objectLiteralProperty", "format": ["camelCase", "PascalCase", "snake_case"], "leadingUnderscore": "allowSingleOrDouble", "trailingUnderscore": "allowSingleOrDouble" },
+      { "selector": "typeLike", "format": ["PascalCase"] },
+      { "selector": "typeProperty", "format": ["camelCase", "snake_case", "PascalCase"] },
+      { "selector": "enumMember", "format": ["UPPER_CASE"] }
+    ]
+  }
 }

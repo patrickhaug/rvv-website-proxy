@@ -19,7 +19,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         {headComponents}
 
         {/* Onetrust cookie consent */}
-        {/* <script
+        <script
           src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
           data-document-language="true"
           type="text/javascript"
@@ -27,7 +27,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-domain-script={process.env.GATSBY_ONETRUST_KEY}
           async
           defer
-        ></script> */}
+        ></script>
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}

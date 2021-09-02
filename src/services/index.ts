@@ -4,3 +4,4 @@ export * from './language';
 export * from './navigation';
 export * from './storyblok';
 export * from './string';
+export * from './reading-time';

@@ -19,6 +19,7 @@ export interface GlobalConfigProps {
   translationUrl: string;
   twitterHandle: string;
   whiteListedDomains: string;
+  storyblokAccessToken: string;
 }
 
 type HTMLElementContent = string | { toString: () => string };
@@ -31,6 +32,29 @@ export const DomService = {
       element.setAttribute(prop, props[prop]);
     });
     return element;
+  },
+
+  activateConsentScript(): void {
+    const oneTrustScriptPlaceholder = document.getElementById('oneTrustScriptPlaceholder');
+
+    if (oneTrustScriptPlaceholder) {
+      const activatedOneTrustScript = document.createElement('script');
+      const oneTrustScriptSettings = {
+        src: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        type: 'text/javascript',
+        charSet: 'UTF-8',
+        async: 'true',
+        defer: 'true',
+        'data-domain-script': `${process.env.GATSBY_RCM_ONETRUST_KEY}`,
+        'data-document-language': 'true',
+      };
+
+      Object.entries(oneTrustScriptSettings).forEach(([attrName, attrValue]) => {
+        activatedOneTrustScript.setAttribute(attrName, attrValue);
+      });
+
+      document.head.replaceChild(activatedOneTrustScript, oneTrustScriptPlaceholder);
+    }
   },
 
   getGlobalConfig(pageId: string, locale: string, country: string): GlobalConfigProps {
@@ -58,6 +82,7 @@ export const DomService = {
       translationUrl: `${process.env.GATSBY_COMPONENTS_LIBRARY_URL}/rcm-component-library/assets/translations/${parsedLocale}.json`,
       twitterHandle: process.env.GATSBY_TWITTER_HANDLE,
       whiteListedDomains: process.env.GATSBY_WHITE_LISTED_DOMAINS,
+      storyblokAccessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
     };
   },
 };

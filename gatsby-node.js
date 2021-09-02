@@ -4,7 +4,7 @@ const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
 
 // eslint-disable-next-line import/extensions
-const { NavigationService, StoryblokService, calculateReadingTime } = require('./node-services/dist/node-services/index');
+const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({
   accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
@@ -234,71 +234,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
 
   const promises = allEntries.map(async (entry) => {
-    let relatedArticles = null;
-    const { countryCode } = StoryblokService.getCountryCode(entry);
-    const articlesByFolder = {};
-    const categoriesByFolder = {};
-
-    if (entry.content && entry.content.category) {
-      const data = await storyblokClient.get('cdn/stories', {
-        filter_query: {
-          category: {
-            exists: entry.content.category.map((c) => c.uuid).join(','),
-          },
-        },
-      });
-      if (data) {
-        relatedArticles = data.data.stories.reduce((acc, article) => {
-          if (article.uuid !== entry.uuid) {
-            acc.push({ ...article, readingTime: calculateReadingTime(article) });
-          }
-          return acc;
-        }, []);
-      }
-    }
-
-    if (!Object.keys(articlesByFolder).includes(countryCode)) {
-      const fetchedArticles = await storyblokClient.get('cdn/stories', {
-        starts_with: countryCode,
-        filter_query: {
-          component: {
-            in: 'article',
-          },
-        },
-      });
-      if (fetchedArticles) {
-        articlesByFolder[countryCode] = await Promise.all(fetchedArticles.data.stories
-          .map(async (article) => ({ ...article, readingTime: calculateReadingTime(article) })));
-      }
-    }
-
-    if (!Object.keys(categoriesByFolder).includes(countryCode)) {
-      const articleCategories = await storyblokClient.get('cdn/stories', {
-        starts_with: countryCode,
-        filter_query: {
-          component: {
-            in: 'category',
-          },
-        },
-      });
-      // eslint-disable-next-line compat/compat
-      categoriesByFolder[countryCode] = await Promise.all(articleCategories.data.stories
-        .map(async (category) => {
-          const articlesInCategory = await storyblokClient.get('cdn/stories', {
-            filter_query: {
-              category: {
-                exists: category.uuid,
-              },
-            },
-          });
-          const count = articlesInCategory.data.stories.length;
-
-          return {
-            name: category.name, link: '#', count, uuid: category.uuid, image: category.content.image_src, description: category.content.description,
-          };
-        }));
-    }
-
     const globalContentEntries = StoryblokService
       .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
         {
@@ -318,10 +253,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         googleTagManagerId,
         story: entry,
-        related: relatedArticles,
         globalContent: globalContentEntries,
-        articleCategories: categoriesByFolder[countryCode],
-        articles: articlesByFolder[countryCode],
       },
     });
   });

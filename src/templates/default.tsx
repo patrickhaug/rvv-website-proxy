@@ -21,9 +21,6 @@ import { RcmIEModal } from '../components/custom/ie-modal';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
   lang: string;
-  related?: StoryData;
-  articleCategories?: StoryData;
-  articles?: StoryData;
 }
 
 export interface EntryData extends GlobalConfigProps {
@@ -32,10 +29,7 @@ export interface EntryData extends GlobalConfigProps {
   contact?: StoryData;
   languages?: Language[];
   search?: StoryData;
-  related?: StoryData;
   globalContent?: GlobalContent;
-  articleCategories?: StoryData;
-  articles?: StoryData;
 }
 
 interface StoryblokEntryProps {
@@ -52,9 +46,6 @@ type StoryblokEntryState = EntryData & { showIEModal: boolean };
 const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntryState => {
   const story = {
     ...pageContext.story,
-    related: pageContext.related,
-    articles: pageContext.articles,
-    articleCategories: pageContext.articleCategories,
   };
 
   return {
@@ -142,13 +133,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
-        nestableArticles.articles = JSON.stringify(story.articles);
-        nestableArticles.categories = JSON.stringify(story.articleCategories);
-      }
-      const nestableCategoryArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'rcm-category-articles');
-      if (nestableCategoryArticles) {
-        nestableCategoryArticles.articles = JSON.stringify(story.articles);
-        nestableCategoryArticles.categories = JSON.stringify(story.articleCategories);
       }
     }
 
@@ -161,7 +145,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        {/* <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal> */}
+        <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
         <RcmUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
@@ -186,8 +170,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
               article={JSON.stringify(
                 { ...story.content, readingTime: calculateReadingTime(story) },
               )}
-              related={JSON.stringify(story.related)}
-              categories={JSON.stringify(story.articleCategories)}
+              story-uuid={story.uuid}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
@@ -195,8 +178,6 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component === 'articles' && (
             <Articles
               slot='content'
-              articles={JSON.stringify(story.articles)}
-              categories={JSON.stringify(story.articleCategories)}
               dropdown-label={story.content.dropdown_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}

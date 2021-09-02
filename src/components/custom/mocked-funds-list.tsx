@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Default } from '../default';
 import { AnyProps } from '../types';
 

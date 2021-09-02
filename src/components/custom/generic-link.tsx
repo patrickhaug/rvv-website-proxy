@@ -9,6 +9,7 @@ const GenericLinkComponents = {
     props: {
       target: '_blank',
       icon: 'download',
+      'underline-color': 'var(--colors-primary-base)',
     },
     mappings: {
       url: 'src', // type: asset

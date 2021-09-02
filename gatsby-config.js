@@ -61,8 +61,6 @@ module.exports = {
         siteUrl: process.env.GATSBY_WEBSITE_URL,
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

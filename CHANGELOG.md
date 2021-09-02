@@ -1,3 +1,29 @@
+# [1.8.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.7.0...v1.8.0) (2021-09-02)
+
+
+### Bug Fixes
+
+* lint warnings ([013212a](https://github.com/virtualidentityag/rcm-corporate/commit/013212add63c56b510b2244a1315bcb180e8524f))
+* linter style ([1faf3d5](https://github.com/virtualidentityag/rcm-corporate/commit/1faf3d55caa10dc1dd16f1850e585525a574382a))
+* **function:** remove unused function ([2e64859](https://github.com/virtualidentityag/rcm-corporate/commit/2e64859858035bbb73f90b9f288220b7e3c083f3))
+* **nav:** navigation + wizzards logic adjustments ([576178d](https://github.com/virtualidentityag/rcm-corporate/commit/576178d467f8ea285700a4214010631a8c959676))
+* **navigation:** typing ([8732764](https://github.com/virtualidentityag/rcm-corporate/commit/8732764b385cb138605b02860aa6ed041ef0cb1c))
+* **richtext:** no slotting of other components in storyblok ([6a037b5](https://github.com/virtualidentityag/rcm-corporate/commit/6a037b53c8638e14562b16a512a200c420ee6310))
+* **typing:** children ([4a8fa31](https://github.com/virtualidentityag/rcm-corporate/commit/4a8fa3187dbdfe1e5bb24bcc05495241b2f7d60a))
+* **values:** remove unused values ([5642952](https://github.com/virtualidentityag/rcm-corporate/commit/5642952b373aef5af85b4d2207d9d4b12693b021))
+
+
+### Features
+
+* add google recaptcha test key ([a217807](https://github.com/virtualidentityag/rcm-corporate/commit/a217807553aae14dd5cb5b768c11cb0837201182))
+* **cookie banner:** add onetrust cookie banner ([d8a075b](https://github.com/virtualidentityag/rcm-corporate/commit/d8a075b8ba6adb72f13ce5fa4d4527b17c7a7873))
+* **footer:** get correct sitemap for usertype ([63b5e7b](https://github.com/virtualidentityag/rcm-corporate/commit/63b5e7b5d41f609de5a9cd2e3ce83caf2c91caec))
+* **language switch:** add language switch ([7da4211](https://github.com/virtualidentityag/rcm-corporate/commit/7da42117f1bdc25f647ccf5ffcf40ad1db5db7eb))
+* **reading0time:** add article reading time calculation ([1028c09](https://github.com/virtualidentityag/rcm-corporate/commit/1028c09eff7678abf530953593b7c5dbd61c4d4c))
+* **web-search:** add storyblok access key to global config ([7ccf2d5](https://github.com/virtualidentityag/rcm-corporate/commit/7ccf2d5e1b34e0a9b0205d9b7d9a9e22ba6dd3ca))
+* add category articles ([ec3137a](https://github.com/virtualidentityag/rcm-corporate/commit/ec3137a27bccaf449240cc13ad630c08b45f3cb0))
+* make editorial text block accept richtext ([9868125](https://github.com/virtualidentityag/rcm-corporate/commit/9868125aca136977c5b2ba272c0eec376eb0a698))
+
 # [1.7.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.6.0...v1.7.0) (2021-08-23)
 
 

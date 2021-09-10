@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.8.0...v1.9.0) (2021-09-10)
+
+
+### Features
+
+* add legal-text disclaimer and resolution for disclaimers ([26ce497](https://github.com/virtualidentityag/rcm-corporate/commit/26ce49715ffcd1488c9abcb60948f9e501c5d3b8))
+
 # [1.8.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.7.0...v1.8.0) (2021-09-02)
 
 

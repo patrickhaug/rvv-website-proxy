@@ -5,6 +5,7 @@ import { RcmNavigation } from './navigation';
 import { RcmFooter } from './footer';
 import { gridComponents } from './grid';
 import { RcmRichtext } from './richtext';
+import { RcmLegalText } from './legal-text';
 import { RcmEditorialTextBlock } from './editorial-text-block';
 import { forms } from './forms';
 import { responsiveTable } from './responsive-table';
@@ -22,6 +23,7 @@ export default {
   RcmNavigation,
   RcmFooter,
   RcmRichtext,
+  RcmLegalText,
   RcmEditorialTextBlock,
   ...rcmGenericLinkComponents,
   ...forms,

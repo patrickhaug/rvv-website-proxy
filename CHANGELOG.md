@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.0...v1.9.1) (2021-09-12)
+
+
+### Bug Fixes
+
+* status bar default white ([5d2b37d](https://github.com/virtualidentityag/rcm-corporate/commit/5d2b37d87cb1b2dcfd782509d910dc42c26539c6))
+
 # [1.9.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.8.0...v1.9.0) (2021-09-10)
 
 

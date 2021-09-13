@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.1...v1.9.2) (2021-09-13)
+
+
+### Bug Fixes
+
+* node version ([0291e25](https://github.com/virtualidentityag/rcm-corporate/commit/0291e25fb1ef7d11487d4137c913ea35828b7ffc))
+
 ## [1.9.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.0...v1.9.1) (2021-09-12)
 
 

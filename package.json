@@ -32,7 +32,7 @@
     "gatsby-plugin-s3": "^0.3.8",
     "gatsby-plugin-sharp": "^2.14.4",
     "gatsby-plugin-sitemap": "^4.10.0",
-    "gatsby-plugin-stencil": "^0.2.0",
+    "gatsby-plugin-stencil": "git+https://github.com/virtualidentityag/gatsby-plugin-stencil.git#40986740c569b2f8b2ef0e665ab4416013e260b0",
     "gatsby-source-filesystem": "^3.14.0",
     "gatsby-source-graphql": "^3.14.0",
     "gatsby-transformer-sharp": "^2.5.13",

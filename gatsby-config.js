@@ -14,6 +14,7 @@ const autoResolveField = [
   'rcm-editorial-big-feature.article',
   'editorial-item.page',
   'article.category',
+  'rcm-disclaimer.disclaimers',
 ];
 
 module.exports = {

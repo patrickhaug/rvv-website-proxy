@@ -10,7 +10,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 12
+      nodejs: 14
   pre_build:
     commands:
       - export GATSBY_STORYBLOK_SPACE_API_KEY_NAME="${WEBSITE_NAME}:${ENVIRONMENT}"

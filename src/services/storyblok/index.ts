@@ -90,7 +90,7 @@ export interface GlobalContent {
     disclaimer: string;
   };
   userTypeConfigs: {
-    // index being usertype (insti, retail, advanced)
+    // index being usertype (institutional, retail, advanced)
     [index: string]: {
       label: string;
       value: string;
@@ -106,16 +106,18 @@ export interface GlobalContent {
     userTypeSwitch: {
       advanced: string;
       retail: string;
-      insti: string;
+      institutional: string;
     };
   };
   footer: {
     infoText: string;
     copyRightText: string;
-    bottomLinks: {[index: string]: {
-      label: string;
-      link: string;
-    };};
+    bottomLinks: {
+      [index: string]: {
+        label: string;
+        link: string;
+      };
+    };
   };
 }
 
@@ -139,7 +141,7 @@ export type StoryblokDatasourceEntry =
     dimension_value: string;
   }
 
-const deepen = (obj): {[key: string]: string} => {
+const deepen = (obj): { [key: string]: string } => {
   const result = {};
   Object.keys(obj).forEach((key) => {
     const parts = key.split('.');
@@ -179,10 +181,12 @@ export const StoryblokService = {
   },
 
   getLocalizedDatasourceEntries(
-    localizeDatasourceEntries: {datasourceEntries: StoryblokDatasourceEntry[][];
+    localizeDatasourceEntries: {
+      datasourceEntries: StoryblokDatasourceEntry[][];
       dimensions: string[];
       countryCode: string;
-      defaultValue: StoryblokDatasourceEntry[];},
+      defaultValue: StoryblokDatasourceEntry[];
+    },
   ): StoryblokDatasourceEntry[] {
     const {
       datasourceEntries, dimensions, countryCode, defaultValue,
@@ -195,20 +199,36 @@ export const StoryblokService = {
   },
 
   parseDatasourceEntries(datasourceEntries): GlobalContent {
-    const datasourceValues = datasourceEntries.reduce((object, item) => ({
-      ...object,
-      // empty datasource returns "''"
-      [item.name]: item.dimension_value?.replace(/^''$/, '') || item.value?.replace(/^''$/, ''),
-    }), {} as {[key: string]: string});
+    const datasourceValues = datasourceEntries.reduce((object, item) => {
+      if (item.dimension_value) {
+        return {
+          ...object,
+          // empty datasource returns "''"
+          [item.name]: item.dimension_value?.replace(/^''$/, ''),
+        };
+      }
+
+      return {
+        ...object,
+        // empty datasource returns "''"
+        [item.name]: item.value?.replace(/^''$/, ''),
+      };
+    }, {} as { [key: string]: string });
     return deepen(datasourceValues) as unknown as GlobalContent;
   },
 
-  getCountryCode(story): {locale: string; country: string; countryCode: string} {
+  getCountryCode(story): { locale: string; country: string; countryCode: string } {
     return {
       countryCode: story.default_full_slug?.split('/')[0] || 'at-de',
       country: story.default_full_slug?.split('/')[0]?.split('-')[0] || 'at',
       locale: story.default_full_slug?.split('/')[0]?.split('-')[1] || 'de',
     };
+  },
+
+  getUserTypeFromSlug(story): string {
+    const userType = story.default_full_slug?.split('/')[1];
+    if (userType === 'retail' || userType === 'advanced' || userType === 'institutional') { return userType; }
+    return '';
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

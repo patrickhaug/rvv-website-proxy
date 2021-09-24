@@ -12,14 +12,16 @@ interface HTMLProps {
 export default function HTML({ body, headComponents, postBodyComponents }: HTMLProps): JSX.Element {
   const src = `${getComponentsURL()}/rcm-component-library/rcm-component-library`;
   return (
-    <html lang="en">
+    <html lang="de">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {headComponents}
-
+        <meta name="theme-color" content="#FFFFFF" />
+        <meta name="msapplication-navbutton-color" content="#FFFFFF" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
         {/* Onetrust cookie consent */}
-        {/* <script
+        <script
           src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
           data-document-language="true"
           type="text/javascript"
@@ -27,7 +29,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           data-domain-script={process.env.GATSBY_ONETRUST_KEY}
           async
           defer
-        ></script> */}
+        ></script>
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}

@@ -14,6 +14,7 @@ const autoResolveField = [
   'rcm-editorial-big-feature.article',
   'editorial-item.page',
   'article.category',
+  'rcm-disclaimer.disclaimers',
 ];
 
 module.exports = {
@@ -61,8 +62,6 @@ module.exports = {
         siteUrl: process.env.GATSBY_WEBSITE_URL,
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -83,7 +82,7 @@ module.exports = {
       resolve: 'gatsby-plugin-stencil',
       options: {
         // The module of your components (required), eg "@ionic/core".
-        module: '@virtualidentityag/rcm-component-library',
+        module: process.env.GATSBY_COMPONENTS_LIBRARY_HYDRATE_URL,
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
           clientHydrateAnnotations: false,
@@ -107,6 +106,7 @@ module.exports = {
         bucketName: process.env.GATSBY_AWS_S3_BUCKET || 'no-bucket',
         region: 'eu-central-1',
         generateRoutingRules: false,
+        acl: null,
       },
     },
   ],

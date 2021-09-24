@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /**
  * SEO component that queries for data with
  *  Gatsby's useStaticQuery React hook

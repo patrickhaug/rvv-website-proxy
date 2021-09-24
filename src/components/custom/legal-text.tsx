@@ -63,7 +63,7 @@ const markupFromRichtextField = (storyblokHtmlSchema: Richtext): string => fixEx
   forceLinksInsideParagraphs(storyblokClient.richTextResolver.render(storyblokHtmlSchema)),
 );
 
-export const RcmRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
+export const RcmLegalText = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
   'rcm-richtext',
   {
     // eslint-disable-next-line no-underscore-dangle
@@ -71,7 +71,7 @@ export const RcmRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.crea
     slot,
     'capitalize-first-Letter': blok.capitalize_first_letter || undefined,
     'right-to-left': blok.right_to_left || undefined,
-    level: blok.level,
+    level: 3,
     width: blok.width,
     dangerouslySetInnerHTML: { __html: markupFromRichtextField(blok.text) },
   },

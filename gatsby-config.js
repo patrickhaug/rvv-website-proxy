@@ -82,7 +82,7 @@ module.exports = {
       resolve: 'gatsby-plugin-stencil',
       options: {
         // The module of your components (required), eg "@ionic/core".
-        module: '@virtualidentityag/rcm-component-library',
+        module: process.env.GATSBY_COMPONENTS_LIBRARY_HYDRATE_URL,
         // Stencil renderToString options (optional): https://stenciljs.com/docs/hydrate-app#configuration-options
         renderToStringOptions: {
           clientHydrateAnnotations: false,

@@ -3,7 +3,7 @@
 This is the frontend for the RCM Corporate Website, built on Storyblok and the [RCM Component Library](https://github.com/virtualidentityag/rcm-component-library).
 
 ## Pre-requisites
-- node >= 12
+- node >= 14
 
 ## Quick start
 - clone the repo and ensure you meet the pre-requisites above

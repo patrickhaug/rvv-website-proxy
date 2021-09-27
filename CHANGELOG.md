@@ -1,3 +1,11 @@
+## [1.9.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.2...v1.9.3) (2021-09-27)
+
+
+### Bug Fixes
+
+* change staging asset url ([decd570](https://github.com/virtualidentityag/rcm-corporate/commit/decd57083deb81f3c61f7dabb4e6341532e26c1a))
+* replace recaptcha with correct one ([9be3319](https://github.com/virtualidentityag/rcm-corporate/commit/9be33193697a10c75e07e1b202abb078ee8fc4d6))
+
 ## [1.9.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.1...v1.9.2) (2021-09-13)
 
 

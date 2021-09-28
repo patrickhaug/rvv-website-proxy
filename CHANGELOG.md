@@ -1,3 +1,10 @@
+## [1.9.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.3...v1.9.4) (2021-09-28)
+
+
+### Bug Fixes
+
+* **app-manifest:** change theme colors ([95a4f7a](https://github.com/virtualidentityag/rcm-corporate/commit/95a4f7ae5b67a419e82bfc82cb6bdfa8bb305ac1))
+
 ## [1.9.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.2...v1.9.3) (2021-09-27)
 
 

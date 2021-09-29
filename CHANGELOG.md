@@ -1,3 +1,10 @@
+## [1.9.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.4...v1.9.5) (2021-09-29)
+
+
+### Bug Fixes
+
+* **datasources:** get datasources for dimension with index 0 ([81dd998](https://github.com/virtualidentityag/rcm-corporate/commit/81dd9980a480c2a635f027882f2eae9165e77676))
+
 ## [1.9.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.3...v1.9.4) (2021-09-28)
 
 

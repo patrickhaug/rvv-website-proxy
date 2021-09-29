@@ -55,16 +55,16 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
-    if (!langMap.has(key)) {
-      langMap.set(key, t);
+    if (!langMap.has(t.slug)) {
+      langMap.set(t.slug, t);
     }
   });
-
+  const currentTree = getCurrentTree(langMap, countryCode);
+  const items = currentTree ? currentTree.map(renderTree) : [];
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Navigation
-      tab-entries={JSON.stringify(getCurrentTree(langMap, countryCode).map(renderTree))}
+      tab-entries={JSON.stringify(items)}
       current-language={currentLanguage}
       current-country={currentCountry}
       user-type-from-slug={userTypeFromSlug}

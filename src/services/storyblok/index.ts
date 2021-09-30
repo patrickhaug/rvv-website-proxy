@@ -219,9 +219,9 @@ export const StoryblokService = {
 
   getCountryCode(story): { locale: string; country: string; countryCode: string } {
     return {
-      countryCode: story.default_full_slug?.split('/')[0] || 'at-de',
-      country: story.default_full_slug?.split('/')[0]?.split('-')[0] || 'at',
-      locale: story.default_full_slug?.split('/')[0]?.split('-')[1] || 'de',
+      countryCode: story.full_slug?.split('/')[0] || 'at-de',
+      country: story.full_slug?.split('/')[0]?.split('-')[0] || 'at',
+      locale: story.full_slug?.split('/')[0]?.split('-')[1] || 'de',
     };
   },
 

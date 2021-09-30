@@ -159,7 +159,8 @@ export default class StoryblokEntry
                 { ...story.content, readingTime: calculateReadingTime(story) },
               )}
               story-uuid={story.uuid}
-            >
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}>
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
           }

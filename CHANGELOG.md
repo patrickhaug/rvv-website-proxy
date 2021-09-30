@@ -1,3 +1,11 @@
+## [1.9.6](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.5...v1.9.6) (2021-09-30)
+
+
+### Bug Fixes
+
+* add locale config to article ([aa8a484](https://github.com/virtualidentityag/rcm-corporate/commit/aa8a4843a99dcfea88249c24be553484920232d7))
+* fix footer links ([ea13450](https://github.com/virtualidentityag/rcm-corporate/commit/ea13450f2db71f81942e1f14fb83a13e54d5d14f))
+
 ## [1.9.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.4...v1.9.5) (2021-09-29)
 
 

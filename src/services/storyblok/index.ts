@@ -192,7 +192,7 @@ export const StoryblokService = {
       datasourceEntries, dimensions, countryCode, defaultValue,
     } = localizeDatasourceEntries;
     if (dimensions.indexOf(countryCode) === -1) { return defaultValue; }
-    if (dimensions.indexOf(countryCode) && datasourceEntries[dimensions.indexOf(countryCode)]) {
+    if (datasourceEntries[dimensions.indexOf(countryCode)]) {
       return datasourceEntries[dimensions.indexOf(countryCode)];
     }
     return defaultValue;
@@ -219,9 +219,9 @@ export const StoryblokService = {
 
   getCountryCode(story): { locale: string; country: string; countryCode: string } {
     return {
-      countryCode: story.default_full_slug?.split('/')[0] || 'at-de',
-      country: story.default_full_slug?.split('/')[0]?.split('-')[0] || 'at',
-      locale: story.default_full_slug?.split('/')[0]?.split('-')[1] || 'de',
+      countryCode: story.full_slug?.split('/')[0] || 'at-de',
+      country: story.full_slug?.split('/')[0]?.split('-')[0] || 'at',
+      locale: story.full_slug?.split('/')[0]?.split('-')[1] || 'de',
     };
   },
 

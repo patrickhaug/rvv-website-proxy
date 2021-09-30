@@ -2,7 +2,7 @@
   "name": "rcm-corporate",
   "private": true,
   "description": "RCM corporate website frontend",
-  "version": "1.5.0",
+  "version": "1.9.6",
   "engines": {
     "node": ">=12"
   },
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@types/react-helmet": "^6.1.2",
-    "@virtualidentityag/rcm-component-library": "^1.11.0",
+    "@virtualidentityag/rcm-component-library": "^1.12.0",
     "gatsby": "^3.14.0",
     "gatsby-image": "^3.11.0",
     "gatsby-plugin-manifest": "^3.14.0",
@@ -38,7 +38,7 @@
     "gatsby-transformer-sharp": "^2.5.13",
     "lodash.get": "^4.4.2",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.3.6",
+    "postcss": "^8.3.8",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -50,12 +50,12 @@
   },
   "devDependencies": {
     "@biotope/quality-gate": "^2.0.0-rc.5",
-    "@semantic-release/changelog": "5.0.1",
-    "@semantic-release/git": "9.0.1",
+    "@semantic-release/changelog": "6.0.0",
+    "@semantic-release/git": "10.0.0",
     "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
     "lint-staged": "^11.1.2",
-    "semantic-release": "17.4.7"
+    "semantic-release": "18.0.0"
   },
   "config": {
     "commitizen": {

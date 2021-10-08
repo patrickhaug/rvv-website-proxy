@@ -26,7 +26,7 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     return { text: '', href: '' };
   });
 
-  return { userTypeSlug: leaf.slug, tree };
+  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path, tree };
 }
 
 // TODO correct typing of storyblok repsones
@@ -47,8 +47,9 @@ export const RcmFooter = (props: FooterProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    if (!langMap.has(t.slug)) {
-      langMap.set(t.slug, t);
+    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
+    if (!langMap.has(key)) {
+      langMap.set(key, t);
     }
   });
 

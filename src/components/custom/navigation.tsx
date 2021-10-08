@@ -41,11 +41,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
-    tree,
-    currentCountry,
-    currentLanguage,
-    countryCode,
-    userTypeFromSlug,
+    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug,
   } = props;
 
   if (!tree) {
@@ -55,12 +51,14 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    if (!langMap.has(t.slug)) {
-      langMap.set(t.slug, t);
+    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
+    if (!langMap.has(key)) {
+      langMap.set(key, t);
     }
   });
   const currentTree = getCurrentTree(langMap, countryCode);
   const items = currentTree ? currentTree.map(renderTree) : [];
+
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Navigation
@@ -70,14 +68,12 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
     >
-      {
-        /*
-         * NOTE: Only works if renderTree is defined using the function keyword!
-         *
-         * To avoid managing the arguments that are passed to renderTree,
-         * we pass component state as the thisArg to the mapping function.
-         */
-      }
+      {/*
+       * NOTE: Only works if renderTree is defined using the function keyword!
+       *
+       * To avoid managing the arguments that are passed to renderTree,
+       * we pass component state as the thisArg to the mapping function.
+       */}
     </Navigation>
   );
 };

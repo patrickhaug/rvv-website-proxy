@@ -1,3 +1,10 @@
+## [1.9.7](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.6...v1.9.7) (2021-10-08)
+
+
+### Bug Fixes
+
+* **footer and nav:** fix footer and nav links ([b580eee](https://github.com/virtualidentityag/rcm-corporate/commit/b580eee54350b1fc5b11b178ebe03076924c878e))
+
 ## [1.9.6](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.5...v1.9.6) (2021-09-30)
 
 

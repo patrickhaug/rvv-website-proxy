@@ -41,5 +41,7 @@ export const RcmUserSwitchModal = ({
     disclaimer={globalContent?.userSwitchModal?.disclaimer}
     users={JSON.stringify(convertUserConfigs(globalContent))}
     in-article={inArticle}
+    link-text={globalContent?.userSwitchModal?.linkLabel}
+    link={globalContent?.userSwitchModal?.linkHref}
     user-type-from-slug={userTypeFromSlug}/>, modal)}
 </>;

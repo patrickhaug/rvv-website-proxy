@@ -219,23 +219,31 @@ export default class StoryblokEntry
   private handleStoryblokLoad(): void {
     this.loadStory();
     const storyblok = StoryblokService.getObject();
+    const storyblokConfig = StoryblokService.getConfig();
 
     if (storyblok) {
       storyblok.on(['change', 'published'], this.loadStory);
 
       storyblok.on('input', (data: Story['data']) => {
-        const { story: currentStory } = this.state;
         const story = data?.story as StoryDataFromGraphQLQuery;
 
-        if (currentStory && currentStory.id === story.id) {
-          story.content = storyblok.addComments(story.content, story.id);
-          this.setState({
-            story,
-            ...DomService.getGlobalConfig(story.uuid,
-              StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
-          });
-        }
+        storyblok.resolveRelations(
+          story,
+          storyblokConfig.options.resolveRelations,
+          (storyWithResolvedRelations) => {
+            const copyStoryWithResolvedRelations = { ...storyWithResolvedRelations };
+            copyStoryWithResolvedRelations.content = storyblok.addComments(story.content, story.id);
+
+            this.setState({
+              story: copyStoryWithResolvedRelations,
+              ...DomService.getGlobalConfig(
+                copyStoryWithResolvedRelations.uuid,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).locale,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).country,
+              ),
+            });
+          },
+        );
       });
 
       storyblok.pingEditor(() => {

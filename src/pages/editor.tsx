@@ -268,14 +268,6 @@ export default class StoryblokEntry
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
     const timeStamp = new Date().toString();
-    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
-      cv: timeStamp,
-    });
-    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
-      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-    ).flat().filter(
-      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
-    );
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
     });

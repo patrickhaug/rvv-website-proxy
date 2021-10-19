@@ -18,10 +18,12 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     if (e.is_folder) {
       const tabEntry = { text: e.name, href: e.real_path, children: [] };
       e.children.forEach((c) => {
-        tabEntry.children.push({
-          text: c.name,
-          href: c.real_path,
-        });
+        if (!c.page.content.hide_in_navigation) {
+          tabEntry.children.push({
+            text: c.name,
+            href: c.real_path,
+          });
+        }
       });
       return tabEntry;
     }

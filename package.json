@@ -21,9 +21,9 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@types/react-helmet": "^6.1.2",
-    "@virtualidentityag/rcm-component-library": "^1.12.0",
-    "gatsby": "^3.14.0",
+    "@types/react-helmet": "^6.1.4",
+    "@virtualidentityag/rcm-component-library": "^1.12.5",
+    "gatsby": "^3.14.3",
     "gatsby-image": "^3.11.0",
     "gatsby-plugin-manifest": "^3.14.0",
     "gatsby-plugin-offline": "^4.14.0",
@@ -38,7 +38,7 @@
     "gatsby-transformer-sharp": "^2.5.13",
     "lodash.get": "^4.4.2",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.3.8",
+    "postcss": "^8.3.9",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -46,7 +46,7 @@
     "serve": "^12.0.0",
     "storyblok-js-client": "^4.1.4",
     "storyblok-react": "^0.1.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "devDependencies": {
     "@biotope/quality-gate": "^2.0.0-rc.5",
@@ -54,7 +54,7 @@
     "@semantic-release/git": "10.0.0",
     "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^11.2.3",
     "semantic-release": "18.0.0"
   },
   "config": {

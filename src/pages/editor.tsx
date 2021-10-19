@@ -219,23 +219,31 @@ export default class StoryblokEntry
   private handleStoryblokLoad(): void {
     this.loadStory();
     const storyblok = StoryblokService.getObject();
+    const storyblokConfig = StoryblokService.getConfig();
 
     if (storyblok) {
       storyblok.on(['change', 'published'], this.loadStory);
 
       storyblok.on('input', (data: Story['data']) => {
-        const { story: currentStory } = this.state;
         const story = data?.story as StoryDataFromGraphQLQuery;
 
-        if (currentStory && currentStory.id === story.id) {
-          story.content = storyblok.addComments(story.content, story.id);
-          this.setState({
-            story,
-            ...DomService.getGlobalConfig(story.uuid,
-              StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
-          });
-        }
+        storyblok.resolveRelations(
+          story,
+          storyblokConfig.options.resolveRelations,
+          (storyWithResolvedRelations) => {
+            const copyStoryWithResolvedRelations = { ...storyWithResolvedRelations };
+            copyStoryWithResolvedRelations.content = storyblok.addComments(story.content, story.id);
+
+            this.setState({
+              story: copyStoryWithResolvedRelations,
+              ...DomService.getGlobalConfig(
+                copyStoryWithResolvedRelations.uuid,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).locale,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).country,
+              ),
+            });
+          },
+        );
       });
 
       storyblok.pingEditor(() => {
@@ -260,23 +268,9 @@ export default class StoryblokEntry
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
     const timeStamp = new Date().toString();
-    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
-      cv: timeStamp,
-    });
-    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
-      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-    ).flat().filter(
-      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
-    );
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
     });
-    const storyblokDatasourceEntriesPromises: Promise<StoryblokDatasourceEntry[]>[] = storyblokDatasourceDimensions.map(async (dimension) => this.storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-      dimension,
-    }) as unknown as Promise<StoryblokDatasourceEntry[]>);
-    // eslint-disable-next-line compat/compat
-    const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -286,11 +280,16 @@ export default class StoryblokEntry
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
+          const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
+            cv: timeStamp,
+            dimension: StoryblokService.getCountryCode(story).countryCode,
+          });
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
-                datasourceEntries: storyblokDatasourceEntries,
-                dimensions: storyblokDatasourceDimensions,
+                datasourceEntries: [storyblokDatasourceEntries],
+                // for the editor view we load only the datasources for this country
+                dimensions: [StoryblokService.getCountryCode(story).countryCode],
                 countryCode: StoryblokService.getCountryCode(story).countryCode,
                 defaultValue: defaultDatasourceEntries,
               },

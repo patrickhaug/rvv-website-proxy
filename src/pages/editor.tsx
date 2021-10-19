@@ -279,12 +279,6 @@ export default class StoryblokEntry
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
     });
-    const storyblokDatasourceEntriesPromises: Promise<StoryblokDatasourceEntry[]>[] = storyblokDatasourceDimensions.map(async (dimension) => this.storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-      dimension,
-    }) as unknown as Promise<StoryblokDatasourceEntry[]>);
-    // eslint-disable-next-line compat/compat
-    const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -294,11 +288,16 @@ export default class StoryblokEntry
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
+          const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
+            cv: timeStamp,
+            dimension: StoryblokService.getCountryCode(story).countryCode,
+          });
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
-                datasourceEntries: storyblokDatasourceEntries,
-                dimensions: storyblokDatasourceDimensions,
+                datasourceEntries: [storyblokDatasourceEntries],
+                // for the editor view we load only the datasources for this country
+                dimensions: [StoryblokService.getCountryCode(story).countryCode],
                 countryCode: StoryblokService.getCountryCode(story).countryCode,
                 defaultValue: defaultDatasourceEntries,
               },

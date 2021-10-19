@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.7...v1.10.0) (2021-10-19)
+
+
+### Bug Fixes
+
+* **article-categories:** fix resolution of article categories on edit ([b85230c](https://github.com/virtualidentityag/rcm-corporate/commit/b85230ce02fe56d9382b148abd52d08920767086))
+
+
+### Features
+
+* **navigation:** hide in navigation + cleanup editor view ([aee2de3](https://github.com/virtualidentityag/rcm-corporate/commit/aee2de3bb1a75fcd7b7080cdbe21b0b0af67069d))
+* **usertype:** add link ([18300f0](https://github.com/virtualidentityag/rcm-corporate/commit/18300f083dfb1896855d9aeb3c00b48a18b92439))
+
 ## [1.9.7](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.6...v1.9.7) (2021-10-08)
 
 

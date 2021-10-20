@@ -270,6 +270,7 @@ export default class StoryblokEntry
     const timeStamp = new Date().toString();
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
+      per_page: 1000,
     });
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
@@ -283,6 +284,7 @@ export default class StoryblokEntry
           const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
             cv: timeStamp,
             dimension: StoryblokService.getCountryCode(story).countryCode,
+            per_page: 1000,
           });
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(

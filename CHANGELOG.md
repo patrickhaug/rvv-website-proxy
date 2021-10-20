@@ -1,3 +1,30 @@
+## [1.10.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.0...v1.10.1) (2021-10-20)
+
+
+### Bug Fixes
+
+* **usertype:** normalize usertypeslugs ([590525e](https://github.com/virtualidentityag/rcm-corporate/commit/590525e6e6040fb0e7b6b62d933f3dedbf0dd875))
+
+# [1.10.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.7...v1.10.0) (2021-10-19)
+
+
+### Bug Fixes
+
+* **article-categories:** fix resolution of article categories on edit ([b85230c](https://github.com/virtualidentityag/rcm-corporate/commit/b85230ce02fe56d9382b148abd52d08920767086))
+
+
+### Features
+
+* **navigation:** hide in navigation + cleanup editor view ([aee2de3](https://github.com/virtualidentityag/rcm-corporate/commit/aee2de3bb1a75fcd7b7080cdbe21b0b0af67069d))
+* **usertype:** add link ([18300f0](https://github.com/virtualidentityag/rcm-corporate/commit/18300f083dfb1896855d9aeb3c00b48a18b92439))
+
+## [1.9.7](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.6...v1.9.7) (2021-10-08)
+
+
+### Bug Fixes
+
+* **footer and nav:** fix footer and nav links ([b580eee](https://github.com/virtualidentityag/rcm-corporate/commit/b580eee54350b1fc5b11b178ebe03076924c878e))
+
 ## [1.9.6](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.5...v1.9.6) (2021-09-30)
 
 

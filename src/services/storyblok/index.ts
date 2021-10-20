@@ -88,6 +88,8 @@ export interface GlobalContent {
     introText: string;
     checkboxLabel: string;
     disclaimer: string;
+    linkLabel: string;
+    linkHref: string;
   };
   userTypeConfigs: {
     // index being usertype (institutional, retail, advanced)

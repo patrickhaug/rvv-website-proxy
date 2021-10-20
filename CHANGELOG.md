@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.0...v1.10.1) (2021-10-20)
+
+
+### Bug Fixes
+
+* **usertype:** normalize usertypeslugs ([590525e](https://github.com/virtualidentityag/rcm-corporate/commit/590525e6e6040fb0e7b6b62d933f3dedbf0dd875))
+
 # [1.10.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.7...v1.10.0) (2021-10-19)
 
 

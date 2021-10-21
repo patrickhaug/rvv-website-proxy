@@ -4,7 +4,7 @@ import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry, calculateReadingTime,
+  LanguageService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';

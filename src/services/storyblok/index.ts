@@ -228,7 +228,7 @@ export const StoryblokService = {
   },
 
   getUserTypeFromSlug(story): string {
-    const userType = story.default_full_slug?.split('/')[1];
+    const userType = story.full_slug?.split('/')[1];
     if (userType === 'retail' || userType === 'advanced' || userType === 'institutional') { return userType; }
     return '';
   },

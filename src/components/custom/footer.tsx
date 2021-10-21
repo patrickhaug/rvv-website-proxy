@@ -26,7 +26,7 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     return { text: '', href: '' };
   });
 
-  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path, tree };
+  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1), tree };
 }
 
 // TODO correct typing of storyblok repsones

@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.1...v1.10.2) (2021-10-21)
+
+
+### Bug Fixes
+
+* **editors:** feedback ([df22e24](https://github.com/virtualidentityag/rcm-corporate/commit/df22e24f9139b17d2cb09f0b3a34f13d67a6c774))
+
 ## [1.10.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.0...v1.10.1) (2021-10-20)
 
 

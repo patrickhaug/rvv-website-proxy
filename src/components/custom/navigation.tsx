@@ -20,7 +20,7 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
       e.children.forEach((c) => {
         if (!c.page.content.hide_in_navigation) {
           tabEntry.children.push({
-            text: c.name,
+            text: c.page.content.navigation_title || c.name,
             href: c.real_path,
           });
         }

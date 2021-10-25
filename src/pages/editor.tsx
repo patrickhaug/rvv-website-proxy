@@ -4,7 +4,7 @@ import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry, calculateReadingTime,
+  LanguageService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -268,16 +268,9 @@ export default class StoryblokEntry
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
     const timeStamp = new Date().toString();
-    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
-      cv: timeStamp,
-    });
-    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
-      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-    ).flat().filter(
-      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
-    );
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
+      per_page: 1000,
     });
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
@@ -291,6 +284,7 @@ export default class StoryblokEntry
           const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
             cv: timeStamp,
             dimension: StoryblokService.getCountryCode(story).countryCode,
+            per_page: 1000,
           });
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(

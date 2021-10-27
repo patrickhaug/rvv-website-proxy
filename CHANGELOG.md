@@ -1,3 +1,10 @@
+## [1.10.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.3...v1.10.4) (2021-10-27)
+
+
+### Bug Fixes
+
+* **navigation:** if not page ([d5a1478](https://github.com/virtualidentityag/rcm-corporate/commit/d5a147864c0d56cbbb635c0da2ba3be36a759fbe))
+
 ## [1.10.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.2...v1.10.3) (2021-10-27)
 
 

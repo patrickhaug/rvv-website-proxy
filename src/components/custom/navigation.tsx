@@ -18,9 +18,9 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     if (e.is_folder) {
       const tabEntry = { text: e.name, href: e.real_path, children: [] };
       e.children.forEach((c) => {
-        if (!c.page.content.hide_in_navigation) {
+        if (!c.page?.content?.hide_in_navigation) {
           tabEntry.children.push({
-            text: c.name,
+            text: c.page?.content?.navigation_title || c.name,
             href: c.real_path,
           });
         }

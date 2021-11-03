@@ -105,7 +105,7 @@ const mandatoryNavKeys = [
 const mandatoryContentKeys = [
   'navigation_title',
   'navigation_subline',
-  'highlights',
+  'hide_in_navigation',
 ];
 
 const ignoreKeys = [

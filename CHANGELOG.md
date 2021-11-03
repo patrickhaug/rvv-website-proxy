@@ -1,3 +1,10 @@
+## [1.10.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.4...v1.10.5) (2021-11-03)
+
+
+### Bug Fixes
+
+* **navigation:** hide in navigation ([bc6f073](https://github.com/virtualidentityag/rcm-corporate/commit/bc6f07397c61323b736dd224f9051de5362c8afc))
+
 ## [1.10.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.3...v1.10.4) (2021-10-27)
 
 

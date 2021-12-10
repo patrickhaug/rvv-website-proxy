@@ -22,7 +22,6 @@ const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsList = 'rcm-funds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
@@ -177,19 +176,12 @@ export default class StoryblokEntry
           }
           {story.content.component === 'funds'
             && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              <FundsList
-                error-message={story.content.error_message}
-                search-label={story.content.search_label}
-                search-placeholder={story.content.search_placeholder}
-              />
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
           }
           {story.content.component === 'fund'
             && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsDetail>

@@ -181,6 +181,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}

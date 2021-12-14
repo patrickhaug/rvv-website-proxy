@@ -2,7 +2,7 @@
 import { LanguageService } from '../language';
 
 export type Country = 'at' | 'bg' | 'ch' | 'cz' | 'de' | 'es' | 'fr' | 'hr' | 'hu' | 'it' | 'li' | 'lu' | 'pl' | 'ro' | 'si' | 'sk';
-export type Locale = 'de' | 'en' | 'it' | 'bg' | 'fr';
+export type Locale = 'de' | 'en' | 'it' | 'bg' | 'fr' | 'salzburg';
 
 export interface GlobalConfigProps {
   baseDomain: string;

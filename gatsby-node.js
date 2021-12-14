@@ -2,7 +2,7 @@ const googleTagManagerId = process.env.GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
-
+const nodeFetch = require('node-fetch');
 // eslint-disable-next-line import/extensions
 const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
 
@@ -260,6 +260,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
+
+  const data = await nodeFetch('https://apis.web.rcm.at/webservice/cms-api/v1/fonds/AT/Internet-KAG/de');
+
+  console.log(data);
+
   // eslint-disable-next-line compat/compat
   await Promise.all(promises);
 };

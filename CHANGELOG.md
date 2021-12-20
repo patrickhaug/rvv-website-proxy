@@ -1,3 +1,224 @@
+## [1.10.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.4...v1.10.5) (2021-11-03)
+
+
+### Bug Fixes
+
+* **navigation:** hide in navigation ([bc6f073](https://github.com/virtualidentityag/rcm-corporate/commit/bc6f07397c61323b736dd224f9051de5362c8afc))
+
+## [1.10.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.3...v1.10.4) (2021-10-27)
+
+
+### Bug Fixes
+
+* **navigation:** if not page ([d5a1478](https://github.com/virtualidentityag/rcm-corporate/commit/d5a147864c0d56cbbb635c0da2ba3be36a759fbe))
+
+## [1.10.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.2...v1.10.3) (2021-10-27)
+
+
+### Bug Fixes
+
+* **navigation:** use navigation name ([78ec376](https://github.com/virtualidentityag/rcm-corporate/commit/78ec37695c8814e7347f86025c006802f0899924))
+
+## [1.10.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.1...v1.10.2) (2021-10-21)
+
+
+### Bug Fixes
+
+* **editors:** feedback ([df22e24](https://github.com/virtualidentityag/rcm-corporate/commit/df22e24f9139b17d2cb09f0b3a34f13d67a6c774))
+
+## [1.10.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.0...v1.10.1) (2021-10-20)
+
+
+### Bug Fixes
+
+* **usertype:** normalize usertypeslugs ([590525e](https://github.com/virtualidentityag/rcm-corporate/commit/590525e6e6040fb0e7b6b62d933f3dedbf0dd875))
+
+# [1.10.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.7...v1.10.0) (2021-10-19)
+
+
+### Bug Fixes
+
+* **article-categories:** fix resolution of article categories on edit ([b85230c](https://github.com/virtualidentityag/rcm-corporate/commit/b85230ce02fe56d9382b148abd52d08920767086))
+
+
+### Features
+
+* **navigation:** hide in navigation + cleanup editor view ([aee2de3](https://github.com/virtualidentityag/rcm-corporate/commit/aee2de3bb1a75fcd7b7080cdbe21b0b0af67069d))
+* **usertype:** add link ([18300f0](https://github.com/virtualidentityag/rcm-corporate/commit/18300f083dfb1896855d9aeb3c00b48a18b92439))
+
+## [1.9.7](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.6...v1.9.7) (2021-10-08)
+
+
+### Bug Fixes
+
+* **footer and nav:** fix footer and nav links ([b580eee](https://github.com/virtualidentityag/rcm-corporate/commit/b580eee54350b1fc5b11b178ebe03076924c878e))
+
+## [1.9.6](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.5...v1.9.6) (2021-09-30)
+
+
+### Bug Fixes
+
+* add locale config to article ([aa8a484](https://github.com/virtualidentityag/rcm-corporate/commit/aa8a4843a99dcfea88249c24be553484920232d7))
+* fix footer links ([ea13450](https://github.com/virtualidentityag/rcm-corporate/commit/ea13450f2db71f81942e1f14fb83a13e54d5d14f))
+
+## [1.9.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.4...v1.9.5) (2021-09-29)
+
+
+### Bug Fixes
+
+* **datasources:** get datasources for dimension with index 0 ([81dd998](https://github.com/virtualidentityag/rcm-corporate/commit/81dd9980a480c2a635f027882f2eae9165e77676))
+
+## [1.9.4](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.3...v1.9.4) (2021-09-28)
+
+
+### Bug Fixes
+
+* **app-manifest:** change theme colors ([95a4f7a](https://github.com/virtualidentityag/rcm-corporate/commit/95a4f7ae5b67a419e82bfc82cb6bdfa8bb305ac1))
+
+## [1.9.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.2...v1.9.3) (2021-09-27)
+
+
+### Bug Fixes
+
+* change staging asset url ([decd570](https://github.com/virtualidentityag/rcm-corporate/commit/decd57083deb81f3c61f7dabb4e6341532e26c1a))
+* replace recaptcha with correct one ([9be3319](https://github.com/virtualidentityag/rcm-corporate/commit/9be33193697a10c75e07e1b202abb078ee8fc4d6))
+
+## [1.9.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.1...v1.9.2) (2021-09-13)
+
+
+### Bug Fixes
+
+* node version ([0291e25](https://github.com/virtualidentityag/rcm-corporate/commit/0291e25fb1ef7d11487d4137c913ea35828b7ffc))
+
+## [1.9.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.9.0...v1.9.1) (2021-09-12)
+
+
+### Bug Fixes
+
+* status bar default white ([5d2b37d](https://github.com/virtualidentityag/rcm-corporate/commit/5d2b37d87cb1b2dcfd782509d910dc42c26539c6))
+
+# [1.9.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.8.0...v1.9.0) (2021-09-10)
+
+
+### Features
+
+* add legal-text disclaimer and resolution for disclaimers ([26ce497](https://github.com/virtualidentityag/rcm-corporate/commit/26ce49715ffcd1488c9abcb60948f9e501c5d3b8))
+
+# [1.8.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.7.0...v1.8.0) (2021-09-02)
+
+
+### Bug Fixes
+
+* lint warnings ([013212a](https://github.com/virtualidentityag/rcm-corporate/commit/013212add63c56b510b2244a1315bcb180e8524f))
+* linter style ([1faf3d5](https://github.com/virtualidentityag/rcm-corporate/commit/1faf3d55caa10dc1dd16f1850e585525a574382a))
+* **function:** remove unused function ([2e64859](https://github.com/virtualidentityag/rcm-corporate/commit/2e64859858035bbb73f90b9f288220b7e3c083f3))
+* **nav:** navigation + wizzards logic adjustments ([576178d](https://github.com/virtualidentityag/rcm-corporate/commit/576178d467f8ea285700a4214010631a8c959676))
+* **navigation:** typing ([8732764](https://github.com/virtualidentityag/rcm-corporate/commit/8732764b385cb138605b02860aa6ed041ef0cb1c))
+* **richtext:** no slotting of other components in storyblok ([6a037b5](https://github.com/virtualidentityag/rcm-corporate/commit/6a037b53c8638e14562b16a512a200c420ee6310))
+* **typing:** children ([4a8fa31](https://github.com/virtualidentityag/rcm-corporate/commit/4a8fa3187dbdfe1e5bb24bcc05495241b2f7d60a))
+* **values:** remove unused values ([5642952](https://github.com/virtualidentityag/rcm-corporate/commit/5642952b373aef5af85b4d2207d9d4b12693b021))
+
+
+### Features
+
+* add google recaptcha test key ([a217807](https://github.com/virtualidentityag/rcm-corporate/commit/a217807553aae14dd5cb5b768c11cb0837201182))
+* **cookie banner:** add onetrust cookie banner ([d8a075b](https://github.com/virtualidentityag/rcm-corporate/commit/d8a075b8ba6adb72f13ce5fa4d4527b17c7a7873))
+* **footer:** get correct sitemap for usertype ([63b5e7b](https://github.com/virtualidentityag/rcm-corporate/commit/63b5e7b5d41f609de5a9cd2e3ce83caf2c91caec))
+* **language switch:** add language switch ([7da4211](https://github.com/virtualidentityag/rcm-corporate/commit/7da42117f1bdc25f647ccf5ffcf40ad1db5db7eb))
+* **reading0time:** add article reading time calculation ([1028c09](https://github.com/virtualidentityag/rcm-corporate/commit/1028c09eff7678abf530953593b7c5dbd61c4d4c))
+* **web-search:** add storyblok access key to global config ([7ccf2d5](https://github.com/virtualidentityag/rcm-corporate/commit/7ccf2d5e1b34e0a9b0205d9b7d9a9e22ba6dd3ca))
+* add category articles ([ec3137a](https://github.com/virtualidentityag/rcm-corporate/commit/ec3137a27bccaf449240cc13ad630c08b45f3cb0))
+* make editorial text block accept richtext ([9868125](https://github.com/virtualidentityag/rcm-corporate/commit/9868125aca136977c5b2ba272c0eec376eb0a698))
+
+# [1.7.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.6.0...v1.7.0) (2021-08-23)
+
+
+### Bug Fixes
+
+* fix component lib version and use country code service ([5ce5f7c](https://github.com/virtualidentityag/rcm-corporate/commit/5ce5f7cd8dab82917d73c7e2b814775cd72318bd))
+* upgrade component-lib version ([317551c](https://github.com/virtualidentityag/rcm-corporate/commit/317551cce952f29c3bab9f49da7c559374a04393))
+
+
+### Features
+
+* **funds-search:** add search props to fundslist, fix typo ([c24f464](https://github.com/virtualidentityag/rcm-corporate/commit/c24f4649863c31b7ba6b581b194c7230f7018cae))
+
+# [1.6.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.5.0...v1.6.0) (2021-08-19)
+
+
+### Bug Fixes
+
+* fix build ([dff6fe7](https://github.com/virtualidentityag/rcm-corporate/commit/dff6fe7c43c25bec76ed5e090d2e57a4e7d02bda))
+* **article-list:** add prop maping to article list comp ([55bc37e](https://github.com/virtualidentityag/rcm-corporate/commit/55bc37e4fb16c098e041715fca74406717aad25f))
+* **article-list:** fix articles in default template ([ca8b42c](https://github.com/virtualidentityag/rcm-corporate/commit/ca8b42c61f2c8ed76e0bf39f58d905d53ca202e7))
+* **gtm:** remove cookie functionality - always on ([22721fd](https://github.com/virtualidentityag/rcm-corporate/commit/22721fdf74d3fe4e0270c120149f5cc9f0a2a44e))
+* **richtext:** add width prop to richtext ([005e544](https://github.com/virtualidentityag/rcm-corporate/commit/005e54491b18c3ee14aaa9f52b46f7d1567f68f9))
+* **richtext:** replace width prop ([b4031ba](https://github.com/virtualidentityag/rcm-corporate/commit/b4031ba33c75557553c5563ced7de573a8f8d15a))
+
+
+### Features
+
+* **article list:** add article list ([9853d56](https://github.com/virtualidentityag/rcm-corporate/commit/9853d56fa2b50a0c36b388db2bece832e159b968))
+* **article list:** merge develop ([f832aa4](https://github.com/virtualidentityag/rcm-corporate/commit/f832aa4d7dc0e9e7a2f6643f4d9abe147328c883))
+* **contact:** add contact button ([ecef686](https://github.com/virtualidentityag/rcm-corporate/commit/ecef686a4cbe271883437d375b08a2fff5e83b98))
+* **footer:** add footer ([92d9f96](https://github.com/virtualidentityag/rcm-corporate/commit/92d9f966fbebedd77e9d7d5bdc8d82e996166038))
+* **ie-modal:** create ie-modal ([b55dcd1](https://github.com/virtualidentityag/rcm-corporate/commit/b55dcd11657ad6240f65b70e04e5e7acc2a8d174))
+* **user type switch:** add modal ([85c03e9](https://github.com/virtualidentityag/rcm-corporate/commit/85c03e93534804287274a18d274db7ca5ce37764))
+* **wizzards:** footer ([d3d0c5b](https://github.com/virtualidentityag/rcm-corporate/commit/d3d0c5bf5e9732a769ca50e82fb8c6e882ebb0d7))
+
+# [1.5.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.1...v1.5.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* **build:** country switch modal ([621d2f0](https://github.com/virtualidentityag/rcm-corporate/commit/621d2f0dc961cbdae10e2334ea8a1f084b55a994))
+* **build:** import cycle ([01a5900](https://github.com/virtualidentityag/rcm-corporate/commit/01a59009d62813daf71bd2b6e4c5a3165d59f212))
+* **global config:** add use effect ([b081be0](https://github.com/virtualidentityag/rcm-corporate/commit/b081be0c79f14f8578d23239e2ff4596eaa1df87))
+* **gtm:** remove doube gtm-no script tag ([ec74a5e](https://github.com/virtualidentityag/rcm-corporate/commit/ec74a5e08ab69b01b454662e867aed34b224b417))
+* **localization:** set correct locales and countries ([793a9d9](https://github.com/virtualidentityag/rcm-corporate/commit/793a9d90863ed95c54eb0d645177ac4e3b9233b9))
+* **state:** remove unused value ([947b4ac](https://github.com/virtualidentityag/rcm-corporate/commit/947b4acba24f179cda43d5b3b022353a6142e4da))
+
+
+### Features
+
+* **datasource:** dimesnion for gatsby-node ([56f7bcb](https://github.com/virtualidentityag/rcm-corporate/commit/56f7bcb2a6b0cd0e4da47908e3734256f71ba560))
+* **gtm:** add gtm ([b3a285f](https://github.com/virtualidentityag/rcm-corporate/commit/b3a285ff971c7df5103050a6bfb97bbe8adbd56d))
+* add country switch modal ([640fb0e](https://github.com/virtualidentityag/rcm-corporate/commit/640fb0e4d7849aa54744ed2c78cee71cb11e13be))
+* add missing return type ([e22211b](https://github.com/virtualidentityag/rcm-corporate/commit/e22211b4693fbd0fb0834ce7cddef34e63f7a72c))
+* connect modal to real content ([fbe6cd6](https://github.com/virtualidentityag/rcm-corporate/commit/fbe6cd62ef93cdc6ad5880d7b03e94270ec3bbf5))
+* extend global config interface ([d39e4da](https://github.com/virtualidentityag/rcm-corporate/commit/d39e4dabcd77d5b6ca86c32c28dda3541362748c))
+
+
+### Reverts
+
+* **tsconfig:** to old config ([3e4f0ac](https://github.com/virtualidentityag/rcm-corporate/commit/3e4f0ac88e28c40685e853e8317888e4e6fca9c3))
+
+## [1.4.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.4.0...v1.4.1) (2021-07-13)
+
+
+### Bug Fixes
+
+* **datasources:** caching ([89b1a66](https://github.com/virtualidentityag/rcm-corporate/commit/89b1a66e9274884ced1dc01ed82dfa144c11a1f8))
+* **gatsby-node:** parse datasources ([8357b96](https://github.com/virtualidentityag/rcm-corporate/commit/8357b96c8dc29213b7f3ebfc5166847336c135a5))
+* rm item image auto resolve ([93eb5c2](https://github.com/virtualidentityag/rcm-corporate/commit/93eb5c23883e9020897990bbafc5ba8431ead2a4))
+
+# [1.4.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.3.0...v1.4.0) (2021-07-07)
+
+
+### Bug Fixes
+
+* **gatsby node:** storbylokclient ([ea895e4](https://github.com/virtualidentityag/rcm-corporate/commit/ea895e4b8653978f1bc0f004067c8cad76426efe))
+* **lint:** file extension ([e7abafd](https://github.com/virtualidentityag/rcm-corporate/commit/e7abafd112a57d5a9df86c83898cfa36b414566a))
+* **lint:** fle extension ([d108565](https://github.com/virtualidentityag/rcm-corporate/commit/d1085653474c3ac7df7de8a3b6b737a1c99e542d))
+
+
+### Features
+
+* **article:** categories ([a46dcf0](https://github.com/virtualidentityag/rcm-corporate/commit/a46dcf0bae8f638f130bf927c62d60586e922869))
+* get lang folder and pass as props ([af69cd4](https://github.com/virtualidentityag/rcm-corporate/commit/af69cd48aca05b579a6d6e4fd02af93d3f2babaf))
+* **global content:** get datasources ([bfeabb7](https://github.com/virtualidentityag/rcm-corporate/commit/bfeabb75d8a42e8c247335456218852da2981f6c))
+* fund ([c163260](https://github.com/virtualidentityag/rcm-corporate/commit/c163260c773a3f07c08073072f42ab0c9c81be05))
+
 # [1.3.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.2.0...v1.3.0) (2021-06-10)
 
 

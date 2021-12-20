@@ -2,7 +2,7 @@
   "name": "rcm-corporate",
   "private": true,
   "description": "RCM corporate website frontend",
-  "version": "1.3.0",
+  "version": "1.10.5",
   "engines": {
     "node": ">=14"
   },

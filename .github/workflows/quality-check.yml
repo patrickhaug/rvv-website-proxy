@@ -23,8 +23,8 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: Run Lint verification
-        run: npm run lint
+      # - name: Run Lint verification
+      #   run: npm run lint
 
       - name: Run Tests
         run: npm run test || true # Tests not blocking for while

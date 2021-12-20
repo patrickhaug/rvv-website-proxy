@@ -13,18 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v2.4.0
 
       - name: Setup Node
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.0
         with:
           node-version: 14
 
       - name: Install packages
         run: npm ci
 
-      - name: Run Lint verification
-        run: npm run lint
+      # - name: Run Lint verification
+      #   run: npm run lint
 
       - name: Run Tests
         run: npm run test || true # Tests not blocking for while

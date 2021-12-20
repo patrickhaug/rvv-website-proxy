@@ -9,7 +9,7 @@
     "@typescript-eslint/no-use-before-define": [1],
     "camelcase": [0],
     "@typescript-eslint/naming-convention": [
-      0, 
+      0,
       { "selector": "default", "format": ["camelCase"], "leadingUnderscore": "allowSingleOrDouble", "trailingUnderscore": "allowSingleOrDouble" },
       { "selector": "variableLike", "format": ["camelCase", "PascalCase"] },
       { "selector": "parameter", "format": ["strictCamelCase"], "leadingUnderscore": "allowSingleOrDouble", "trailingUnderscore": "allowSingleOrDouble" },

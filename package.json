@@ -29,7 +29,7 @@
     "gatsby-plugin-react-helmet-canonical-urls": "1.4.0",
     "gatsby-plugin-s3": "0.3.8",
     "gatsby-plugin-sitemap": "5.4.0",
-    "gatsby-plugin-stencil": "0.2.0",
+    "gatsby-plugin-stencil": "git+https://github.com/virtualidentityag/gatsby-plugin-stencil.git#updated-master",
     "gatsby-source-filesystem": "4.4.0",
     "gatsby-source-graphql": "3.14.0",
     "lodash.get": "4.4.2",

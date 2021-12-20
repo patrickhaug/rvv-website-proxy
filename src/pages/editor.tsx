@@ -22,7 +22,6 @@ const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsList = 'rcm-funds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
@@ -143,7 +142,7 @@ export default class StoryblokEntry
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
+        {globalConfig.locale !== 'salzburg' && <Navigation
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -151,7 +150,8 @@ export default class StoryblokEntry
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
-        <Container>
+        }
+        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
           {story.content.component === 'article'
             && <Article
               slot='content'
@@ -168,6 +168,7 @@ export default class StoryblokEntry
             && <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
@@ -177,19 +178,12 @@ export default class StoryblokEntry
           }
           {story.content.component === 'funds'
             && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              <FundsList
-                error-message={story.content.error_message}
-                search-label={story.content.search_label}
-                search-placeholder={story.content.search_placeholder}
-              />
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
           }
           {story.content.component === 'fund'
             && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsDetail>

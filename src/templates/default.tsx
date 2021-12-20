@@ -155,7 +155,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
+        {globalConfig.locale !== 'salzburg' && <Navigation
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -163,7 +163,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
-        <Container>
+        }
+        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
           {story.content.component === 'article' && (
             <Article
               slot='content'
@@ -181,6 +182,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}

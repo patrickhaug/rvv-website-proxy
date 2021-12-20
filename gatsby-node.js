@@ -250,8 +250,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
 
+    // eslint-disable-next-line no-nested-ternary
+    const normalizedPath = path.includes('global')
+      ? path.replace('global/', '') : !path || path.substr(-1) !== '/' ? `${path || ''}/` : path;
+
     createPage({
-      path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
+      path: normalizedPath,
       component: template,
       context: {
         googleTagManagerId,
@@ -260,6 +264,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
+
   // eslint-disable-next-line compat/compat
   await Promise.all(promises);
 };
@@ -294,6 +299,14 @@ exports.onCreatePage = async ({ page, actions }) => {
         localeList,
       },
     });
+
+    if (page.path.match(/^\/funds\/$/)) {
+      createPage({
+        ...page,
+        component: resolve('./src/pages/test.tsx'),
+        matchPath: '/:test/*',
+      });
+    }
   }
 };
 // This is needed so that the build process does not fail because in gatby-config.js

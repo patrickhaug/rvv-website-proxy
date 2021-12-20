@@ -2,7 +2,7 @@ const googleTagManagerId = process.env.GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
-const nodeFetch = require('node-fetch');
+
 // eslint-disable-next-line import/extensions
 const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
 
@@ -250,8 +250,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
 
+    // eslint-disable-next-line no-nested-ternary
+    const normalizedPath = path.includes('global')
+      ? path.replace('global/', '') : !path || path.substr(-1) !== '/' ? `${path || ''}/` : path;
+
     createPage({
-      path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
+      path: normalizedPath,
       component: template,
       context: {
         googleTagManagerId,
@@ -260,10 +264,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
-
-  const data = await nodeFetch('https://apis.web.rcm.at/webservice/cms-api/v1/fonds/AT/Internet-KAG/de');
-
-  console.log(data);
 
   // eslint-disable-next-line compat/compat
   await Promise.all(promises);
@@ -299,6 +299,14 @@ exports.onCreatePage = async ({ page, actions }) => {
         localeList,
       },
     });
+
+    if (page.path.match(/^\/funds\/$/)) {
+      createPage({
+        ...page,
+        component: resolve('./src/pages/test.tsx'),
+        matchPath: '/:test/*',
+      });
+    }
   }
 };
 // This is needed so that the build process does not fail because in gatby-config.js

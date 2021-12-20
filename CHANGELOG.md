@@ -1,3 +1,19 @@
+# [1.11.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.5...v1.11.0) (2021-12-20)
+
+
+### Bug Fixes
+
+* hide salzburg nav ([4184d7f](https://github.com/virtualidentityag/rcm-corporate/commit/4184d7fc80d8686753f6219919bded20e48e21ac))
+* label ([86e29aa](https://github.com/virtualidentityag/rcm-corporate/commit/86e29aa743ecc0c08baae77316bb9fce0488ed9d))
+* stuff ([9e74ce1](https://github.com/virtualidentityag/rcm-corporate/commit/9e74ce1c68cdadecd40fb9206a4965e253c62edd))
+* tmp remove linter ([7bb6ad6](https://github.com/virtualidentityag/rcm-corporate/commit/7bb6ad69813ad089ad76dc8ef4b666b314425778))
+* try ([2ffddf0](https://github.com/virtualidentityag/rcm-corporate/commit/2ffddf03810c107423b0562a2c8d0abe2e4c74dd))
+
+
+### Features
+
+* removed fundList comp from fundslistpage comp ([4624dc2](https://github.com/virtualidentityag/rcm-corporate/commit/4624dc2654e795be5679e3b8801b5c3346fc119d))
+
 ## [1.10.5](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.4...v1.10.5) (2021-11-03)
 
 

@@ -182,14 +182,12 @@ export default class StoryblokEntry
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
           }
-          {story.content.component === 'fund'
-            && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
+          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+          {story.content.component === 'fund-detail'
+            && <FundsDetail slot='content'>
               {
                 blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>
-          }
-          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
-
+              }</FundsDetail>}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}

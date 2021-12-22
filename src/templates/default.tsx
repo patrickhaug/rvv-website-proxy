@@ -193,12 +193,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
-          {story.content.component === 'fund' && (
-            <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              {blokToComponent({ blok: story.content, getComponent })}
-            </FundsDetail>
-          )}
+          {story.content.component === 'fund-detail'
+            && <FundsDetail slot='content'>
+              {
+                blokToComponent({ blok: story.content, getComponent })
+              }</FundsDetail>}
           {story.content.component !== 'article'
             && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
         </Container>

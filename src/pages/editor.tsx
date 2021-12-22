@@ -25,6 +25,11 @@ const FundsListPage = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
+const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
+const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -123,7 +128,7 @@ export default class StoryblokEntry
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
-
+    console.log(story);
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -182,14 +187,38 @@ export default class StoryblokEntry
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
           }
-          {story.content.component === 'fund'
-            && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
+          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+          {story.content.component === 'fund-detail'
+            && <FundsDetail slot='content'>
               {
                 blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>
-          }
-          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
-
+              }</FundsDetail>}
+          {story.content.component === 'courses-and-documents'
+            && <DedicatedContainer slot='content'>
+              {
+                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
+              }</DedicatedContainer>}
+          {story.content.component === 'courses-and-documents'
+            && <DedicatedContainer slot='content'>
+              {
+                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
+              }</DedicatedContainer>}
+          {story.content.component === 'funds-prices'
+            && <DedicatedContainer slot='content'>
+              <FundsPrices />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-documents'
+            && <DedicatedContainer slot='content'>
+              <FundsDocuments />
+            </DedicatedContainer>}
+          {story.content.component === 'fund-fusion'
+            && <DedicatedContainer slot='content'>
+              <FundFusion />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-mandatory'
+            && <DedicatedContainer slot='content'>
+              <FundsMandatory />
+            </DedicatedContainer>}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}

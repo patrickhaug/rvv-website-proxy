@@ -1,3 +1,16 @@
+# [1.12.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.11.0...v1.12.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* fund detail ([f858994](https://github.com/virtualidentityag/rcm-corporate/commit/f85899444289c1a752161da3a639a0c39e3dcf96))
+* lock in sync ([875d276](https://github.com/virtualidentityag/rcm-corporate/commit/875d27651f4c00b989a381ebdf882fcf5aa4f639))
+
+
+### Features
+
+* api ([37815c7](https://github.com/virtualidentityag/rcm-corporate/commit/37815c7ca97c74899a4fb2b538130255dcb48cb9))
+
 # [1.11.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.5...v1.11.0) (2021-12-20)
 
 

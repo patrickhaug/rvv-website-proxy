@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.1...v1.12.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* awspipe ([401658a](https://github.com/virtualidentityag/rcm-corporate/commit/401658adb5a8f67ec2de5727c9008e9e5d6b45b2))
+
 ## [1.12.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.0...v1.12.1) (2021-12-23)
 
 

@@ -31,7 +31,6 @@ const queryContent = (
 ) => {
   const queryLang = language ? `starts_with: "${language}/*",` : '';
   const queryResolveRelations = resolveRelations ? `resolve_relations: "${resolveRelations}",` : '';
-
   return `
     {
       storyblok {
@@ -250,9 +249,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
 
-    // eslint-disable-next-line no-nested-ternary
-    const normalizedPath = path.includes('global')
-      ? path.replace('global/', '') : !path || path.substr(-1) !== '/' ? `${path || ''}/` : path;
+    const normalizedPath = path.substr(-1) !== '/' ? `${path || ''}/` : path;
 
     createPage({
       path: normalizedPath,

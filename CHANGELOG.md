@@ -1,3 +1,13 @@
+## [1.12.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.0...v1.12.1) (2021-12-23)
+
+
+### Bug Fixes
+
+* lock in sync ([0bf2fe3](https://github.com/virtualidentityag/rcm-corporate/commit/0bf2fe3d06d570ff0e5a8e98f4c031947e903d98))
+* npm ([6af7a88](https://github.com/virtualidentityag/rcm-corporate/commit/6af7a88e0e395aa4e2d5781d422cbe7e49127a86))
+* test npm? ([058b827](https://github.com/virtualidentityag/rcm-corporate/commit/058b8276b4dc01b423665d37bed6c5ae266e9c5e))
+* tslint ([d2d4a34](https://github.com/virtualidentityag/rcm-corporate/commit/d2d4a3413bf4348d9cb4fb6c5c964893fe9d4b31))
+
 # [1.12.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.11.0...v1.12.0) (2021-12-22)
 
 

@@ -21,7 +21,7 @@ jobs:
           node-version: 14
 
       - name: Install packages
-        run: npm ci
+        run: npm install -g npm@8 && npm ci
 
       # - name: Run Lint verification
       #   run: npm run lint

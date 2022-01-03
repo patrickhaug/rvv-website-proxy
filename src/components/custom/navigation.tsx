@@ -8,6 +8,7 @@ interface NavigationProps extends Props {
   currentLanguage: string;
   countryCode: string;
   userTypeFromSlug: 'institutional' | 'retail' | 'advanced';
+  alternates: string;
 }
 
 const Navigation = 'rcm-navigation' as React.ElementType;
@@ -42,7 +43,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
-    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug,
+    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug, alternates,
   } = props;
 
   if (!tree) {
@@ -68,6 +69,7 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
       current-country={currentCountry}
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
+      alternates={alternates}
     >
       {/*
        * NOTE: Only works if renderTree is defined using the function keyword!

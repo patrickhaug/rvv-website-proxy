@@ -128,7 +128,6 @@ export default class StoryblokEntry
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
-    console.log(story);
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -154,6 +153,7 @@ export default class StoryblokEntry
           countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
+          alternates={JSON.stringify(story.alternates)}
         ></Navigation>
         }
         <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>

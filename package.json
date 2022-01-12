@@ -31,7 +31,7 @@
     "gatsby-plugin-s3": "0.3.8",
     "gatsby-plugin-sitemap": "5.5.0",
     "gatsby-plugin-stencil": "0.2.0",
-    "gatsby-source-filesystem": "4.4.0",
+    "gatsby-source-filesystem": "4.5.0",
     "gatsby-source-graphql": "4.5.0",
     "lodash.get": "4.4.2",
     "path-browserify": "1.0.1",

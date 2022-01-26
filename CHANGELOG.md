@@ -1,3 +1,33 @@
+## [1.12.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.1...v1.12.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* awspipe ([401658a](https://github.com/virtualidentityag/rcm-corporate/commit/401658adb5a8f67ec2de5727c9008e9e5d6b45b2))
+
+## [1.12.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.0...v1.12.1) (2021-12-23)
+
+
+### Bug Fixes
+
+* lock in sync ([0bf2fe3](https://github.com/virtualidentityag/rcm-corporate/commit/0bf2fe3d06d570ff0e5a8e98f4c031947e903d98))
+* npm ([6af7a88](https://github.com/virtualidentityag/rcm-corporate/commit/6af7a88e0e395aa4e2d5781d422cbe7e49127a86))
+* test npm? ([058b827](https://github.com/virtualidentityag/rcm-corporate/commit/058b8276b4dc01b423665d37bed6c5ae266e9c5e))
+* tslint ([d2d4a34](https://github.com/virtualidentityag/rcm-corporate/commit/d2d4a3413bf4348d9cb4fb6c5c964893fe9d4b31))
+
+# [1.12.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.11.0...v1.12.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* fund detail ([f858994](https://github.com/virtualidentityag/rcm-corporate/commit/f85899444289c1a752161da3a639a0c39e3dcf96))
+* lock in sync ([875d276](https://github.com/virtualidentityag/rcm-corporate/commit/875d27651f4c00b989a381ebdf882fcf5aa4f639))
+
+
+### Features
+
+* api ([37815c7](https://github.com/virtualidentityag/rcm-corporate/commit/37815c7ca97c74899a4fb2b538130255dcb48cb9))
+
 # [1.11.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.10.5...v1.11.0) (2021-12-20)
 
 

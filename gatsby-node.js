@@ -31,7 +31,6 @@ const queryContent = (
 ) => {
   const queryLang = language ? `starts_with: "${language}/*",` : '';
   const queryResolveRelations = resolveRelations ? `resolve_relations: "${resolveRelations}",` : '';
-
   return `
     {
       storyblok {
@@ -105,7 +104,7 @@ const mandatoryNavKeys = [
 const mandatoryContentKeys = [
   'navigation_title',
   'navigation_subline',
-  'highlights',
+  'hide_in_navigation',
 ];
 
 const ignoreKeys = [
@@ -217,6 +216,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const timeStamp = new Date().toString();
   const storyblokDatasources = await storyblokClient.getAll('cdn/datasources', {
     cv: timeStamp,
+    per_page: 1000,
   });
   const storyblokDatasourceDimensions = storyblokDatasources.map(
     (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
@@ -225,10 +225,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   );
   const defaultDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
     cv: timeStamp,
+    per_page: 1000,
   });
   const storyblokDatasourceEntriesPromises = storyblokDatasourceDimensions.map(async (dimension) => storyblokClient.getAll('cdn/datasource_entries', {
     cv: timeStamp,
     dimension,
+    per_page: 1000,
   }));
     // eslint-disable-next-line compat/compat
   const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
@@ -247,8 +249,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
 
+    const normalizedPath = path.substr(-1) !== '/' ? `${path || ''}/` : path;
+
     createPage({
-      path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
+      path: normalizedPath,
       component: template,
       context: {
         googleTagManagerId,
@@ -257,6 +261,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
+
   // eslint-disable-next-line compat/compat
   await Promise.all(promises);
 };
@@ -291,6 +296,14 @@ exports.onCreatePage = async ({ page, actions }) => {
         localeList,
       },
     });
+
+    if (page.path.match(/^\/funds\/$/)) {
+      createPage({
+        ...page,
+        component: resolve('./src/pages/test.tsx'),
+        matchPath: '/:test/*',
+      });
+    }
   }
 };
 // This is needed so that the build process does not fail because in gatby-config.js

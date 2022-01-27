@@ -19,7 +19,7 @@ interface StoryblokNode {
 }
 
 export interface PageData extends StoryData {
-  lang?: string;
+  lang: string;
 }
 
 export interface StoryblokNodeTree extends StoryblokNode {

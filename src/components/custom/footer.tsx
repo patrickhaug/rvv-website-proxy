@@ -16,17 +16,19 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     if (e.is_folder) {
       const sitemapLinks = { text: e.name, href: e.real_path, children: [] };
       e.children.forEach((c) => {
-        sitemapLinks.children.push({
-          text: c.name,
-          href: c.real_path,
-        });
+        if (!c.page?.content?.hide_in_navigation) {
+          sitemapLinks.children.push({
+            text: c.page?.content?.navigation_title || c.name,
+            href: c.real_path,
+          });
+        }
       });
       return sitemapLinks;
     }
     return { text: '', href: '' };
   });
 
-  return { userTypeSlug: leaf.slug, tree };
+  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1), tree };
 }
 
 // TODO correct typing of storyblok repsones
@@ -38,11 +40,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 }
 
 export const RcmFooter = (props: FooterProps): JSX.Element => {
-  const {
-    tree,
-    countryCode,
-    userTypeFromSlug,
-  } = props;
+  const { tree, countryCode, userTypeFromSlug } = props;
 
   if (!tree) {
     return null;
@@ -51,11 +49,14 @@ export const RcmFooter = (props: FooterProps): JSX.Element => {
   // Store the tree in a language map
   const langMap = new Map();
   tree.forEach((t) => {
-    if (!langMap.has(t.slug)) { langMap.set(t.slug, t); }
+    const key = t.slug ? t.slug : t.name.toLowerCase().replace(' - ', '-');
+    if (!langMap.has(key)) {
+      langMap.set(key, t);
+    }
   });
 
   const currentTree = getCurrentTree(langMap, countryCode);
-  const items = currentTree ? tree.map(renderTree) : [];
+  const items = currentTree ? currentTree.map(renderTree) : [];
 
   // We need the custom component, otherwise jsx does not render the attributes
   return (
@@ -64,14 +65,12 @@ export const RcmFooter = (props: FooterProps): JSX.Element => {
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
     >
-      {
-      /*
+      {/*
        * NOTE: Only works if renderTree is defined using the function keyword!
        *
        * To avoid managing the arguments that are passed to renderTree,
        * we pass component state as the thisArg to the mapping function.
-       */
-      }
+       */}
     </Footer>
   );
 };

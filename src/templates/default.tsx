@@ -70,6 +70,11 @@ const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
+const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
+const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
@@ -155,7 +160,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
+        {globalConfig.locale !== 'salzburg' && <Navigation
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -163,7 +168,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
         ></Navigation>
-        <Container>
+        }
+        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
           {story.content.component === 'article' && (
             <Article
               slot='content'
@@ -171,6 +177,8 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
                 { ...story.content, readingTime: calculateReadingTime(story) },
               )}
               story-uuid={story.uuid}
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
@@ -179,6 +187,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
@@ -189,12 +198,32 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
-          {story.content.component === 'fund' && (
-            <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              {blokToComponent({ blok: story.content, getComponent })}
-            </FundsDetail>
-          )}
+          {story.content.component === 'fund-detail'
+            && <FundsDetail slot='content'>
+              {
+                blokToComponent({ blok: story.content, getComponent })
+              }</FundsDetail>}
+          {story.content.component === 'courses-and-documents'
+            && <DedicatedContainer slot='content'>
+              {
+                story.content?.body?.map((c) => blokToComponent({ blok: c, getComponent }))
+              }</DedicatedContainer>}
+          {story.content.component === 'funds-prices'
+            && <DedicatedContainer slot='content'>
+              <FundsPrices />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-documents'
+            && <DedicatedContainer slot='content'>
+              <FundsDocuments />
+            </DedicatedContainer>}
+          {story.content.component === 'fund-fusion'
+            && <DedicatedContainer slot='content'>
+              <FundFusion />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-mandatory'
+            && <DedicatedContainer slot='content'>
+              <FundsMandatory />
+            </DedicatedContainer>}
           {story.content.component !== 'article'
             && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
         </Container>

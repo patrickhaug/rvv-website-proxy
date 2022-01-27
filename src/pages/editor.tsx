@@ -4,7 +4,7 @@ import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry, calculateReadingTime,
+  LanguageService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -22,10 +22,14 @@ const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsList = 'rcm-funds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
+const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
+const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -124,7 +128,6 @@ export default class StoryblokEntry
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
-
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -143,15 +146,17 @@ export default class StoryblokEntry
         <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
         <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
+        {globalConfig.locale !== 'salzburg' && <Navigation
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
           currentCountry={StoryblokService.getCountryCode(story).country}
           currentLanguage={StoryblokService.getCountryCode(story).locale}
+          alternates={JSON.stringify(story.alternates)}
         ></Navigation>
-        <Container>
+        }
+        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
           {story.content.component === 'article'
             && <Article
               slot='content'
@@ -159,7 +164,8 @@ export default class StoryblokEntry
                 { ...story.content, readingTime: calculateReadingTime(story) },
               )}
               story-uuid={story.uuid}
-            >
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}>
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
           }
@@ -167,6 +173,7 @@ export default class StoryblokEntry
             && <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
@@ -176,25 +183,42 @@ export default class StoryblokEntry
           }
           {story.content.component === 'funds'
             && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              <FundsList
-                error-message={story.content.error_message}
-                search-label={story.content.search_label}
-                search-placeholder={story.content.search_placeholder}
-              />
               {
                 blokToComponent({ blok: story.content, getComponent })
               }</FundsListPage>
           }
-          {story.content.component === 'fund'
-            && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
+          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+          {story.content.component === 'fund-detail'
+            && <FundsDetail slot='content'>
               {
                 blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>
-          }
-          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
-
+              }</FundsDetail>}
+          {story.content.component === 'courses-and-documents'
+            && <DedicatedContainer slot='content'>
+              {
+                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
+              }</DedicatedContainer>}
+          {story.content.component === 'courses-and-documents'
+            && <DedicatedContainer slot='content'>
+              {
+                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
+              }</DedicatedContainer>}
+          {story.content.component === 'funds-prices'
+            && <DedicatedContainer slot='content'>
+              <FundsPrices />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-documents'
+            && <DedicatedContainer slot='content'>
+              <FundsDocuments />
+            </DedicatedContainer>}
+          {story.content.component === 'fund-fusion'
+            && <DedicatedContainer slot='content'>
+              <FundFusion />
+            </DedicatedContainer>}
+          {story.content.component === 'funds-mandatory'
+            && <DedicatedContainer slot='content'>
+              <FundsMandatory />
+            </DedicatedContainer>}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
@@ -218,23 +242,31 @@ export default class StoryblokEntry
   private handleStoryblokLoad(): void {
     this.loadStory();
     const storyblok = StoryblokService.getObject();
+    const storyblokConfig = StoryblokService.getConfig();
 
     if (storyblok) {
       storyblok.on(['change', 'published'], this.loadStory);
 
       storyblok.on('input', (data: Story['data']) => {
-        const { story: currentStory } = this.state;
         const story = data?.story as StoryDataFromGraphQLQuery;
 
-        if (currentStory && currentStory.id === story.id) {
-          story.content = storyblok.addComments(story.content, story.id);
-          this.setState({
-            story,
-            ...DomService.getGlobalConfig(story.uuid,
-              StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
-          });
-        }
+        storyblok.resolveRelations(
+          story,
+          storyblokConfig.options.resolveRelations,
+          (storyWithResolvedRelations) => {
+            const copyStoryWithResolvedRelations = { ...storyWithResolvedRelations };
+            copyStoryWithResolvedRelations.content = storyblok.addComments(story.content, story.id);
+
+            this.setState({
+              story: copyStoryWithResolvedRelations,
+              ...DomService.getGlobalConfig(
+                copyStoryWithResolvedRelations.uuid,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).locale,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).country,
+              ),
+            });
+          },
+        );
       });
 
       storyblok.pingEditor(() => {
@@ -259,23 +291,10 @@ export default class StoryblokEntry
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
     const timeStamp = new Date().toString();
-    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
-      cv: timeStamp,
-    });
-    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
-      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-    ).flat().filter(
-      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
-    );
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
+      per_page: 1000,
     });
-    const storyblokDatasourceEntriesPromises: Promise<StoryblokDatasourceEntry[]>[] = storyblokDatasourceDimensions.map(async (dimension) => this.storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-      dimension,
-    }) as unknown as Promise<StoryblokDatasourceEntry[]>);
-    // eslint-disable-next-line compat/compat
-    const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -285,11 +304,17 @@ export default class StoryblokEntry
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
+          const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
+            cv: timeStamp,
+            dimension: StoryblokService.getCountryCode(story).countryCode,
+            per_page: 1000,
+          });
           const globalContentEntries = StoryblokService
             .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
               {
-                datasourceEntries: storyblokDatasourceEntries,
-                dimensions: storyblokDatasourceDimensions,
+                datasourceEntries: [storyblokDatasourceEntries],
+                // for the editor view we load only the datasources for this country
+                dimensions: [StoryblokService.getCountryCode(story).countryCode],
                 countryCode: StoryblokService.getCountryCode(story).countryCode,
                 defaultValue: defaultDatasourceEntries,
               },

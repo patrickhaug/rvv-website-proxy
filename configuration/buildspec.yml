@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - export GATSBY_STORYBLOK_SPACE_API_KEY_NAME="${WEBSITE_NAME}:${ENVIRONMENT}"
-      - export GATSBY_AWS_S3_BUCKET="${ENVIRONMENT}.${WEBSITE_NAME}"
+      - export GATSBY_AWS_S3_BUCKET="${WEBSITE_NAME}"
       - export GATSBY_ENV=${ENVIRONMENT}
       - export GATSBY_WEBSITE_NAME=${WEBSITE_NAME}
       - export GATSBY_WEBSITE_URL="https://${WEBSITE_DOMAIN}"

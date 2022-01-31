@@ -206,7 +206,7 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component === 'courses-and-documents'
             && <DedicatedContainer slot='content'>
               {
-                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
+                story.content?.body?.map((c) => blokToComponent({ blok: c, getComponent }))
               }</DedicatedContainer>}
           {story.content.component === 'funds-prices'
             && <DedicatedContainer slot='content'>

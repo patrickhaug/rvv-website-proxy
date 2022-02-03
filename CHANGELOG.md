@@ -1,3 +1,30 @@
+# [1.13.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.2...v1.13.0) (2022-02-03)
+
+
+### Bug Fixes
+
+* added staging component library ([cce2c69](https://github.com/virtualidentityag/rcm-corporate/commit/cce2c696d173ffd7931d805e0b8b2e4724888a06))
+* adjusted config ([acd32a9](https://github.com/virtualidentityag/rcm-corporate/commit/acd32a9832ad658caf341332d17ca6133be13637))
+* buildspec ([4d8e9de](https://github.com/virtualidentityag/rcm-corporate/commit/4d8e9de012b66fc024d7a68327de5089dfaf7af3))
+* changed module to use hydrate url ([13b3251](https://github.com/virtualidentityag/rcm-corporate/commit/13b3251b54336cab47331a1f278eaa7db9861e95))
+* develop ([357fbbf](https://github.com/virtualidentityag/rcm-corporate/commit/357fbbf96ad60fdb9bed26d0be7b7bb8c05c9f4e))
+* list ([c272bdc](https://github.com/virtualidentityag/rcm-corporate/commit/c272bdc673f368b4ab942752d91e6520efd69b27))
+* package lock ([8521178](https://github.com/virtualidentityag/rcm-corporate/commit/8521178415c985c401c53c5a78e2a7e15bdb7648))
+* rebuilt package.lock ([a8484c6](https://github.com/virtualidentityag/rcm-corporate/commit/a8484c6617f3db0622e10b16a480ca8401487b81))
+* remove acl from plugin ([9d80e63](https://github.com/virtualidentityag/rcm-corporate/commit/9d80e63d1d0f3a2a22ef09bccec10f3983e40eb1))
+* s3 build env ([2159597](https://github.com/virtualidentityag/rcm-corporate/commit/2159597804e53d78c5f96437fa873f384060053e))
+* s3 build env ([6433d14](https://github.com/virtualidentityag/rcm-corporate/commit/6433d1415ba35755028f3a9bb8390741afd20b8c))
+* safe map ([dff0939](https://github.com/virtualidentityag/rcm-corporate/commit/dff0939a33ed7160809fc11305e3ad35b9e40990))
+* stencil plugin ([0a4970c](https://github.com/virtualidentityag/rcm-corporate/commit/0a4970c39548c10b19194c6544eb7a456164f207))
+* sync dev ([9f9a0a5](https://github.com/virtualidentityag/rcm-corporate/commit/9f9a0a500a1b874c24810dda330092964e43dc3d))
+
+
+### Features
+
+* added alternates attr to Navigation props ([1264e79](https://github.com/virtualidentityag/rcm-corporate/commit/1264e79eef4c3ceb124e2f635623070d388cfd28))
+* artifact ([76880aa](https://github.com/virtualidentityag/rcm-corporate/commit/76880aa0d7e4f3a875048e7fb6ffa3649cabc546))
+* rcm lib ([7a136a5](https://github.com/virtualidentityag/rcm-corporate/commit/7a136a5ce4d7724c9d98a404dead2fcdbd36c9a4))
+
 ## [1.12.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.12.1...v1.12.2) (2021-12-23)
 
 

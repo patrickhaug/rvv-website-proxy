@@ -55,7 +55,7 @@ typings/
 *.tgz
 
 # dotenv environment variable files
-#.env*
+# .env*
 
 # gatsby files
 .cache/
@@ -81,3 +81,5 @@ TODO
 node-services/dist
 
 static
+
+_tmp_

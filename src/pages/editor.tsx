@@ -117,7 +117,10 @@ export default class StoryblokEntry
       const { body, ...rest } = obj;
       rest.background = rest.background.filename;
       const moddedObj = Object.fromEntries(
-        Object.entries(rest).map(([key, value]) => [key.replace(/_/g, '-'), value]),
+        Object.entries(rest).map(([key, value]) => [
+          key.replace(/_/g, '-'),
+          typeof value === 'object' ? JSON.stringify(value) : value,
+        ]),
       );
       return moddedObj;
     };

@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.0...v1.14.1) (2022-02-14)
+
+
+### Bug Fixes
+
+* assets ([7065d10](https://github.com/virtualidentityag/rcm-corporate/commit/7065d109652e09470d219f3807c9d26033db144c))
+
 # [1.14.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.13.0...v1.14.0) (2022-02-09)
 
 

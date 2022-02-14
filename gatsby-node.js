@@ -325,7 +325,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   // 68719
   const response = await fetch(
-    `https://mapi.storyblok.com/v1/spaces/${process.env.GATSBY_STORYBLOK_SPACE_ID}/assets`,
+    `https://mapi.storyblok.com/v1/spaces/${process.env.GATSBY_STORYBLOK_SPACE_ID}/assets?per_page=1000`,
     {
       headers: {
         Authorization: process.env.GATSBY_STORYBLOK_MANAGEMENT_API_KEY,

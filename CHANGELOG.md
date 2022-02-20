@@ -1,3 +1,11 @@
+## [1.14.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.1...v1.14.2) (2022-02-20)
+
+
+### Bug Fixes
+
+* inputs ([48e6060](https://github.com/virtualidentityag/rcm-corporate/commit/48e606046b8553fc2362423e6132c0fd748a7041))
+* props ([f5cb900](https://github.com/virtualidentityag/rcm-corporate/commit/f5cb90057186c3640dbc4a2d8cb2100381a24ea4))
+
 ## [1.14.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.0...v1.14.1) (2022-02-14)
 
 

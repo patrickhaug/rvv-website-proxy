@@ -221,22 +221,34 @@ export default class StoryblokEntry
           )}
           {story.content.component === 'funds-prices' && (
             <DedicatedContainer slot='content'>
-              <FundsPrices headline={story.content.headline} />
+              <FundsPrices
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-documents' && (
             <DedicatedContainer slot='content'>
-              <FundsDocuments headline={story.content.headline} />
+              <FundsDocuments
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
             </DedicatedContainer>
           )}
           {story.content.component === 'fund-fusion' && (
             <DedicatedContainer slot='content'>
-              <FundFusion headline={story.content.headline} />
+              <FundFusion
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-mandatory' && (
             <DedicatedContainer slot='content'>
-              <FundsMandatory headline={story.content.headline} />
+              <FundsMandatory
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
             </DedicatedContainer>
           )}
         </Container>

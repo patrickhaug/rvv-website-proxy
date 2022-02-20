@@ -146,34 +146,44 @@ export default class StoryblokEntry
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
         ></RcmUserSwitchModal>
-        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
+        <RcmIEModal
+          globalContent={globalContent}
+          show={showIEModal}
+        ></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        {globalConfig.locale !== 'salzburg' && <Navigation
-          tree={navigation}
-          getComponent={getComponent}
-          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}
-          currentCountry={StoryblokService.getCountryCode(story).country}
-          currentLanguage={StoryblokService.getCountryCode(story).locale}
-          alternates={JSON.stringify(story.alternates)}
-        ></Navigation>
-        }
-        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
-          {story.content.component === 'article'
-            && <Article
+        <RcmGlobalContent
+          globalContent={JSON.stringify(globalContent)}
+        ></RcmGlobalContent>
+        {globalConfig.locale !== 'salzburg' && (
+          <Navigation
+            tree={navigation}
+            getComponent={getComponent}
+            userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+            countryCode={StoryblokService.getCountryCode(story).countryCode}
+            currentCountry={StoryblokService.getCountryCode(story).country}
+            currentLanguage={StoryblokService.getCountryCode(story).locale}
+            alternates={JSON.stringify(story.alternates)}
+          ></Navigation>
+        )}
+        <Container
+          kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
+        >
+          {story.content.component === 'article' && (
+            <Article
               slot='content'
-              article={JSON.stringify(
-                { ...story.content, readingTime: calculateReadingTime(story) },
-              )}
+              article={JSON.stringify({
+                ...story.content,
+                readingTime: calculateReadingTime(story),
+              })}
               story-uuid={story.uuid}
               country={StoryblokService.getCountryCode(story).country}
-              language={StoryblokService.getCountryCode(story).locale}>
+              language={StoryblokService.getCountryCode(story).locale}
+            >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
-          }
-          {story.content.component === 'articles'
-            && <Articles
+          )}
+          {story.content.component === 'articles' && (
+            <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
               all-categories-label={story.content.all_categories_label}
@@ -183,50 +193,69 @@ export default class StoryblokEntry
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Articles>
-          }
-          {story.content.component === 'funds'
-            && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
-              {
-                blokToComponent({ blok: story.content, getComponent })
-              }</FundsListPage>
-          }
-          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
-          {story.content.component === 'fund-detail'
-            && <FundsDetail slot='content'>
-              {
-                blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>}
-          {story.content.component === 'courses-and-documents'
-            && <DedicatedContainer slot='content'>
-              {
-                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
-              }</DedicatedContainer>}
-          {story.content.component === 'courses-and-documents'
-            && <DedicatedContainer slot='content'>
-              {
-                story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))
-              }</DedicatedContainer>}
-          {story.content.component === 'funds-prices'
-            && <DedicatedContainer slot='content'>
-              <FundsPrices />
-            </DedicatedContainer>}
-          {story.content.component === 'funds-documents'
-            && <DedicatedContainer slot='content'>
-              <FundsDocuments />
-            </DedicatedContainer>}
-          {story.content.component === 'fund-fusion'
-            && <DedicatedContainer slot='content'>
-              <FundFusion />
-            </DedicatedContainer>}
-          {story.content.component === 'funds-mandatory'
-            && <DedicatedContainer slot='content'>
-              <FundsMandatory />
-            </DedicatedContainer>}
+          )}
+          {story.content.component === 'funds' && (
+            <FundsListPage slot='content' {...grabFundsProps(story.content)}>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsListPage>
+          )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </div>
+          )}
+          {story.content.component === 'fund-detail' && (
+            <FundsDetail slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsDetail>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-prices' && (
+            <DedicatedContainer slot='content'>
+              <FundsPrices
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-documents' && (
+            <DedicatedContainer slot='content'>
+              <FundsDocuments
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'fund-fusion' && (
+            <DedicatedContainer slot='content'>
+              <FundFusion
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-mandatory' && (
+            <DedicatedContainer slot='content'>
+              <FundsMandatory
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
-          name={globalContent?.contact?.button?.name}>
-        </ContactButton>
+          name={globalContent?.contact?.button?.name}
+        ></ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}
@@ -235,8 +264,14 @@ export default class StoryblokEntry
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
-        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
-          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
+            height='0'
+            width='0'
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
         {/* End Google Tag Manager (noscript) */}
       </StoryblokReact>
     );

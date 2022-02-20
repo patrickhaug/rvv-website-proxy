@@ -146,39 +146,52 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     return (
       <>
-        <GoogleTagManager googleTagManagerId={globalContent?.gtmId}></GoogleTagManager>
+        <GoogleTagManager
+          googleTagManagerId={globalContent?.gtmId}
+        ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}
           lang={StoryblokService.getCountryCode(story).locale}
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
+        <RcmCountrySwitchModal
+          globalContent={globalContent}
+        ></RcmCountrySwitchModal>
         <RcmUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
         ></RcmUserSwitchModal>
-        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
+        <RcmIEModal
+          globalContent={globalContent}
+          show={showIEModal}
+        ></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        {globalConfig.locale !== 'salzburg' && <Navigation
-          tree={navigation}
-          getComponent={getComponent}
-          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}
-          currentCountry={StoryblokService.getCountryCode(story).country}
-          currentLanguage={StoryblokService.getCountryCode(story).locale}
-        ></Navigation>
-        }
-        <Container kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}>
+        <RcmGlobalContent
+          globalContent={JSON.stringify(globalContent)}
+        ></RcmGlobalContent>
+        {globalConfig.locale !== 'salzburg' && (
+          <Navigation
+            tree={navigation}
+            getComponent={getComponent}
+            userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+            countryCode={StoryblokService.getCountryCode(story).countryCode}
+            currentCountry={StoryblokService.getCountryCode(story).country}
+            currentLanguage={StoryblokService.getCountryCode(story).locale}
+          ></Navigation>
+        )}
+        <Container
+          kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
+        >
           {story.content.component === 'article' && (
             <Article
               slot='content'
-              article={JSON.stringify(
-                { ...story.content, readingTime: calculateReadingTime(story) },
-              )}
+              article={JSON.stringify({
+                ...story.content,
+                readingTime: calculateReadingTime(story),
+              })}
               story-uuid={story.uuid}
               country={StoryblokService.getCountryCode(story).country}
               language={StoryblokService.getCountryCode(story).locale}
@@ -194,41 +207,51 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
-            >{blokToComponent({ blok: story.content, getComponent })}</Articles>
+            >
+              {blokToComponent({ blok: story.content, getComponent })}
+            </Articles>
           )}
           {story.content.component === 'funds' && (
             <FundsList slot='content' {...grabFundsProps(story.content)}>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
-          {story.content.component === 'fund-detail'
-            && <FundsDetail slot='content'>
-              {
-                blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>}
-          {story.content.component === 'courses-and-documents'
-            && <DedicatedContainer slot='content'>
-              {
-                story.content?.body?.map((c) => blokToComponent({ blok: c, getComponent }))
-              }</DedicatedContainer>}
-          {story.content.component === 'funds-prices'
-            && <DedicatedContainer slot='content'>
-              <FundsPrices />
-            </DedicatedContainer>}
-          {story.content.component === 'funds-documents'
-            && <DedicatedContainer slot='content'>
-              <FundsDocuments />
-            </DedicatedContainer>}
-          {story.content.component === 'fund-fusion'
-            && <DedicatedContainer slot='content'>
-              <FundFusion />
-            </DedicatedContainer>}
-          {story.content.component === 'funds-mandatory'
-            && <DedicatedContainer slot='content'>
-              <FundsMandatory />
-            </DedicatedContainer>}
-          {story.content.component !== 'article'
-            && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+          {story.content.component === 'fund-detail' && (
+            <FundsDetail slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsDetail>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content?.body?.map((c) => blokToComponent({ blok: c, getComponent })
+              )}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-prices' && (
+            <DedicatedContainer slot='content'>
+              <FundsPrices headline={story.content.headline} />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-documents' && (
+            <DedicatedContainer slot='content'>
+              <FundsDocuments headline={story.content.headline} />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'fund-fusion' && (
+            <DedicatedContainer slot='content'>
+              <FundFusion headline={story.content.headline} />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-mandatory' && (
+            <DedicatedContainer slot='content'>
+              <FundsMandatory headline={story.content.headline} />
+            </DedicatedContainer>
+          )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </div>
+          )}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
@@ -238,14 +261,14 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}>
-        </Footer>
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
+        ></Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
-            height="0"
-            width="0"
+            height='0'
+            width='0'
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>

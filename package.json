@@ -2,7 +2,7 @@
   "name": "rcm-corporate",
   "private": true,
   "description": "RCM corporate website frontend",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "engines": {
     "node": ">=14"
   },
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/react-helmet": "6.1.5",
-    "@virtualidentityag/rcm-component-library": "1.22.0",
+    "@virtualidentityag/rcm-component-library": "1.23.0",
     "gatsby": "4.6.1",
     "gatsby-plugin-manifest": "4.7.0",
     "gatsby-plugin-react-helmet": "5.7.0",

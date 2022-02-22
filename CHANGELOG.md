@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.2...v1.15.0) (2022-02-22)
+
+
+### Features
+
+* modal ([f8b397c](https://github.com/virtualidentityag/rcm-corporate/commit/f8b397c8128792c8f5b38f36421d74b2affe98b7))
+
 ## [1.14.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.1...v1.14.2) (2022-02-20)
 
 

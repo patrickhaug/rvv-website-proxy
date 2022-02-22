@@ -21,27 +21,56 @@ const convertUserConfigs = (content: GlobalContent | undefined): {
   })) : []);
 
 export const RcmUserSwitchModal = ({
-  globalContent, inArticle, country, userTypeFromSlug,
+  globalContent,
+  inArticle,
+  country,
+  userTypeFromSlug,
 }: {
   globalContent: GlobalContent;
   inArticle: boolean;
   country: Country;
   userTypeFromSlug: string;
-}): JSX.Element => <>
-  {modal && ReactDOM.createPortal(<Modal
-    country-description={globalContent?.userSwitchModal?.countryDescription}
-    country-label={globalContent?.countryNames[country] || ''}
-    country-switch-label={globalContent?.userSwitchModal?.countrySwitchLabel}
-    country-value={country}
-    image-src={globalContent?.userSwitchModal?.imageSrc}
-    headline={globalContent?.userSwitchModal?.headline}
-    intro-text={globalContent?.userSwitchModal?.introText}
-    footnote-text={globalContent?.footer?.infoText}
-    checkbox-label={globalContent?.userSwitchModal?.checkboxLabel}
-    disclaimer={globalContent?.userSwitchModal?.disclaimer}
-    users={JSON.stringify(convertUserConfigs(globalContent))}
-    in-article={inArticle}
-    link-text={globalContent?.userSwitchModal?.linkLabel}
-    link={globalContent?.userSwitchModal?.linkHref}
-    user-type-from-slug={userTypeFromSlug}/>, modal)}
-</>;
+}): JSX.Element => (
+  <>
+    {modal
+      && ReactDOM.createPortal(
+        <Modal
+          country-description={
+            globalContent?.userSwitchModal?.countryDescription
+          }
+          country-label={globalContent?.countryNames[country] || ''}
+          country-switch-label={
+            globalContent?.userSwitchModal?.countrySwitchLabel
+          }
+          country-value={country}
+          image-src={globalContent?.userSwitchModal?.imageSrc}
+          headline={globalContent?.userSwitchModal?.headline}
+          intro-text={globalContent?.userSwitchModal?.introText}
+          footnote-text={globalContent?.footer?.infoText}
+          checkbox-label={globalContent?.userSwitchModal?.checkboxLabel}
+          disclaimer={globalContent?.userSwitchModal?.disclaimer}
+          users={JSON.stringify(convertUserConfigs(globalContent))}
+          in-article={inArticle}
+          link-text={globalContent?.userSwitchModal?.linkLabel}
+          link={globalContent?.userSwitchModal?.linkHref}
+          retail-headline={
+            globalContent?.userSwitchModal?.privatAnlegerHeadline
+          }
+          retail-text={globalContent?.userSwitchModal?.privatAnlegerText}
+          institutionell-headline={
+            globalContent?.userSwitchModal?.institutionellHeadline
+          }
+          institutionell-text={
+            globalContent?.userSwitchModal?.institutionellText
+          }
+          lichtenstein-headline={
+            globalContent?.userSwitchModal?.lichtensteinHeadline
+          }
+          lichtenstein-text={globalContent?.userSwitchModal?.lichtensteinText}
+          user-type-from-slug={userTypeFromSlug}
+          go-to={globalContent?.userSwitchModal?.goToSite}
+        />,
+        modal,
+      )}
+  </>
+);

@@ -69,7 +69,7 @@ export interface GlobalContent {
       themeOptions: [
         { label: string; value: string },
         { label: string; value: string },
-        { label: string; value: string },
+        { label: string; value: string }
       ];
     };
     success: {
@@ -90,6 +90,13 @@ export interface GlobalContent {
     disclaimer: string;
     linkLabel: string;
     linkHref: string;
+    privatAnlegerHeadline: string;
+    privatAnlegerText: string;
+    institutionellHeadline: string;
+    institutionellText: string;
+    lichtensteinHeadline: string;
+    lichtensteinText: string;
+    goToSite: string;
   };
   userTypeConfigs: {
     // index being usertype (institutional, retail, advanced)

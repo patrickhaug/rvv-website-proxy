@@ -94,8 +94,8 @@ export interface GlobalContent {
     privatAnlegerText: string;
     institutionellHeadline: string;
     institutionellText: string;
-    lichtensteinHeadline: string;
-    lichtensteinText: string;
+    noTypeHeadline: string;
+    noTypeText: string;
     goToSite: string;
   };
   userTypeConfigs: {

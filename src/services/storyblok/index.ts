@@ -96,6 +96,7 @@ export interface GlobalContent {
     institutionellText: string;
     noTypeHeadline: string;
     noTypeText: string;
+    noTypeConfirm: string;
     goToSite: string;
   };
   userTypeConfigs: {

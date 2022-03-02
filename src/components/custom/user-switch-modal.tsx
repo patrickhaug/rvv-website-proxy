@@ -63,10 +63,9 @@ export const RcmUserSwitchModal = ({
           institutionell-text={
             globalContent?.userSwitchModal?.institutionellText
           }
-          lichtenstein-headline={
-            globalContent?.userSwitchModal?.lichtensteinHeadline
-          }
-          lichtenstein-text={globalContent?.userSwitchModal?.lichtensteinText}
+          no-type-headline={globalContent?.userSwitchModal?.noTypeHeadline}
+          no-type-text={globalContent?.userSwitchModal?.noTypeText}
+          no-type-confirm={globalContent?.userSwitchModal?.noTypeConfirm}
           user-type-from-slug={userTypeFromSlug}
           go-to={globalContent?.userSwitchModal?.goToSite}
         />,

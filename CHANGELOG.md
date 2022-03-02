@@ -1,3 +1,11 @@
+## [1.15.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.15.0...v1.15.1) (2022-02-27)
+
+
+### Bug Fixes
+
+* user modal ([49e0828](https://github.com/virtualidentityag/rcm-corporate/commit/49e0828bd0bd1dc882bcd0b777039ed04c644a92))
+* usermodal ([8eab611](https://github.com/virtualidentityag/rcm-corporate/commit/8eab611e57f8aabcac28e183f4b755f2db813958))
+
 # [1.15.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.14.2...v1.15.0) (2022-02-22)
 
 

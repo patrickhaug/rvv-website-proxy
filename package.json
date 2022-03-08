@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/react-helmet": "6.1.5",
-    "@virtualidentityag/rcm-component-library": "1.25.2",
+    "@virtualidentityag/rcm-component-library": "1.25.3",
     "gatsby": "4.6.1",
     "gatsby-plugin-manifest": "4.8.1",
     "gatsby-plugin-react-helmet": "5.9.0",

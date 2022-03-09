@@ -27,13 +27,17 @@ module.exports = {
   },
   plugins: [
     // Disable "editor" page if it's a public build
-    ...(process.env.GATSBY_ENV === 'live' ? [{
-      resolve: 'gatsby-plugin-page-creator',
-      options: {
-        path: `${__dirname}/src/pages`,
-        ignore: ['editor.(j|t)s?(x)'],
-      },
-    }] : []),
+    ...(process.env.GATSBY_ENV === 'live'
+      ? [
+        {
+          resolve: 'gatsby-plugin-page-creator',
+          options: {
+            path: `${__dirname}/src/pages`,
+            ignore: ['editor.(j|t)s?(x)'],
+          },
+        },
+      ]
+      : []),
     {
       resolve: 'gatsby-source-graphql',
       options: {
@@ -43,9 +47,12 @@ module.exports = {
         url: 'https://gapi.storyblok.com/v1/api',
         headers: {
           Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
-          Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
+          Version: `${
+            process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'
+          }`,
         },
         resolveRelations: autoResolveField.join(','),
+        resolveLinks: 'url',
       },
     },
     'gatsby-plugin-react-helmet',
@@ -94,7 +101,9 @@ module.exports = {
           removeHtmlComments: true,
           // Parse the hydrated document and optimize for performance
           afterHydrate: (document) => {
-            document.querySelectorAll('style, rcm-offcanvas').forEach((tag) => tag.parentElement.removeChild(tag));
+            document
+              .querySelectorAll('style, rcm-offcanvas')
+              .forEach((tag) => tag.parentElement.removeChild(tag));
 
             const stylesForHydratedContent = document.createElement('style');
             stylesForHydratedContent.type = 'text/css';

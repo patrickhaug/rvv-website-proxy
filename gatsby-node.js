@@ -32,15 +32,19 @@ const queryContent = (
   perPage = 100,
   language,
   resolveRelations = StoryblokService.getConfig().options.resolveRelations,
+  resolveLinks = StoryblokService.getConfig().options.resolveLinks,
 ) => {
   const queryLang = language ? `starts_with: "${language}/*",` : '';
   const queryResolveRelations = resolveRelations
     ? `resolve_relations: "${resolveRelations}",`
     : '';
+  const queryResolveLinks = resolveLinks
+    ? `resolve_links: "${resolveLinks}",`
+    : '';
   return `
     {
       storyblok {
-        ContentNodes(page: ${page}, per_page: ${perPage}, ${queryResolveRelations} ${queryLang}) {
+        ContentNodes(page: ${page}, per_page: ${perPage}, ${queryResolveRelations} ${queryResolveLinks} ${queryLang}) {
           items {
             id
             name

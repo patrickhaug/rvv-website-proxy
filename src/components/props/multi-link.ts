@@ -7,12 +7,28 @@ export interface MultiLinkData {
   linktype?: string;
   url?: string;
   fieldtype?: string;
+  story: {
+    full_slug: string;
+  };
 }
 
 const rootAlias = 'home';
 
-export const multiLink = (key: string, data: MultiLinkData): Record<string, string> => {
-  const { cached_url, anchor, url } = data;
-  const parsedLink = url || `/${cached_url.replace(rootAlias, '')}${anchor ? `#${anchor}` : ''}`.replace('//', '/');
-  return ({ [StringService.snakeToKebab(key)]: parsedLink });
+export const multiLink = (
+  key: string,
+  data: MultiLinkData,
+): Record<string, string> => {
+  const {
+    cached_url, anchor, url, story,
+  } = data;
+  const { full_slug } = story || { full_slug: null };
+
+  const parsedLink = url
+    || `/${
+      full_slug
+        ? full_slug.replace(rootAlias, '')
+        : cached_url.replace(rootAlias, '')
+    }${anchor ? `#${anchor}` : ''}`.replace('//', '/');
+
+  return { [StringService.snakeToKebab(key)]: parsedLink };
 };

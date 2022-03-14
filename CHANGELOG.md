@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.15.1...v1.16.0) (2022-03-10)
+
+
+### Features
+
+* resolve urls for multi ([bfaa147](https://github.com/virtualidentityag/rcm-corporate/commit/bfaa1470255ed7900e42d1939c7c4d703bb951b7))
+
 ## [1.15.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.15.0...v1.15.1) (2022-02-27)
 
 

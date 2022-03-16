@@ -13,16 +13,31 @@ interface NavigationProps extends Props {
 
 const Navigation = 'rcm-navigation' as React.ElementType;
 
-function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unknown } {
+const cleanSlug = (slug: string) => {
+  const slugs = slug.split('/');
+
+  if (slugs[1].includes('-')) return slugs.join('/');
+  slugs.splice(1, 1);
+  return slugs.join('/');
+};
+
+function renderTree(leaf: StoryblokNodeTree): {
+  userTypeSlug: string;
+  tree: unknown;
+} {
   // top level
   const tree = leaf.children.map((e: StoryblokNodeTree) => {
     if (e.is_folder) {
-      const tabEntry = { text: e.name, href: e.real_path, children: [] };
+      const tabEntry = {
+        text: e.name,
+        href: cleanSlug(e.real_path),
+        children: [],
+      };
       e.children.forEach((c) => {
         if (!c.page?.content?.hide_in_navigation) {
           tabEntry.children.push({
             text: c.page?.content?.navigation_title || c.name,
-            href: c.real_path,
+            href: cleanSlug(c.real_path),
           });
         }
       });
@@ -30,7 +45,10 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     }
     return { text: '', href: '' };
   });
-  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1), tree };
+  return {
+    userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1),
+    tree,
+  };
 }
 
 // TODO correct typing of storyblok repsones
@@ -43,7 +61,12 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
-    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug, alternates,
+    tree,
+    currentCountry,
+    currentLanguage,
+    countryCode,
+    userTypeFromSlug,
+    alternates,
   } = props;
 
   if (!tree) {

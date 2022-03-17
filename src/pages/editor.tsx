@@ -126,14 +126,11 @@ export default class StoryblokEntry
     };
 
     if (story.content.component === 'page') {
-      const nestableArticles = story.content.body?.find(
-        (item: SbEditableContent) => item.component === 'articles'
-      );
+      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
-
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}

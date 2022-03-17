@@ -29,7 +29,6 @@ export interface StoryblokNodeTree extends StoryblokNode {
 const attachStoryToLeaf = (stories: StoryData[], lang: string) => (
   (leaf: StoryblokNodeTree): StoryblokNodeTree => {
     const page = stories.find((story) => story.uuid === leaf.uuid);
-
     return {
       ...leaf,
       real_path: `/${lang !== 'default' ? lang : ''}${leaf.real_path}`.replace('//', '/'),

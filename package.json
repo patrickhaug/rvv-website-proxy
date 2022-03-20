@@ -19,7 +19,7 @@
     "lint:code": "eslint \"./src/**/*.ts\" \"./src/**/*.tsx\" \"./*.js\"",
     "lint:code:fix": "eslint \"./src/**/*.ts\" \"./src/**/*.tsx\" \"./*.js\" --fix",
     "release": "semantic-release",
-    "buildArtifact": "node ./scripts/buildArtifact.js"
+    "buildArtifact": "node ./scripts/build-artifact.js"
   },
   "dependencies": {
     "@types/react-helmet": "6.1.5",

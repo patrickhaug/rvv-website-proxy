@@ -30,18 +30,23 @@ const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
 const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
 const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
-    src: `//app.storyblok.com/f/storyblok-latest.js?t=${StoryblokService.getConfig().options.accessToken}`,
+    src: `//app.storyblok.com/f/storyblok-latest.js?t=${
+      StoryblokService.getConfig().options.accessToken
+    }`,
   });
   script.onload = onLoadHandler;
   document.head.appendChild(script);
 };
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry
-  extends Component<Record<string, unknown>, StoryblokEntryState> {
+export default class StoryblokEntry extends Component<
+Record<string, unknown>,
+StoryblokEntryState
+> {
   private storyblokClient: StoryblokClient;
 
   public constructor(props: Record<string, unknown>) {
@@ -89,10 +94,11 @@ export default class StoryblokEntry
       return (
         <div>
           <h1>Something went wrong!</h1>
-          <p>Your work is not lost, but you will not see any new changes until you save.</p>
-          <button
-            onClick={(): void => window.location.reload()}
-          >
+          <p>
+            Your work is not lost, but you will not see any new changes until
+            you save.
+          </p>
+          <button onClick={(): void => window.location.reload()}>
             Refresh editor view
           </button>
         </div>
@@ -100,11 +106,7 @@ export default class StoryblokEntry
     }
 
     const {
-      story,
-      navigation,
-      globalContent,
-      showIEModal,
-      ...globalConfig
+      story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
 
     if (!story || !story.content) {
@@ -251,6 +253,16 @@ export default class StoryblokEntry
               />
             </DedicatedContainer>
           )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+              {story.content.disclaimer_type?.length > 0 && (
+                <Disclaimer
+                  disclaimer={JSON.stringify(story.content.disclaimer_type)}
+                ></Disclaimer>
+              )}
+            </div>
+          )}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
@@ -292,15 +304,22 @@ export default class StoryblokEntry
           story,
           storyblokConfig.options.resolveRelations,
           (storyWithResolvedRelations) => {
-            const copyStoryWithResolvedRelations = { ...storyWithResolvedRelations };
-            copyStoryWithResolvedRelations.content = storyblok.addComments(story.content, story.id);
+            const copyStoryWithResolvedRelations = {
+              ...storyWithResolvedRelations,
+            };
+            copyStoryWithResolvedRelations.content = storyblok.addComments(
+              story.content,
+              story.id,
+            );
 
             this.setState({
               story: copyStoryWithResolvedRelations,
               ...DomService.getGlobalConfig(
                 copyStoryWithResolvedRelations.uuid,
-                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).locale,
-                StoryblokService.getCountryCode(copyStoryWithResolvedRelations).country,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations)
+                  .locale,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations)
+                  .country,
               ),
             });
           },
@@ -319,8 +338,11 @@ export default class StoryblokEntry
     StoryblokService.redirect(({ story }) => {
       this.setState({
         story,
-        ...DomService.getGlobalConfig(story.uuid, StoryblokService.getCountryCode(story).locale,
-          StoryblokService.getCountryCode(story).country),
+        ...DomService.getGlobalConfig(
+          story.uuid,
+          StoryblokService.getCountryCode(story).locale,
+          StoryblokService.getCountryCode(story).country,
+        ),
       });
     });
   }
@@ -347,21 +369,22 @@ export default class StoryblokEntry
             dimension: StoryblokService.getCountryCode(story).countryCode,
             per_page: 1000,
           });
-          const globalContentEntries = StoryblokService
-            .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
-              {
-                datasourceEntries: [storyblokDatasourceEntries],
-                // for the editor view we load only the datasources for this country
-                dimensions: [StoryblokService.getCountryCode(story).countryCode],
-                countryCode: StoryblokService.getCountryCode(story).countryCode,
-                defaultValue: defaultDatasourceEntries,
-              },
-            ));
+          const globalContentEntries = StoryblokService.parseDatasourceEntries(
+            StoryblokService.getLocalizedDatasourceEntries({
+              datasourceEntries: [storyblokDatasourceEntries],
+              // for the editor view we load only the datasources for this country
+              dimensions: [StoryblokService.getCountryCode(story).countryCode],
+              countryCode: StoryblokService.getCountryCode(story).countryCode,
+              defaultValue: defaultDatasourceEntries,
+            }),
+          );
           this.setState({
             story,
-            ...DomService.getGlobalConfig(story.uuid,
+            ...DomService.getGlobalConfig(
+              story.uuid,
               StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
+              StoryblokService.getCountryCode(story).country,
+            ),
             globalContent: globalContentEntries,
           });
           this.loadNavigation(story.lang);
@@ -376,7 +399,10 @@ export default class StoryblokEntry
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
     };
 
-    const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
+    const allStories = await this.storyblokClient.getAll(
+      'cdn/stories',
+      queryOptions,
+    );
     const tree = await NavigationService.getNavigation(allStories, lang);
     const contact = await NavigationService.getContactPage(lang);
 

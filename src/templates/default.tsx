@@ -75,14 +75,20 @@ const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
 const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
 const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
+export default class StoryblokEntry extends Component<
+StoryblokEntryProps,
+StoryblokEntryState
+> {
   public static getDerivedStateFromProps(
     props: StoryblokEntryProps,
     state: StoryblokEntryState,
   ): StoryblokEntryState {
-    return state.story.uuid !== props.pageContext.story.uuid ? parseEntryData(props) : null;
+    return state.story.uuid !== props.pageContext.story.uuid
+      ? parseEntryData(props)
+      : null;
   }
 
   public constructor(props: StoryblokEntryProps) {
@@ -102,8 +108,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         this.setState({ navigation: navigationData });
       });
 
-    NavigationService.getContactPage(this.state.story.lang)
-      .then((contactPage) => this.setState({ contact: contactPage }));
+    NavigationService.getContactPage(this.state.story.lang).then(
+      (contactPage) => this.setState({ contact: contactPage }),
+    );
 
     LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
@@ -116,12 +123,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
   public render(): JSX.Element {
     const {
-      story,
-      navigation,
-      globalContent,
-      showIEModal,
-      ...globalConfig
+      story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
+
+    console.log(story);
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const grabFundsProps = (obj) => {
@@ -138,7 +143,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
     };
 
     if (story.content.component === 'page') {
-      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
+      const nestableArticles = story.content.body?.find(
+        (item: SbEditableContent) => item.component === 'articles'
+      );
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
       }
@@ -262,6 +269,11 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           {story.content.component !== 'article' && (
             <div slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}
+              {story.content.disclaimer_type?.length > 0 && (
+                <Disclaimer
+                  disclaimer={JSON.stringify(story.content.disclaimer_type)}
+                ></Disclaimer>
+              )}
             </div>
           )}
         </Container>

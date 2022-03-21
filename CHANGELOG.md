@@ -1,3 +1,16 @@
+# [1.17.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.16.0...v1.17.0) (2022-03-21)
+
+
+### Bug Fixes
+
+* name ([8a0a3e4](https://github.com/virtualidentityag/rcm-corporate/commit/8a0a3e49a85cb0aad92d13afa42244601421f4f5))
+
+
+### Features
+
+* disclaimer ([ed8788f](https://github.com/virtualidentityag/rcm-corporate/commit/ed8788fcc5ca6e5d261bb86effaf39ef953341b9))
+* dynamic pages for fond ([3048e08](https://github.com/virtualidentityag/rcm-corporate/commit/3048e08d3884cf58f0b91a7b23a2057c60d3aa4a))
+
 # [1.16.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.15.1...v1.16.0) (2022-03-10)
 
 

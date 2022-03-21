@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run compile:node-services && gatsby develop",
     "compile:node-services": "tsc --project node-services/",
-    "build": "npm run compile:node-services && gatsby build --log-pages --write-to-file",
+    "build": "gatsby build --log-pages --write-to-file",
     "deploy": "gatsby-plugin-s3 deploy",
     "serve": "gatsby serve",
     "serve:build": "serve -l 8000 ./public/",

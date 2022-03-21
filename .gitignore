@@ -78,7 +78,7 @@ secrets.env
 TODO
 
 # Services compiled as commonjs modules
-node-services/dist
+#node-services/dist
 
 static
 

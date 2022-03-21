@@ -32,7 +32,7 @@
     "gatsby-plugin-sitemap": "5.9.0",
     "gatsby-plugin-stencil": "git+https://github.com/virtualidentityag/gatsby-plugin-stencil.git#updated-master",
     "gatsby-source-filesystem": "4.9.1",
-    "gatsby-source-graphql": "4.9.1",
+    "gatsby-source-graphql": "4.9.0",
     "lodash.get": "4.4.2",
     "node-fetch": "^2.6.7",
     "path-browserify": "1.0.1",

@@ -24,6 +24,7 @@ const countryFolders = {
   international_generated: {
     folders: [
       'bg-bg',
+      'bg-en',
       'ch-de',
       'ch-en',
       'de-de',
@@ -89,17 +90,20 @@ async function main() {
     });
 
     countryFolders[key].folders.forEach(async (folder) => {
-      if (typeof folder === 'object') {
+      if (typeof folder === 'object' && fs.existsSync(`${root}/public/${folder.from}`)) {
         collectedTasks.push(
           fs.copy(
             `${root}/public/${folder.from}`,
             `${root}/_tmp_/${key}/${folder.to}`
           )
         );
-      } else {
+      } else if (fs.existsSync(`${root}/public/${folder}`)) {
         collectedTasks.push(
           fs.copy(`${root}/public/${folder}`, `${root}/_tmp_/${key}/${folder}`)
         );
+      } else {
+        // eslint-disable-next-line no-console
+        console.log(`${folder} does not exist`);
       }
     });
 

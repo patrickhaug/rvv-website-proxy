@@ -1,3 +1,12 @@
+## [1.17.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.0...v1.17.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* missing build artifacts ([63f766e](https://github.com/virtualidentityag/rcm-corporate/commit/63f766eb102115c41278df957d0af750df933dc6))
+* no fail when folder is missing ([e0243a5](https://github.com/virtualidentityag/rcm-corporate/commit/e0243a523e96daa206537b6216a12ade43356d33))
+* **table:** align with text ([a8dde44](https://github.com/virtualidentityag/rcm-corporate/commit/a8dde44d022c4607160be5afffe24c2506383a8a))
+
 # [1.17.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.16.0...v1.17.0) (2022-03-21)
 
 

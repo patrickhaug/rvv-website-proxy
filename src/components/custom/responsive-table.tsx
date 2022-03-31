@@ -19,6 +19,7 @@ const RcmResponsiveTable = ({ blok, ...rest }: AnyProps): JSX.Element => {
       table: undefined,
       headers: JSON.stringify(headersArray),
       rows: JSON.stringify(rowsArray),
+      is_aligned: true,
     },
     ...rest,
   });

@@ -14,14 +14,15 @@ phases:
   pre_build:
     commands:
       - export GATSBY_STORYBLOK_SPACE_API_KEY_NAME="${WEBSITE_NAME}:${ENVIRONMENT}"
-      - export GATSBY_AWS_S3_BUCKET=${WEBSITE_BUCKET}
+      - export GATSBY_AWS_S3_BUCKET="${WEBSITE_BUCKET}"
       - export GATSBY_ENV=${ENVIRONMENT}
       - export GATSBY_WEBSITE_NAME=${WEBSITE_NAME}
       - export GATSBY_WEBSITE_URL="https://${WEBSITE_DOMAIN}"
-      - 'npm ci --cache .npm --prefer-offline --no-audit'
+      - 'npm i -g npm@8 && npm install --legacy-peer-deps'
   build:
     commands:
       - 'npm run build'
+      - 'npm run buildArtifact'
       - printenv
   post_build:
     commands:

@@ -27,13 +27,17 @@ module.exports = {
   },
   plugins: [
     // Disable "editor" page if it's a public build
-    ...(process.env.GATSBY_ENV === 'live' ? [{
-      resolve: 'gatsby-plugin-page-creator',
-      options: {
-        path: `${__dirname}/src/pages`,
-        ignore: ['editor.(j|t)s?(x)'],
-      },
-    }] : []),
+    ...(process.env.GATSBY_ENV === 'live'
+      ? [
+        {
+          resolve: 'gatsby-plugin-page-creator',
+          options: {
+            path: `${__dirname}/src/pages`,
+            ignore: ['editor.(j|t)s?(x)'],
+          },
+        },
+      ]
+      : []),
     {
       resolve: 'gatsby-source-graphql',
       options: {
@@ -43,9 +47,12 @@ module.exports = {
         url: 'https://gapi.storyblok.com/v1/api',
         headers: {
           Token: `${process.env.GATSBY_STORYBLOK_SPACE_API_KEY}`,
-          Version: `${process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'}`,
+          Version: `${
+            process.env.GATSBY_ENV === 'live' ? 'published' : 'draft'
+          }`,
         },
         resolveRelations: autoResolveField.join(','),
+        resolveLinks: 'url',
       },
     },
     'gatsby-plugin-react-helmet',
@@ -68,16 +75,21 @@ module.exports = {
         name: 'gatsby-starter-default',
         short_name: 'starter',
         start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
+        background_color: '#fff',
+        theme_color: '#fff',
         display: 'minimal-ui',
         icon: 'src/resources/images/favicon.jpeg', // This path is relative to the root of the site.
       },
     },
-    'gatsby-plugin-sitemap',
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    {
+      resolve: 'gatsby-plugin-sitemap',
+      options: {
+        serialize: ({ path, modifiedGmt }) => ({
+          url: path,
+          lastmod: modifiedGmt,
+        }),
+      },
+    },
     {
       resolve: 'gatsby-plugin-stencil',
       options: {
@@ -89,7 +101,9 @@ module.exports = {
           removeHtmlComments: true,
           // Parse the hydrated document and optimize for performance
           afterHydrate: (document) => {
-            document.querySelectorAll('style, rcm-offcanvas').forEach((tag) => tag.parentElement.removeChild(tag));
+            document
+              .querySelectorAll('style, rcm-offcanvas')
+              .forEach((tag) => tag.parentElement.removeChild(tag));
 
             const stylesForHydratedContent = document.createElement('style');
             stylesForHydratedContent.type = 'text/css';

@@ -55,7 +55,7 @@ typings/
 *.tgz
 
 # dotenv environment variable files
-#.env*
+# .env*
 
 # gatsby files
 .cache/
@@ -78,6 +78,8 @@ secrets.env
 TODO
 
 # Services compiled as commonjs modules
-node-services/dist
+#node-services/dist
 
 static
+
+_tmp_

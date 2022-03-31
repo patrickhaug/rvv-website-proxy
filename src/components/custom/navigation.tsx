@@ -8,6 +8,7 @@ interface NavigationProps extends Props {
   currentLanguage: string;
   countryCode: string;
   userTypeFromSlug: 'institutional' | 'retail' | 'advanced';
+  alternates: string;
 }
 
 const Navigation = 'rcm-navigation' as React.ElementType;
@@ -18,17 +19,18 @@ function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unkn
     if (e.is_folder) {
       const tabEntry = { text: e.name, href: e.real_path, children: [] };
       e.children.forEach((c) => {
-        tabEntry.children.push({
-          text: c.name,
-          href: c.real_path,
-        });
+        if (!c.page?.content?.hide_in_navigation) {
+          tabEntry.children.push({
+            text: c.page?.content?.navigation_title || c.name,
+            href: c.real_path,
+          });
+        }
       });
       return tabEntry;
     }
     return { text: '', href: '' };
   });
-
-  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path, tree };
+  return { userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1), tree };
 }
 
 // TODO correct typing of storyblok repsones
@@ -41,11 +43,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 
 export const RcmNavigation = (props: NavigationProps): JSX.Element => {
   const {
-    tree,
-    currentCountry,
-    currentLanguage,
-    countryCode,
-    userTypeFromSlug,
+    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug, alternates,
   } = props;
 
   if (!tree) {
@@ -60,24 +58,25 @@ export const RcmNavigation = (props: NavigationProps): JSX.Element => {
       langMap.set(key, t);
     }
   });
+  const currentTree = getCurrentTree(langMap, countryCode);
+  const items = currentTree ? currentTree.map(renderTree) : [];
 
   // We need the custom component, otherwise jsx does not render the attributes
   return (
     <Navigation
-      tab-entries={JSON.stringify(getCurrentTree(langMap, countryCode).map(renderTree))}
+      tab-entries={JSON.stringify(items)}
       current-language={currentLanguage}
       current-country={currentCountry}
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
+      alternates={alternates}
     >
-      {
-        /*
-         * NOTE: Only works if renderTree is defined using the function keyword!
-         *
-         * To avoid managing the arguments that are passed to renderTree,
-         * we pass component state as the thisArg to the mapping function.
-         */
-      }
+      {/*
+       * NOTE: Only works if renderTree is defined using the function keyword!
+       *
+       * To avoid managing the arguments that are passed to renderTree,
+       * we pass component state as the thisArg to the mapping function.
+       */}
     </Navigation>
   );
 };

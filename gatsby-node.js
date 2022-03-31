@@ -2,9 +2,13 @@ const googleTagManagerId = process.env.GOOGLE_TAG_MANAGER_ID;
 const { resolve } = require('path');
 const { mkdirSync, writeFileSync } = require('fs');
 const StoryblokClient = require('storyblok-js-client');
+const fetch = require('node-fetch');
 
 // eslint-disable-next-line import/extensions
-const { NavigationService, StoryblokService } = require('./node-services/dist/node-services/index');
+const {
+  NavigationService,
+  StoryblokService,
+} = require('./node-services/dist/node-services/index');
 
 const storyblokClient = new StoryblokClient({
   accessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
@@ -28,14 +32,19 @@ const queryContent = (
   perPage = 100,
   language,
   resolveRelations = StoryblokService.getConfig().options.resolveRelations,
+  resolveLinks = StoryblokService.getConfig().options.resolveLinks,
 ) => {
   const queryLang = language ? `starts_with: "${language}/*",` : '';
-  const queryResolveRelations = resolveRelations ? `resolve_relations: "${resolveRelations}",` : '';
-
+  const queryResolveRelations = resolveRelations
+    ? `resolve_relations: "${resolveRelations}",`
+    : '';
+  const queryResolveLinks = resolveLinks
+    ? `resolve_links: "${resolveLinks}",`
+    : '';
   return `
     {
       storyblok {
-        ContentNodes(page: ${page}, per_page: ${perPage}, ${queryResolveRelations} ${queryLang}) {
+        ContentNodes(page: ${page}, per_page: ${perPage}, ${queryResolveRelations} ${queryResolveLinks} ${queryLang}) {
           items {
             id
             name
@@ -69,9 +78,7 @@ const queryContent = (
  */
 const ParseStoriesForNavigation = (array) => array.reduce((acc, val) => {
   if (val) {
-    const langFromSlug = val.full_slug
-      .split('/')
-      .filter((el) => el !== '');
+    const langFromSlug = val.full_slug.split('/').filter((el) => el !== '');
 
     if (langFromSlug[0] !== val.lang) {
       langFromSlug.unshift(val.lang);
@@ -105,14 +112,10 @@ const mandatoryNavKeys = [
 const mandatoryContentKeys = [
   'navigation_title',
   'navigation_subline',
-  'highlights',
+  'hide_in_navigation',
 ];
 
-const ignoreKeys = [
-  'highlights',
-  'page',
-  'content',
-];
+const ignoreKeys = ['highlights', 'page', 'content'];
 
 const cleanObject = (data, keys = mandatoryNavKeys) => {
   // Remove unnecessary info
@@ -149,11 +152,13 @@ const createQuery = (
   itemsPerPage,
   language,
 ) => {
-  const lastPage = Math.ceil((totalItems / itemsPerPage));
+  const lastPage = Math.ceil(totalItems / itemsPerPage);
   const allPageQueries = Array.from({ length: lastPage }, (_, i) => i + 1);
 
   return allPageQueries.map((page) => async () => {
-    const { errors, data } = await graphql(queryContent(page, itemsPerPage, language));
+    const { errors, data } = await graphql(
+      queryContent(page, itemsPerPage, language),
+    );
 
     if (errors) {
       throw new Error(errors);
@@ -175,7 +180,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   if (preContentFetch.errors) {
     // eslint-disable-next-line no-console
-    console.error('ERROR: GraphQL call not successful.\n', preContentFetch.errors);
+    console.error(
+      'ERROR: GraphQL call not successful.\n',
+      preContentFetch.errors,
+    );
     throw new Error(preContentFetch.errors);
   }
 
@@ -199,7 +207,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   /* eslint-disable guard-for-in, no-await-in-loop, no-restricted-syntax */
   for (const language in navigationReadyStories) {
-    const tree = await NavigationService.getNavigation(navigationReadyStories[language], language);
+    const tree = await NavigationService.getNavigation(
+      navigationReadyStories[language],
+      language,
+    );
     navigationTreesByLanguage = {
       ...navigationTreesByLanguage,
       [language]: cleanObject(JSON.parse(JSON.stringify(tree))),
@@ -209,7 +220,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   mkdirSync('public', { recursive: true });
   Object.keys(navigationTreesByLanguage).forEach((key) => {
-    writeFileSync(`public/navigation-data-${key}.json`, JSON.stringify(navigationTreesByLanguage[key]));
+    writeFileSync(
+      `public/navigation-data-${key}.json`,
+      JSON.stringify(navigationTreesByLanguage[key]),
+    );
   });
 
   const template = resolve('./src/templates/default.tsx');
@@ -217,38 +231,50 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const timeStamp = new Date().toString();
   const storyblokDatasources = await storyblokClient.getAll('cdn/datasources', {
     cv: timeStamp,
+    per_page: 1000,
   });
-  const storyblokDatasourceDimensions = storyblokDatasources.map(
-    (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-  ).flat().filter(
-    (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
+  const storyblokDatasourceDimensions = storyblokDatasources
+    .map((datasource) => datasource.dimensions.map((dimension) => dimension.entry_value))
+    .flat()
+    .filter(
+      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
+    );
+  const defaultDatasourceEntries = await storyblokClient.getAll(
+    'cdn/datasource_entries',
+    {
+      cv: timeStamp,
+      per_page: 1000,
+    },
   );
-  const defaultDatasourceEntries = await storyblokClient.getAll('cdn/datasource_entries', {
-    cv: timeStamp,
-  });
-  const storyblokDatasourceEntriesPromises = storyblokDatasourceDimensions.map(async (dimension) => storyblokClient.getAll('cdn/datasource_entries', {
-    cv: timeStamp,
-    dimension,
-  }));
-    // eslint-disable-next-line compat/compat
-  const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
+  const storyblokDatasourceEntriesPromises = storyblokDatasourceDimensions.map(
+    async (dimension) => storyblokClient.getAll('cdn/datasource_entries', {
+      cv: timeStamp,
+      dimension,
+      per_page: 1000,
+    }),
+  );
+  // eslint-disable-next-line compat/compat
+  const storyblokDatasourceEntries = await Promise.all(
+    storyblokDatasourceEntriesPromises,
+  );
 
   const promises = allEntries.map(async (entry) => {
-    const globalContentEntries = StoryblokService
-      .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
-        {
-          datasourceEntries: storyblokDatasourceEntries,
-          dimensions: storyblokDatasourceDimensions,
-          countryCode: StoryblokService.getCountryCode(entry).countryCode,
-          defaultValue: defaultDatasourceEntries,
-        },
-      ));
+    const globalContentEntries = StoryblokService.parseDatasourceEntries(
+      StoryblokService.getLocalizedDatasourceEntries({
+        datasourceEntries: storyblokDatasourceEntries,
+        dimensions: storyblokDatasourceDimensions,
+        countryCode: StoryblokService.getCountryCode(entry).countryCode,
+        defaultValue: defaultDatasourceEntries,
+      }),
+    );
     const path = entry.full_slug.includes('home')
       ? entry.full_slug.replace('home', '')
       : entry.full_slug;
 
+    const normalizedPath = path.substr(-1) !== '/' ? `${path || ''}/` : path;
+
     createPage({
-      path: !path || path.substr(-1) !== '/' ? `${path || ''}/` : path,
+      path: normalizedPath,
       component: template,
       context: {
         googleTagManagerId,
@@ -257,6 +283,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       },
     });
   });
+
   // eslint-disable-next-line compat/compat
   await Promise.all(promises);
 };
@@ -293,6 +320,52 @@ exports.onCreatePage = async ({ page, actions }) => {
     });
   }
 };
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const { createNode } = actions;
+  // 68719
+  const response = await fetch(
+    `https://mapi.storyblok.com/v1/spaces/${process.env.GATSBY_STORYBLOK_SPACE_ID}/assets?per_page=1000`,
+    {
+      headers: {
+        Authorization: process.env.GATSBY_STORYBLOK_MANAGEMENT_API_KEY,
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  const images = data.assets.filter(
+    // eslint-disable-next-line eqeqeq
+    (e) => e.asset_folder_id == process.env.GATSBY_STORYBLOK_ASSETS_ID,
+  );
+
+  const result = {};
+
+  images.forEach((i) => {
+    const hash = i.filename.split('/').pop().replace('.jpg', '');
+    result[hash] = i.filename;
+  });
+
+  createNode({
+    id: createNodeId('fund-images'),
+    parent: null,
+    children: null,
+    internal: {
+      type: 'fundImages',
+      content: JSON.stringify(result),
+      contentDigest: createContentDigest(result),
+    },
+  });
+
+  // gatsby collect all funds images and put as props
+  // https://stackoverflow.com/questions/37588017/fallback-background-image-if-default-doesnt-exist
+};
+
 // This is needed so that the build process does not fail because in gatby-config.js
 // the fs module is not available and therefore it throws an error because dotenv has
 // it as a dependency.

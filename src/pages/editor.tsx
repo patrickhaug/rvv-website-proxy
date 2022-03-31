@@ -4,7 +4,7 @@ import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
   DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasource, StoryblokDatasourceEntry, calculateReadingTime,
+  LanguageService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -22,22 +22,31 @@ const Container = 'rcm-layout-container' as React.ElementType;
 
 const Article = 'rcm-layout-article' as React.ElementType;
 const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsList = 'rcm-funds-list' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
+const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
+const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
-    src: `//app.storyblok.com/f/storyblok-latest.js?t=${StoryblokService.getConfig().options.accessToken}`,
+    src: `//app.storyblok.com/f/storyblok-latest.js?t=${
+      StoryblokService.getConfig().options.accessToken
+    }`,
   });
   script.onload = onLoadHandler;
   document.head.appendChild(script);
 };
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry
-  extends Component<Record<string, unknown>, StoryblokEntryState> {
+export default class StoryblokEntry extends Component<
+Record<string, unknown>,
+StoryblokEntryState
+> {
   private storyblokClient: StoryblokClient;
 
   public constructor(props: Record<string, unknown>) {
@@ -85,10 +94,11 @@ export default class StoryblokEntry
       return (
         <div>
           <h1>Something went wrong!</h1>
-          <p>Your work is not lost, but you will not see any new changes until you save.</p>
-          <button
-            onClick={(): void => window.location.reload()}
-          >
+          <p>
+            Your work is not lost, but you will not see any new changes until
+            you save.
+          </p>
+          <button onClick={(): void => window.location.reload()}>
             Refresh editor view
           </button>
         </div>
@@ -96,11 +106,7 @@ export default class StoryblokEntry
     }
 
     const {
-      story,
-      navigation,
-      globalContent,
-      showIEModal,
-      ...globalConfig
+      story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
 
     if (!story || !story.content) {
@@ -113,18 +119,22 @@ export default class StoryblokEntry
       const { body, ...rest } = obj;
       rest.background = rest.background.filename;
       const moddedObj = Object.fromEntries(
-        Object.entries(rest).map(([key, value]) => [key.replace(/_/g, '-'), value]),
+        Object.entries(rest).map(([key, value]) => [
+          key.replace(/_/g, '-'),
+          typeof value === 'object' ? JSON.stringify(value) : value,
+        ]),
       );
       return moddedObj;
     };
 
     if (story.content.component === 'page') {
-      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
+      const nestableArticles = story.content.body?.find(
+        (item: SbEditableContent) => item.component === 'articles',
+      );
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
-
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -140,66 +150,126 @@ export default class StoryblokEntry
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
         ></RcmUserSwitchModal>
-        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
+        <RcmIEModal
+          globalContent={globalContent}
+          show={showIEModal}
+        ></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
-          tree={navigation}
-          getComponent={getComponent}
-          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}
-          currentCountry={StoryblokService.getCountryCode(story).country}
-          currentLanguage={StoryblokService.getCountryCode(story).locale}
-        ></Navigation>
-        <Container>
-          {story.content.component === 'article'
-            && <Article
+        <RcmGlobalContent
+          globalContent={JSON.stringify(globalContent)}
+        ></RcmGlobalContent>
+        {globalConfig.locale !== 'salzburg' && (
+          <Navigation
+            tree={navigation}
+            getComponent={getComponent}
+            userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+            countryCode={StoryblokService.getCountryCode(story).countryCode}
+            currentCountry={StoryblokService.getCountryCode(story).country}
+            currentLanguage={StoryblokService.getCountryCode(story).locale}
+            alternates={JSON.stringify(story.alternates)}
+          ></Navigation>
+        )}
+        <Container
+          kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
+        >
+          {story.content.component === 'article' && (
+            <Article
               slot='content'
-              article={JSON.stringify(
-                { ...story.content, readingTime: calculateReadingTime(story) },
-              )}
+              article={JSON.stringify({
+                ...story.content,
+                readingTime: calculateReadingTime(story),
+              })}
               story-uuid={story.uuid}
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
-          }
-          {story.content.component === 'articles'
-            && <Articles
+          )}
+          {story.content.component === 'articles' && (
+            <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Articles>
-          }
-          {story.content.component === 'funds'
-            && <FundsListPage slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              <FundsList
-                error-message={story.content.error_message}
-                search-label={story.content.search_label}
-                search-placeholder={story.content.search_placeholder}
+          )}
+          {story.content.component === 'funds' && (
+            <FundsListPage slot='content' {...grabFundsProps(story.content)}>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsListPage>
+          )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </div>
+          )}
+          {story.content.component === 'fund-detail' && (
+            <FundsDetail slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsDetail>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-prices' && (
+            <DedicatedContainer slot='content'>
+              <FundsPrices
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
               />
-              {
-                blokToComponent({ blok: story.content, getComponent })
-              }</FundsListPage>
-          }
-          {story.content.component === 'fund'
-            && <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
-              {
-                blokToComponent({ blok: story.content, getComponent })
-              }</FundsDetail>
-          }
-          {story.content.component !== 'article' && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
-
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-documents' && (
+            <DedicatedContainer slot='content'>
+              <FundsDocuments
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'fund-fusion' && (
+            <DedicatedContainer slot='content'>
+              <FundFusion
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-mandatory' && (
+            <DedicatedContainer slot='content'>
+              <FundsMandatory
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+              {story.content.disclaimer_type?.length > 0 && (
+                <Disclaimer
+                  disclaimer={JSON.stringify(story.content.disclaimer_type)}
+                ></Disclaimer>
+              )}
+            </div>
+          )}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
-          name={globalContent?.contact?.button?.name}>
-        </ContactButton>
+          name={globalContent?.contact?.button?.name}
+        ></ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}
@@ -208,8 +278,14 @@ export default class StoryblokEntry
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
-        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
-          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
+            height='0'
+            width='0'
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
         {/* End Google Tag Manager (noscript) */}
       </StoryblokReact>
     );
@@ -218,23 +294,38 @@ export default class StoryblokEntry
   private handleStoryblokLoad(): void {
     this.loadStory();
     const storyblok = StoryblokService.getObject();
+    const storyblokConfig = StoryblokService.getConfig();
 
     if (storyblok) {
       storyblok.on(['change', 'published'], this.loadStory);
 
       storyblok.on('input', (data: Story['data']) => {
-        const { story: currentStory } = this.state;
         const story = data?.story as StoryDataFromGraphQLQuery;
 
-        if (currentStory && currentStory.id === story.id) {
-          story.content = storyblok.addComments(story.content, story.id);
-          this.setState({
-            story,
-            ...DomService.getGlobalConfig(story.uuid,
-              StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
-          });
-        }
+        storyblok.resolveRelations(
+          story,
+          storyblokConfig.options.resolveRelations,
+          (storyWithResolvedRelations) => {
+            const copyStoryWithResolvedRelations = {
+              ...storyWithResolvedRelations,
+            };
+            copyStoryWithResolvedRelations.content = storyblok.addComments(
+              story.content,
+              story.id,
+            );
+
+            this.setState({
+              story: copyStoryWithResolvedRelations,
+              ...DomService.getGlobalConfig(
+                copyStoryWithResolvedRelations.uuid,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations)
+                  .locale,
+                StoryblokService.getCountryCode(copyStoryWithResolvedRelations)
+                  .country,
+              ),
+            });
+          },
+        );
       });
 
       storyblok.pingEditor(() => {
@@ -249,8 +340,11 @@ export default class StoryblokEntry
     StoryblokService.redirect(({ story }) => {
       this.setState({
         story,
-        ...DomService.getGlobalConfig(story.uuid, StoryblokService.getCountryCode(story).locale,
-          StoryblokService.getCountryCode(story).country),
+        ...DomService.getGlobalConfig(
+          story.uuid,
+          StoryblokService.getCountryCode(story).locale,
+          StoryblokService.getCountryCode(story).country,
+        ),
       });
     });
   }
@@ -259,23 +353,10 @@ export default class StoryblokEntry
     const storyblok = StoryblokService.getObject();
     const storyblokConfig = StoryblokService.getConfig();
     const timeStamp = new Date().toString();
-    const storyblokDatasources: StoryblokDatasource[] = await this.storyblokClient.getAll('cdn/datasources', {
-      cv: timeStamp,
-    });
-    const storyblokDatasourceDimensions: string[] = storyblokDatasources.map(
-      (datasource) => datasource.dimensions.map((dimension) => dimension.entry_value),
-    ).flat().filter(
-      (dimension, index, allDimensions) => allDimensions.indexOf(dimension) === index,
-    );
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
+      per_page: 1000,
     });
-    const storyblokDatasourceEntriesPromises: Promise<StoryblokDatasourceEntry[]>[] = storyblokDatasourceDimensions.map(async (dimension) => this.storyblokClient.getAll('cdn/datasource_entries', {
-      cv: timeStamp,
-      dimension,
-    }) as unknown as Promise<StoryblokDatasourceEntry[]>);
-    // eslint-disable-next-line compat/compat
-    const storyblokDatasourceEntries = await Promise.all(storyblokDatasourceEntriesPromises);
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
       storyblok.get(
@@ -285,20 +366,27 @@ export default class StoryblokEntry
           resolve_relations: storyblokConfig.options.resolveRelations || [],
         },
         async ({ story }) => {
-          const globalContentEntries = StoryblokService
-            .parseDatasourceEntries(StoryblokService.getLocalizedDatasourceEntries(
-              {
-                datasourceEntries: storyblokDatasourceEntries,
-                dimensions: storyblokDatasourceDimensions,
-                countryCode: StoryblokService.getCountryCode(story).countryCode,
-                defaultValue: defaultDatasourceEntries,
-              },
-            ));
+          const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
+            cv: timeStamp,
+            dimension: StoryblokService.getCountryCode(story).countryCode,
+            per_page: 1000,
+          });
+          const globalContentEntries = StoryblokService.parseDatasourceEntries(
+            StoryblokService.getLocalizedDatasourceEntries({
+              datasourceEntries: [storyblokDatasourceEntries],
+              // for the editor view we load only the datasources for this country
+              dimensions: [StoryblokService.getCountryCode(story).countryCode],
+              countryCode: StoryblokService.getCountryCode(story).countryCode,
+              defaultValue: defaultDatasourceEntries,
+            }),
+          );
           this.setState({
             story,
-            ...DomService.getGlobalConfig(story.uuid,
+            ...DomService.getGlobalConfig(
+              story.uuid,
               StoryblokService.getCountryCode(story).locale,
-              StoryblokService.getCountryCode(story).country),
+              StoryblokService.getCountryCode(story).country,
+            ),
             globalContent: globalContentEntries,
           });
           this.loadNavigation(story.lang);
@@ -313,7 +401,10 @@ export default class StoryblokEntry
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
     };
 
-    const allStories = await this.storyblokClient.getAll('cdn/stories', queryOptions);
+    const allStories = await this.storyblokClient.getAll(
+      'cdn/stories',
+      queryOptions,
+    );
     const tree = await NavigationService.getNavigation(allStories, lang);
     const contact = await NavigationService.getContactPage(lang);
 

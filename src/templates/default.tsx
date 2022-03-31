@@ -70,14 +70,25 @@ const FundsList = 'rcm-layout-funds' as React.ElementType;
 const FundsDetail = 'rcm-layout-fund' as React.ElementType;
 const Articles = 'rcm-layout-articles' as React.ElementType;
 const ContactButton = 'rcm-contact-button' as React.ElementType;
+const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
+const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
-export default class StoryblokEntry extends Component<StoryblokEntryProps, StoryblokEntryState> {
+export default class StoryblokEntry extends Component<
+StoryblokEntryProps,
+StoryblokEntryState
+> {
   public static getDerivedStateFromProps(
     props: StoryblokEntryProps,
     state: StoryblokEntryState,
   ): StoryblokEntryState {
-    return state.story.uuid !== props.pageContext.story.uuid ? parseEntryData(props) : null;
+    return state.story.uuid !== props.pageContext.story.uuid
+      ? parseEntryData(props)
+      : null;
   }
 
   public constructor(props: StoryblokEntryProps) {
@@ -97,8 +108,9 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
         this.setState({ navigation: navigationData });
       });
 
-    NavigationService.getContactPage(this.state.story.lang)
-      .then((contactPage) => this.setState({ contact: contactPage }));
+    NavigationService.getContactPage(this.state.story.lang).then(
+      (contactPage) => this.setState({ contact: contactPage }),
+    );
 
     LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
@@ -111,12 +123,10 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
   public render(): JSX.Element {
     const {
-      story,
-      navigation,
-      globalContent,
-      showIEModal,
-      ...globalConfig
+      story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
+
+    console.log(story);
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const grabFundsProps = (obj) => {
@@ -124,13 +134,18 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
       const { body, ...rest } = obj;
       rest.background = rest.background.filename;
       const moddedObj = Object.fromEntries(
-        Object.entries(rest).map(([key, value]) => [key.replace(/_/g, '-'), value]),
+        Object.entries(rest).map(([key, value]) => [
+          key.replace(/_/g, '-'),
+          typeof value === 'object' ? JSON.stringify(value) : value,
+        ]),
       );
       return moddedObj;
     };
 
     if (story.content.component === 'page') {
-      const nestableArticles = story.content.body?.find((item: SbEditableContent) => item.component === 'articles');
+      const nestableArticles = story.content.body?.find(
+        (item: SbEditableContent) => item.component === 'articles'
+      );
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
       }
@@ -138,39 +153,55 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
 
     return (
       <>
-        <GoogleTagManager googleTagManagerId={globalContent?.gtmId}></GoogleTagManager>
+        <GoogleTagManager
+          googleTagManagerId={globalContent?.gtmId}
+        ></GoogleTagManager>
         <SEO
           {...story.content.meta_tags}
           lang={StoryblokService.getCountryCode(story).locale}
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal globalContent={globalContent}></RcmCountrySwitchModal>
+        <RcmCountrySwitchModal
+          globalContent={globalContent}
+        ></RcmCountrySwitchModal>
         <RcmUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
         ></RcmUserSwitchModal>
-        <RcmIEModal globalContent={globalContent} show={showIEModal}></RcmIEModal>
+        <RcmIEModal
+          globalContent={globalContent}
+          show={showIEModal}
+        ></RcmIEModal>
         <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent globalContent={JSON.stringify(globalContent)}></RcmGlobalContent>
-        <Navigation
-          tree={navigation}
-          getComponent={getComponent}
-          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}
-          currentCountry={StoryblokService.getCountryCode(story).country}
-          currentLanguage={StoryblokService.getCountryCode(story).locale}
-        ></Navigation>
-        <Container>
+        <RcmGlobalContent
+          globalContent={JSON.stringify(globalContent)}
+        ></RcmGlobalContent>
+        {globalConfig.locale !== 'salzburg' && (
+          <Navigation
+            tree={navigation}
+            getComponent={getComponent}
+            userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
+            countryCode={StoryblokService.getCountryCode(story).countryCode}
+            currentCountry={StoryblokService.getCountryCode(story).country}
+            currentLanguage={StoryblokService.getCountryCode(story).locale}
+          ></Navigation>
+        )}
+        <Container
+          kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
+        >
           {story.content.component === 'article' && (
             <Article
               slot='content'
-              article={JSON.stringify(
-                { ...story.content, readingTime: calculateReadingTime(story) },
-              )}
+              article={JSON.stringify({
+                ...story.content,
+                readingTime: calculateReadingTime(story),
+              })}
               story-uuid={story.uuid}
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}
             >
               {blokToComponent({ blok: story.content, getComponent })}
             </Article>
@@ -179,24 +210,72 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
             <Articles
               slot='content'
               dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
               headline={story.content.headline}
               max-articles-number={story.content.max_articles_number}
               text={story.content.text}
-            >{blokToComponent({ blok: story.content, getComponent })}</Articles>
+            >
+              {blokToComponent({ blok: story.content, getComponent })}
+            </Articles>
           )}
           {story.content.component === 'funds' && (
             <FundsList slot='content' {...grabFundsProps(story.content)}>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsList>
           )}
-          {story.content.component === 'fund' && (
-            <FundsDetail slot='content' {...grabFundsProps(story.content)}>
-              {/* These are componentd filled with dummy data */}
+          {story.content.component === 'fund-detail' && (
+            <FundsDetail slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsDetail>
           )}
-          {story.content.component !== 'article'
-            && <div slot='content'>{blokToComponent({ blok: story.content, getComponent })}</div>}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content?.body?.map((c) => blokToComponent({ blok: c, getComponent })
+              )}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-prices' && (
+            <DedicatedContainer slot='content'>
+              <FundsPrices
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-documents' && (
+            <DedicatedContainer slot='content'>
+              <FundsDocuments
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'fund-fusion' && (
+            <DedicatedContainer slot='content'>
+              <FundFusion
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-mandatory' && (
+            <DedicatedContainer slot='content'>
+              <FundsMandatory
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              />
+            </DedicatedContainer>
+          )}
+          {story.content.component !== 'article' && (
+            <div slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+              {story.content.disclaimer_type?.length > 0 && (
+                <Disclaimer
+                  disclaimer={JSON.stringify(story.content.disclaimer_type)}
+                ></Disclaimer>
+              )}
+            </div>
+          )}
         </Container>
         <ContactButton
           link={globalContent?.contact?.button?.link}
@@ -206,14 +285,14 @@ export default class StoryblokEntry extends Component<StoryblokEntryProps, Story
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          countryCode={StoryblokService.getCountryCode(story).countryCode}>
-        </Footer>
+          countryCode={StoryblokService.getCountryCode(story).countryCode}
+        ></Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
-            height="0"
-            width="0"
+            height='0'
+            width='0'
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>

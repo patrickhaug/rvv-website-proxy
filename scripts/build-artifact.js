@@ -9,19 +9,22 @@ const parser = require('xml2json');
 const glob = require('glob');
 
 const countryFolders = {
-  rcm: {
+  rcm_generated: {
     folders: [
       { from: 'at-de', to: '/' },
+      'at-de',
       'at-en',
       'at-it',
       'sitemap',
       'page-data',
+      '404',
     ],
     domain: 'https://rcm.at/',
   },
-  international: {
+  international_generated: {
     folders: [
       'bg-bg',
+      'bg-en',
       'ch-de',
       'ch-en',
       'de-de',
@@ -38,14 +41,16 @@ const countryFolders = {
       'sk-en',
       'page-data',
       'sitemap',
+      '404',
     ],
     domain: 'https://international.rcm.at/',
   },
-  salzburg: {
-    folder: [
+  salzburg_generated: {
+    folders: [
       { from: 'raiffeisen-salzburg-invest', to: '/' },
       'page-data',
       'sitemap',
+      '404',
     ],
     domain: 'https://salzburg.rcm.at/',
   },
@@ -68,24 +73,37 @@ async function main() {
     fs.removeSync(`${root}/_tmp_`);
   }
   await mkdir(`${root}/_tmp_`);
+  const gatsbyFiles = fs.readdirSync(`${root}/public/`, { withFileTypes: true }).filter((file) => file.isFile());
 
   // eslint-disable-next-line guard-for-in
   for (const key in countryFolders) {
     await mkdir(`${root}/_tmp_/${key}`);
 
     const collectedTasks = [];
+    gatsbyFiles.forEach(async (file) => {
+      collectedTasks.push(
+        fs.copy(
+          `${root}/public/${file.name}`,
+          `${root}/_tmp_/${key}/${file.name}`
+        )
+      );
+    });
+
     countryFolders[key].folders.forEach(async (folder) => {
-      if (typeof folder === 'object') {
+      if (typeof folder === 'object' && fs.existsSync(`${root}/public/${folder.from}`)) {
         collectedTasks.push(
           fs.copy(
             `${root}/public/${folder.from}`,
             `${root}/_tmp_/${key}/${folder.to}`
           )
         );
-      } else {
+      } else if (fs.existsSync(`${root}/public/${folder}`)) {
         collectedTasks.push(
           fs.copy(`${root}/public/${folder}`, `${root}/_tmp_/${key}/${folder}`)
         );
+      } else {
+        // eslint-disable-next-line no-console
+        console.log(`${folder} does not exist`);
       }
     });
 
@@ -121,5 +139,6 @@ async function main() {
       parser.toXml(parsedSitemap)
     );
   }
+  await fs.copy(`${root}/_tmp_`, `${root}/public/`);
 }
 main();

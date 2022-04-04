@@ -21,7 +21,7 @@ jobs:
           node-version: 14
 
       - name: Install packages
-        run: npm install -g npm@8 && npm ci
+        run: npm install -g npm@8 && npm ci --legacy-peer-deps
 
       # - name: Run Lint verification
       #   run: npm run lint

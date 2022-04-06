@@ -1,3 +1,10 @@
+## [1.17.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.2...v1.17.3) (2022-04-06)
+
+
+### Bug Fixes
+
+* **build:** aws build ([4a651de](https://github.com/virtualidentityag/rcm-corporate/commit/4a651dee2366c9b252163953531ecf775a4803f4))
+
 ## [1.17.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.1...v1.17.2) (2022-04-06)
 
 

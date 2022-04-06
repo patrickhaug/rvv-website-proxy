@@ -11,7 +11,7 @@ import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal
 import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import { RcmIEModal } from '../components/custom/ie-modal';
-import { markupFromRichtextField, RcmRichtext } from '../components/custom/richtext';
+import { markupFromRichtextField } from '../components/custom/richtext';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 

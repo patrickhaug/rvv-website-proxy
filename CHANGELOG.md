@@ -1,3 +1,19 @@
+## [1.17.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.2...v1.17.3) (2022-04-06)
+
+
+### Bug Fixes
+
+* **build:** aws build ([4a651de](https://github.com/virtualidentityag/rcm-corporate/commit/4a651dee2366c9b252163953531ecf775a4803f4))
+
+## [1.17.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.1...v1.17.2) (2022-04-06)
+
+
+### Bug Fixes
+
+* **documents:** align all documents subpages ([5a96c76](https://github.com/virtualidentityag/rcm-corporate/commit/5a96c76f8ec66ddfd3ebf865e2b0ea2528f12b41))
+* for now ([a271fc6](https://github.com/virtualidentityag/rcm-corporate/commit/a271fc6958b2b0b8b2694fd872b0b627666933ef))
+* until pkgs are updated ([86ff669](https://github.com/virtualidentityag/rcm-corporate/commit/86ff669f061daee0f70a5c4f7b924dae3feac87f))
+
 ## [1.17.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.0...v1.17.1) (2022-03-31)
 
 

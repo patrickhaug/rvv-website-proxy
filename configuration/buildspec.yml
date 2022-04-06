@@ -18,7 +18,7 @@ phases:
       - export GATSBY_ENV=${ENVIRONMENT}
       - export GATSBY_WEBSITE_NAME=${WEBSITE_NAME}
       - export GATSBY_WEBSITE_URL="https://${WEBSITE_DOMAIN}"
-      - 'npm i -g npm@8 && npm install --legacy-peer-deps'
+      - 'npm i -g npm@8 && npm ci --legacy-peer-deps --cache .npm --prefer-offline --no-audit'
   build:
     commands:
       - 'npm run build'

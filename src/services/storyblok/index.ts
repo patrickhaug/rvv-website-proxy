@@ -1,4 +1,3 @@
-import { IPluginRefObject } from 'gatsby';
 import config from '../../../gatsby-config';
 
 export interface GlobalContent {
@@ -178,9 +177,9 @@ const getUrlParams = (): Record<string, string | true> => window.location.search
   }), {});
 
 export const StoryblokService = {
-  getConfig(): IPluginRefObject {
-    return (config.plugins as IPluginRefObject[])
-      .find((item) => item.resolve === 'gatsby-source-graphql') || {} as IPluginRefObject;
+  getConfig(): any {
+    return (config.plugins as any[])
+      .find((item) => item.resolve === 'gatsby-source-graphql') || {} as any;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

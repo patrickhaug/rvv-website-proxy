@@ -11,6 +11,7 @@ import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal
 import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import { RcmIEModal } from '../components/custom/ie-modal';
+import { markupFromRichtextField } from '../components/custom/richtext';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 
@@ -135,6 +136,23 @@ StoryblokEntryState
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
+
+    const getIntro = (intro: any) => (intro ? React.createElement(
+      'rcm-richtext',
+      {
+        // eslint-disable-next-line no-underscore-dangle
+        slot: 'intro',
+        'capitalize-first-Letter': undefined,
+        'right-to-left': undefined,
+        level: 1,
+        width: 'full',
+        'no-margin': true,
+        dangerouslySetInnerHTML: {
+          __html: markupFromRichtextField(intro),
+        },
+      },
+    ) : '');
+
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -228,7 +246,9 @@ StoryblokEntryState
               <FundsPrices
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsPrices>
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-documents' && (
@@ -236,7 +256,9 @@ StoryblokEntryState
               <FundsDocuments
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsDocuments>
             </DedicatedContainer>
           )}
           {story.content.component === 'fund-fusion' && (
@@ -244,7 +266,11 @@ StoryblokEntryState
               <FundFusion
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+                no-funds-found-text={story.content.no_funds_found_text}
+                no-funds-found-headline={story.content.no_funds_found_headline}
+              >
+                {getIntro(story.content.intro)}
+              </FundFusion>
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-mandatory' && (
@@ -252,7 +278,9 @@ StoryblokEntryState
               <FundsMandatory
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsMandatory>
             </DedicatedContainer>
           )}
           {story.content.component !== 'article' && (

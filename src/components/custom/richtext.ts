@@ -59,7 +59,7 @@ const fixExternalLinks = (markupString: string): string => markupString
   .replace(/href="\/https:\/\//gm, 'href="https://')
   .replace(/href="\/http:\/\//gm, 'href="http://');
 
-const markupFromRichtextField = (storyblokHtmlSchema: Richtext): string => fixExternalLinks(
+export const markupFromRichtextField = (storyblokHtmlSchema: Richtext): string => fixExternalLinks(
   forceLinksInsideParagraphs(storyblokClient.richTextResolver.render(storyblokHtmlSchema)),
 );
 

@@ -51,12 +51,12 @@ jobs:
           ref: master
 
       - name: Setup Node
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.1.0
         with:
           node-version: 14
 
       - name: Install packages
-        run: npm install -g npm@8 &&  npm ci
+        run: npm install -g npm@8 &&  npm ci --legacy-peer-deps
 
       - name: Run Tests
         run: npm run test || true # Tests will pass for while

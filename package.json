@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/react-helmet": "6.1.5",
     "@virtualidentityag/rcm-component-library": "1.28.6",
+    "@wardpeet/gatsby-plugin-static-site": "github:cravi24/gatsby-plugin-static-site#gatsby-v4-update",
     "gatsby": "4.11.1",
     "gatsby-plugin-manifest": "4.11.1",
     "gatsby-plugin-react-helmet": "5.11.0",

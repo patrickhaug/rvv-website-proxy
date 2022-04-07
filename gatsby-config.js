@@ -123,5 +123,6 @@ module.exports = {
         acl: null,
       },
     },
+    '@wardpeet/gatsby-plugin-static-site',
   ],
 };

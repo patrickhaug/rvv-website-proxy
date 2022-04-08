@@ -7,7 +7,7 @@ interface NavigationProps extends Props {
   currentCountry: string;
   currentLanguage: string;
   countryCode: string;
-  userTypeFromSlug: 'institutional' | 'retail' | 'advanced';
+  userTypeFromSlug: 'institutional' | 'retail';
   alternates: string;
 }
 

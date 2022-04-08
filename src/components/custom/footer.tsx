@@ -5,8 +5,7 @@ import { Props } from '../types';
 interface FooterProps extends Props {
   tree: StoryblokNodeTree[];
   countryCode: string;
-  userTypeFromSlug: 'institutional' | 'retail';
-  isSalzburg: boolean;
+  userTypeFromSlug: 'institutional' | 'retail' | 'advanced';
 }
 
 const Footer = 'rcm-footer' as React.ElementType;
@@ -41,9 +40,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 }
 
 export const RcmFooter = (props: FooterProps): JSX.Element => {
-  const {
-    tree, countryCode, userTypeFromSlug, isSalzburg,
-  } = props;
+  const { tree, countryCode, userTypeFromSlug } = props;
 
   if (!tree) {
     return null;
@@ -67,7 +64,6 @@ export const RcmFooter = (props: FooterProps): JSX.Element => {
       sitemap-links={JSON.stringify(items)}
       user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
-      is-salzburg={isSalzburg}
     >
       {/*
        * NOTE: Only works if renderTree is defined using the function keyword!

@@ -32,8 +32,6 @@ const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
 const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
-const RcmContainer = 'rcm-container' as React.ElementType;
-const RcmIcon = 'rcm-icon' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -155,11 +153,6 @@ StoryblokEntryState
       },
     ) : '');
 
-    const handleLogoClick = () => {
-      const mainPage = globalContent.navigation?.logo?.redirectPage;
-      window.location.href = mainPage;
-    };
-
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -183,21 +176,8 @@ StoryblokEntryState
         <RcmGlobalContent
           globalContent={JSON.stringify(globalContent)}
         ></RcmGlobalContent>
-        {globalConfig.locale === 'salzburg'
-          ? <RcmContainer style={{
-            position: 'relative', zIndex: '300', width: '100vw',
-          }}>
-            <nav style={{
-              top: 0, left: 0, position: 'fixed', padding: '1rem 0', backgroundColor: 'white', borderBottom: '1px solid #eee', width: '100%',
-            }}>
-              <RcmIcon
-                icon='rcm-logo-rsi'
-                height='85px'
-                style={{ cursor: 'pointer' }}
-                onClick={handleLogoClick}
-              ></RcmIcon></nav>
-          </RcmContainer>
-          : <Navigation
+        {globalConfig.locale !== 'salzburg' && (
+          <Navigation
             tree={navigation}
             getComponent={getComponent}
             userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -205,7 +185,8 @@ StoryblokEntryState
             currentCountry={StoryblokService.getCountryCode(story).country}
             currentLanguage={StoryblokService.getCountryCode(story).locale}
             alternates={JSON.stringify(story.alternates)}
-          ></Navigation>}
+          ></Navigation>
+        )}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
@@ -322,7 +303,6 @@ StoryblokEntryState
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
-          isSalzburg={globalConfig.locale === 'salzburg'}
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}

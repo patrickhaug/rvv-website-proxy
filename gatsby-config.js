@@ -123,6 +123,5 @@ module.exports = {
         acl: null,
       },
     },
-    'gatsby-plugin-static-site',
   ],
 };

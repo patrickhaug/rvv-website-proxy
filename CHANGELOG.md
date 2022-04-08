@@ -1,3 +1,18 @@
+# [1.18.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.3...v1.18.0) (2022-04-08)
+
+
+### Bug Fixes
+
+* disable client side routing with plugin ([50db396](https://github.com/virtualidentityag/rcm-corporate/commit/50db3968802ee19248dfd72db978c3e80a70c7d1))
+* lolz ([e4a03ac](https://github.com/virtualidentityag/rcm-corporate/commit/e4a03ac1dca7419b0efb97aea6dd7b6a952e7e89))
+* **salzburg:** header design ([6f58b70](https://github.com/virtualidentityag/rcm-corporate/commit/6f58b70f1986f405636058693508226265b568b3))
+
+
+### Features
+
+* **salzburg:** change logo for salzburg ([683a332](https://github.com/virtualidentityag/rcm-corporate/commit/683a33265dc718ff5ca393a62674ad97ad28d115))
+* static plugin local ([c0acb4e](https://github.com/virtualidentityag/rcm-corporate/commit/c0acb4eda122ddcb662e294d03a7c37e786008de))
+
 ## [1.17.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.2...v1.17.3) (2022-04-06)
 
 

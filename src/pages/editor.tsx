@@ -184,12 +184,16 @@ StoryblokEntryState
           globalContent={JSON.stringify(globalContent)}
         ></RcmGlobalContent>
         {globalConfig.locale === 'salzburg'
-          ? <RcmContainer>
-            <nav style={{ margin: '1rem 0' }}>
+          ? <RcmContainer style={{
+            position: 'relative', zIndex: '300', width: '100vw',
+          }}>
+            <nav style={{
+              top: 0, left: 0, position: 'fixed', padding: '1rem 0', backgroundColor: 'white', borderBottom: '1px solid #eee', width: '100%',
+            }}>
               <RcmIcon
-                className='navigation__logo'
                 icon='rcm-logo-rsi'
                 height='85px'
+                style={{ cursor: 'pointer' }}
                 onClick={handleLogoClick}
               ></RcmIcon></nav>
           </RcmContainer>

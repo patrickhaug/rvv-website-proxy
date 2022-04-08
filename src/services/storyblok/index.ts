@@ -117,12 +117,6 @@ export interface GlobalContent {
       retail: string;
       institutional: string;
     };
-    logo: {
-      redirectPage: string;
-    };
-    pageNotFoundTitle: string;
-    pageNotFoundText: string;
-    toHomepage: string;
   };
   footer: {
     infoText: string;
@@ -242,7 +236,7 @@ export const StoryblokService = {
 
   getUserTypeFromSlug(story): string {
     const userType = story.full_slug?.split('/')[1];
-    if (userType === 'retail' || userType === 'institutional') { return userType; }
+    if (userType === 'retail' || userType === 'advanced' || userType === 'institutional') { return userType; }
     return '';
   },
 

@@ -77,6 +77,8 @@ const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
 const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
+const RcmContainer = 'rcm-container' as React.ElementType;
+const RcmIcon = 'rcm-icon' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<
@@ -168,6 +170,11 @@ StoryblokEntryState
       },
     ) : '');
 
+    const handleLogoClick = () => {
+      const mainPage = globalContent.navigation?.logo?.redirectPage;
+      window.location.href = mainPage;
+    };
+
     return (
       <>
         <GoogleTagManager
@@ -196,16 +203,25 @@ StoryblokEntryState
         <RcmGlobalContent
           globalContent={JSON.stringify(globalContent)}
         ></RcmGlobalContent>
-        {globalConfig.locale !== 'salzburg' && (
-          <Navigation
+        {globalConfig.locale === 'salzburg'
+          ? <RcmContainer>
+            <nav style={{ margin: '1rem 0' }}>
+              <RcmIcon
+                className='navigation__logo'
+                icon='rcm-logo-rsi'
+                height='85px'
+                onClick={handleLogoClick}
+              ></RcmIcon></nav>
+          </RcmContainer>
+          : <Navigation
             tree={navigation}
             getComponent={getComponent}
             userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
             countryCode={StoryblokService.getCountryCode(story).countryCode}
             currentCountry={StoryblokService.getCountryCode(story).country}
             currentLanguage={StoryblokService.getCountryCode(story).locale}
-          ></Navigation>
-        )}
+            alternates={JSON.stringify(story.alternates)}
+          ></Navigation>}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
@@ -313,6 +329,7 @@ StoryblokEntryState
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
+          isSalzburg={globalConfig.locale === 'salzburg'}
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         <noscript>

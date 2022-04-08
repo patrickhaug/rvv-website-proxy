@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.18.0...v1.18.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **editor:** editor view with client rendering ([3a66f1a](https://github.com/virtualidentityag/rcm-corporate/commit/3a66f1a97eadb152b52520f0615f7a9e1ce03dc3))
+
 # [1.18.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.3...v1.18.0) (2022-04-08)
 
 

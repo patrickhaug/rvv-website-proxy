@@ -63,9 +63,9 @@ const sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>
   </urlset>
   `;
 
-async function main() {
-  const root = process.cwd();
+const root = process.cwd();
 
+async function main() {
   /**
    * Set up the build directory
    */
@@ -73,7 +73,9 @@ async function main() {
     fs.removeSync(`${root}/_tmp_`);
   }
   await mkdir(`${root}/_tmp_`);
-  const gatsbyFiles = fs.readdirSync(`${root}/public/`, { withFileTypes: true }).filter((file) => file.isFile());
+  const gatsbyFiles = fs
+    .readdirSync(`${root}/public/`, { withFileTypes: true })
+    .filter((file) => file.isFile());
 
   // eslint-disable-next-line guard-for-in
   for (const key in countryFolders) {
@@ -90,7 +92,10 @@ async function main() {
     });
 
     countryFolders[key].folders.forEach(async (folder) => {
-      if (typeof folder === 'object' && fs.existsSync(`${root}/public/${folder.from}`)) {
+      if (
+        typeof folder === 'object'
+        && fs.existsSync(`${root}/public/${folder.from}`)
+      ) {
         collectedTasks.push(
           fs.copy(
             `${root}/public/${folder.from}`,
@@ -139,6 +144,16 @@ async function main() {
       parser.toXml(parsedSitemap)
     );
   }
+  await fs.copy(`${root}/public/[...]`, `${root}/_tmp_/rcm_generated/[...]`);
+  await fs.copy(
+    `${root}/public/[...]`,
+    `${root}/_tmp_/international_generated/[...]`
+  );
+  await fs.copy(
+    `${root}/public/[...]`,
+    `${root}/_tmp_/salzburg_generated/[...]`
+  );
   await fs.copy(`${root}/_tmp_`, `${root}/public/`);
 }
+
 main();

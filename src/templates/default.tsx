@@ -129,8 +129,6 @@ StoryblokEntryState
       story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
 
-    console.log(story);
-
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const grabFundsProps = (obj) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

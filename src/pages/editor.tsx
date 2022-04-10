@@ -11,6 +11,7 @@ import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal
 import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
 import { RcmIEModal } from '../components/custom/ie-modal';
+import { markupFromRichtextField } from '../components/custom/richtext';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 
@@ -31,6 +32,8 @@ const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
 const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
+const RcmContainer = 'rcm-container' as React.ElementType;
+const RcmIcon = 'rcm-icon' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -135,6 +138,28 @@ StoryblokEntryState
         nestableArticles.component = 'rcm-layout-articles';
       }
     }
+
+    const getIntro = (intro: any) => (intro ? React.createElement(
+      'rcm-richtext',
+      {
+        // eslint-disable-next-line no-underscore-dangle
+        slot: 'intro',
+        'capitalize-first-Letter': undefined,
+        'right-to-left': undefined,
+        level: 1,
+        width: 'full',
+        'no-margin': true,
+        dangerouslySetInnerHTML: {
+          __html: markupFromRichtextField(intro),
+        },
+      },
+    ) : '');
+
+    const handleLogoClick = () => {
+      const mainPage = globalContent.navigation?.logo?.redirectPage;
+      window.location.href = mainPage;
+    };
+
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
@@ -158,8 +183,21 @@ StoryblokEntryState
         <RcmGlobalContent
           globalContent={JSON.stringify(globalContent)}
         ></RcmGlobalContent>
-        {globalConfig.locale !== 'salzburg' && (
-          <Navigation
+        {globalConfig.locale === 'salzburg'
+          ? <RcmContainer style={{
+            position: 'relative', zIndex: '300', width: '100vw',
+          }}>
+            <nav style={{
+              top: 0, left: 0, position: 'fixed', padding: '1rem 0', backgroundColor: 'white', borderBottom: '1px solid #eee', width: '100%',
+            }}>
+              <RcmIcon
+                icon='rcm-logo-rsi'
+                height='85px'
+                style={{ cursor: 'pointer' }}
+                onClick={handleLogoClick}
+              ></RcmIcon></nav>
+          </RcmContainer>
+          : <Navigation
             tree={navigation}
             getComponent={getComponent}
             userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -167,8 +205,7 @@ StoryblokEntryState
             currentCountry={StoryblokService.getCountryCode(story).country}
             currentLanguage={StoryblokService.getCountryCode(story).locale}
             alternates={JSON.stringify(story.alternates)}
-          ></Navigation>
-        )}
+          ></Navigation>}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
@@ -228,7 +265,9 @@ StoryblokEntryState
               <FundsPrices
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsPrices>
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-documents' && (
@@ -236,7 +275,9 @@ StoryblokEntryState
               <FundsDocuments
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsDocuments>
             </DedicatedContainer>
           )}
           {story.content.component === 'fund-fusion' && (
@@ -244,7 +285,11 @@ StoryblokEntryState
               <FundFusion
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+                no-funds-found-text={story.content.no_funds_found_text}
+                no-funds-found-headline={story.content.no_funds_found_headline}
+              >
+                {getIntro(story.content.intro)}
+              </FundFusion>
             </DedicatedContainer>
           )}
           {story.content.component === 'funds-mandatory' && (
@@ -252,7 +297,9 @@ StoryblokEntryState
               <FundsMandatory
                 headline={story.content.headline}
                 input-placeholder={story.content.input_placeholder}
-              />
+              >
+                {getIntro(story.content.intro)}
+              </FundsMandatory>
             </DedicatedContainer>
           )}
           {story.content.component !== 'article' && (
@@ -275,6 +322,7 @@ StoryblokEntryState
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
+          isSalzburg={globalConfig.locale === 'salzburg'}
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}

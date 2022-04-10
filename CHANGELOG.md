@@ -1,3 +1,41 @@
+## [1.18.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.18.0...v1.18.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* **editor:** editor view with client rendering ([3a66f1a](https://github.com/virtualidentityag/rcm-corporate/commit/3a66f1a97eadb152b52520f0615f7a9e1ce03dc3))
+
+# [1.18.0](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.3...v1.18.0) (2022-04-08)
+
+
+### Bug Fixes
+
+* disable client side routing with plugin ([50db396](https://github.com/virtualidentityag/rcm-corporate/commit/50db3968802ee19248dfd72db978c3e80a70c7d1))
+* lolz ([e4a03ac](https://github.com/virtualidentityag/rcm-corporate/commit/e4a03ac1dca7419b0efb97aea6dd7b6a952e7e89))
+* **salzburg:** header design ([6f58b70](https://github.com/virtualidentityag/rcm-corporate/commit/6f58b70f1986f405636058693508226265b568b3))
+
+
+### Features
+
+* **salzburg:** change logo for salzburg ([683a332](https://github.com/virtualidentityag/rcm-corporate/commit/683a33265dc718ff5ca393a62674ad97ad28d115))
+* static plugin local ([c0acb4e](https://github.com/virtualidentityag/rcm-corporate/commit/c0acb4eda122ddcb662e294d03a7c37e786008de))
+
+## [1.17.3](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.2...v1.17.3) (2022-04-06)
+
+
+### Bug Fixes
+
+* **build:** aws build ([4a651de](https://github.com/virtualidentityag/rcm-corporate/commit/4a651dee2366c9b252163953531ecf775a4803f4))
+
+## [1.17.2](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.1...v1.17.2) (2022-04-06)
+
+
+### Bug Fixes
+
+* **documents:** align all documents subpages ([5a96c76](https://github.com/virtualidentityag/rcm-corporate/commit/5a96c76f8ec66ddfd3ebf865e2b0ea2528f12b41))
+* for now ([a271fc6](https://github.com/virtualidentityag/rcm-corporate/commit/a271fc6958b2b0b8b2694fd872b0b627666933ef))
+* until pkgs are updated ([86ff669](https://github.com/virtualidentityag/rcm-corporate/commit/86ff669f061daee0f70a5c4f7b924dae3feac87f))
+
 ## [1.17.1](https://github.com/virtualidentityag/rcm-corporate/compare/v1.17.0...v1.17.1) (2022-03-31)
 
 

@@ -1,4 +1,3 @@
-import { IPluginRefObject } from 'gatsby';
 import config from '../../../gatsby-config';
 
 export interface GlobalContent {
@@ -118,6 +117,12 @@ export interface GlobalContent {
       retail: string;
       institutional: string;
     };
+    logo: {
+      redirectPage: string;
+    };
+    pageNotFoundTitle: string;
+    pageNotFoundText: string;
+    toHomepage: string;
   };
   footer: {
     infoText: string;
@@ -178,9 +183,9 @@ const getUrlParams = (): Record<string, string | true> => window.location.search
   }), {});
 
 export const StoryblokService = {
-  getConfig(): IPluginRefObject {
-    return (config.plugins as IPluginRefObject[])
-      .find((item) => item.resolve === 'gatsby-source-graphql') || {} as IPluginRefObject;
+  getConfig(): any {
+    return (config.plugins as any[])
+      .find((item) => item.resolve === 'gatsby-source-graphql') || {} as any;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -237,7 +242,7 @@ export const StoryblokService = {
 
   getUserTypeFromSlug(story): string {
     const userType = story.full_slug?.split('/')[1];
-    if (userType === 'retail' || userType === 'advanced' || userType === 'institutional') { return userType; }
+    if (userType === 'retail' || userType === 'institutional') { return userType; }
     return '';
   },
 

@@ -257,7 +257,7 @@ StoryblokEntryState
       storyblok.get(
         {
           slug: `${countryCode}/global/fund`,
-          version: 'draft',
+          version: 'published',
         },
         async ({ story }) => {
           const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {

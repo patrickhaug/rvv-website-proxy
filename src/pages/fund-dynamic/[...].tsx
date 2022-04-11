@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import StoryblokReact, { SbEditableContent } from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
-import { getComponent } from '../components';
+import { getComponent } from '../../components';
 import {
   DomService,
   StoryblokService,
@@ -9,12 +9,12 @@ import {
   LanguageService,
   StoryblokDatasourceEntry,
   Country,
-} from '../services';
-import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
-import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
-import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
-import { GoogleTagManager } from '../components/custom/google-tag-manager';
-import { RcmIEModal } from '../components/custom/ie-modal';
+} from '../../services';
+import { EntryData, StoryDataFromGraphQLQuery } from '../../templates/default';
+import { RcmCountrySwitchModal } from '../../components/custom/country-switch-modal';
+import { RcmUserSwitchModal } from '../../components/custom/user-switch-modal';
+import { GoogleTagManager } from '../../components/custom/google-tag-manager';
+import { RcmIEModal } from '../../components/custom/ie-modal';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 

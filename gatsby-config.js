@@ -32,7 +32,7 @@ module.exports = {
         {
           resolve: 'gatsby-plugin-page-creator',
           options: {
-            path: `${__dirname}/src/pages`,
+            path: `${__dirname}/src/pages/fund-dynamic`,
             ignore: ['editor.(j|t)s?(x)'],
           },
         },

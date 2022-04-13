@@ -190,9 +190,96 @@ StoryblokEntryState
             alternates={JSON.stringify(story.alternates)}
           ></Navigation>}
         <Container
-          key={'editor-container'}
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
+          {story.content.component === 'article' && (
+            <Article
+              slot='content'
+              article={JSON.stringify({
+                ...story.content,
+                readingTime: calculateReadingTime(story),
+              })}
+              story-uuid={story.uuid}
+              country={StoryblokService.getCountryCode(story).country}
+              language={StoryblokService.getCountryCode(story).locale}
+            >
+              {blokToComponent({ blok: story.content, getComponent })}
+            </Article>
+          )}
+          {story.content.component === 'articles' && (
+            <Articles
+              slot='content'
+              dropdown-label={story.content.dropdown_label}
+              all-categories-label={story.content.all_categories_label}
+              headline={story.content.headline}
+              max-articles-number={story.content.max_articles_number}
+              text={story.content.text}
+            >
+              {blokToComponent({ blok: story.content, getComponent })}
+            </Articles>
+          )}
+          {story.content.component === 'funds' && (
+            <FundsListPage slot='content' {...grabFundsProps(story.content)}>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsListPage>
+          )}
+          {story.content.component === 'fund-detail' && (
+            <FundsDetail slot='content'>
+              {blokToComponent({ blok: story.content, getComponent })}
+            </FundsDetail>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'courses-and-documents' && (
+            <DedicatedContainer slot='content'>
+              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-prices' && (
+            <DedicatedContainer slot='content'>
+              <FundsPrices
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              >
+                {getIntro(story.content.intro)}
+              </FundsPrices>
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-documents' && (
+            <DedicatedContainer slot='content'>
+              <FundsDocuments
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              >
+                {getIntro(story.content.intro)}
+              </FundsDocuments>
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'fund-fusion' && (
+            <DedicatedContainer slot='content'>
+              <FundFusion
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+                no-funds-found-text={story.content.no_funds_found_text}
+                no-funds-found-headline={story.content.no_funds_found_headline}
+              >
+                {getIntro(story.content.intro)}
+              </FundFusion>
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'funds-mandatory' && (
+            <DedicatedContainer slot='content'>
+              <FundsMandatory
+                headline={story.content.headline}
+                input-placeholder={story.content.input_placeholder}
+              >
+                {getIntro(story.content.intro)}
+              </FundsMandatory>
+            </DedicatedContainer>
+          )}
           {story.content.component !== 'article' && (
             <div slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}

@@ -153,9 +153,9 @@ StoryblokEntryState
         },
       },
     ) : '');
-    console.log('zweites');
+
     return (
-      <StoryblokReact key={'fiowefjowiefj'} content={story.content}>
+      <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
         <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
@@ -191,7 +191,6 @@ StoryblokEntryState
           ></Navigation>}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
-          key={Math.random()}
         >
           {story.content.component === 'article' && (
             <Article
@@ -282,7 +281,7 @@ StoryblokEntryState
             </DedicatedContainer>
           )}
           {story.content.component !== 'article' && (
-            <div slot='content' key={'test'}>
+            <div slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}
               {story.content.disclaimer_type?.length > 0 && (
                 <Disclaimer

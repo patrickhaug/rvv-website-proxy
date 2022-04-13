@@ -131,7 +131,7 @@ StoryblokEntryState
 
     if (story.content.component === 'page') {
       const nestableArticles = story.content.body?.find(
-        (item: SbEditableContent) => item.component === 'articles'
+        (item: SbEditableContent) => item.component === 'articles',
       );
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
@@ -222,11 +222,6 @@ StoryblokEntryState
             <FundsListPage slot='content' {...grabFundsProps(story.content)}>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsListPage>
-          )}
-          {story.content.component !== 'article' && (
-            <div slot='content'>
-              {blokToComponent({ blok: story.content, getComponent })}
-            </div>
           )}
           {story.content.component === 'fund-detail' && (
             <FundsDetail slot='content'>

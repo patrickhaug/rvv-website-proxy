@@ -20,6 +20,7 @@ export interface GlobalConfigProps {
   twitterHandle: string;
   whiteListedDomains: string;
   storyblokAccessToken: string;
+  activeEnv: string;
 }
 
 type HTMLElementContent = string | { toString: () => string };
@@ -83,6 +84,7 @@ export const DomService = {
       twitterHandle: process.env.GATSBY_TWITTER_HANDLE,
       whiteListedDomains: process.env.GATSBY_WHITE_LISTED_DOMAINS,
       storyblokAccessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,
+      activeEnv: process.env.WEBSITE_STAGE,
     };
   },
 };

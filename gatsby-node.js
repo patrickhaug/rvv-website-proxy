@@ -53,6 +53,7 @@ const queryContent = (
             slug
             full_slug
             is_startpage
+            alternates { fullSlug, id, isFolder, name, parentId, published, slug }
             parent_id
             group_id
             lang
@@ -102,6 +103,7 @@ const mandatoryNavKeys = [
   'is_startpage',
   'children',
   'page',
+  'alternates',
   // page attributes
   'name',
   'content',

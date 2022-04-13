@@ -223,11 +223,6 @@ StoryblokEntryState
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsListPage>
           )}
-          {story.content.component !== 'article' && (
-            <div slot='content'>
-              {blokToComponent({ blok: story.content, getComponent })}
-            </div>
-          )}
           {story.content.component === 'fund-detail' && (
             <FundsDetail slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}

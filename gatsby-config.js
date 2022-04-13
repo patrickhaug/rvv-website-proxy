@@ -27,17 +27,13 @@ module.exports = {
   },
   plugins: [
     // Disable "editor" page if it's a public build
-    ...(process.env.GATSBY_ENV === 'live'
-      ? [
-        {
-          resolve: 'gatsby-plugin-page-creator',
-          options: {
-            path: `${__dirname}/src/pages`,
-            ignore: ['editor.(j|t)s?(x)'],
-          },
-        },
-      ]
-      : []),
+    {
+      resolve: 'gatsby-plugin-page-creator',
+      options: {
+        path: `${__dirname}/src/pages/fund-dynamic`,
+        ignore: ['editor.(j|t)s?(x)'],
+      },
+    },
     {
       resolve: 'gatsby-source-graphql',
       options: {

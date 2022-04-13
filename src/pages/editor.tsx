@@ -131,7 +131,7 @@ StoryblokEntryState
 
     if (story.content.component === 'page') {
       const nestableArticles = story.content.body?.find(
-        (item: SbEditableContent) => item.component === 'articles'
+        (item: SbEditableContent) => item.component === 'articles',
       );
       if (nestableArticles) {
         nestableArticles.component = 'rcm-layout-articles';
@@ -153,9 +153,9 @@ StoryblokEntryState
         },
       },
     ) : '');
-
+    console.log('zweites');
     return (
-      <StoryblokReact content={story.content}>
+      <StoryblokReact key={'fiowefjowiefj'} content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
         <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
@@ -191,6 +191,7 @@ StoryblokEntryState
           ></Navigation>}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
+          key={Math.random()}
         >
           {story.content.component === 'article' && (
             <Article
@@ -232,11 +233,6 @@ StoryblokEntryState
             <FundsDetail slot='content'>
               {blokToComponent({ blok: story.content, getComponent })}
             </FundsDetail>
-          )}
-          {story.content.component === 'courses-and-documents' && (
-            <DedicatedContainer slot='content'>
-              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
-            </DedicatedContainer>
           )}
           {story.content.component === 'courses-and-documents' && (
             <DedicatedContainer slot='content'>
@@ -286,7 +282,7 @@ StoryblokEntryState
             </DedicatedContainer>
           )}
           {story.content.component !== 'article' && (
-            <div slot='content'>
+            <div slot='content' key={'test'}>
               {blokToComponent({ blok: story.content, getComponent })}
               {story.content.disclaimer_type?.length > 0 && (
                 <Disclaimer

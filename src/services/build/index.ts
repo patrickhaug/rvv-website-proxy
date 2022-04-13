@@ -155,7 +155,7 @@ export const BuildService = {
     });
   },
   /* Protects client only routes from matching slugs being created in Storyblok */
-  clientOnlyPaths: ['/media/releases/', '/investors/updates/', '/test/releases/', '/topic/', '/worldwide/'],
+  clientOnlyPaths: ['/fund-dynamic'],
 
   isClientOnlyPath(path: string): boolean {
     return (

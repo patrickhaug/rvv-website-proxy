@@ -50,6 +50,7 @@ const mandatoryNavKeys = [
   'is_startpage',
   'children',
   'page',
+  'alternates',
   // page attributes
   'name',
   'content',

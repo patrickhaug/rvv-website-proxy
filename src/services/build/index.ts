@@ -80,6 +80,7 @@ export const BuildService = {
               slug
               full_slug
               is_startpage
+              alternates { fullSlug, id, isFolder, name, parentId, published, slug }
               parent_id
               group_id
               lang

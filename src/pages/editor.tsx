@@ -233,11 +233,6 @@ StoryblokEntryState
               {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
             </DedicatedContainer>
           )}
-          {story.content.component === 'courses-and-documents' && (
-            <DedicatedContainer slot='content'>
-              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
-            </DedicatedContainer>
-          )}
           {story.content.component === 'funds-prices' && (
             <DedicatedContainer slot='content'>
               <FundsPrices

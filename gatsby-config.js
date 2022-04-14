@@ -27,12 +27,13 @@ module.exports = {
   },
   plugins: [
     // Disable "editor" page if it's a public build
+    // remove live condition if you want to test fund detail pages locally
     ...(process.env.GATSBY_ENV === 'live'
       ? [
         {
           resolve: 'gatsby-plugin-page-creator',
           options: {
-            path: `${__dirname}/src/pages`,
+            path: `${__dirname}/src/pages/fund-dynamic`,
             ignore: ['editor.(j|t)s?(x)'],
           },
         },

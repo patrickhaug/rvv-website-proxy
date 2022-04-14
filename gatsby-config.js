@@ -27,6 +27,7 @@ module.exports = {
   },
   plugins: [
     // Disable "editor" page if it's a public build
+    // remove live condition if you want to test fund detail pages locally
     ...(process.env.GATSBY_ENV === 'live'
       ? [
         {

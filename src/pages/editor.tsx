@@ -3,8 +3,7 @@ import StoryblokReact, { SbEditableContent } from 'storyblok-react';
 import StoryblokClient, { Story } from 'storyblok-js-client';
 import { getComponent, blokToComponent } from '../components';
 import {
-  DomService, StoryblokService, NavigationService,
-  LanguageService, StoryblokDatasourceEntry, calculateReadingTime,
+  DomService, StoryblokService, NavigationService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
 import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
@@ -382,7 +381,7 @@ StoryblokEntryState
     const timeStamp = new Date().toString();
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
-      per_page: 1000,
+      per_page: 500,
     });
     if (storyblok && storyblokConfig) {
       const currentPath = storyblok.getParam('path');
@@ -396,7 +395,7 @@ StoryblokEntryState
           const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
             cv: timeStamp,
             dimension: StoryblokService.getCountryCode(story).countryCode,
-            per_page: 1000,
+            per_page: 500,
           });
           const globalContentEntries = StoryblokService.parseDatasourceEntries(
             StoryblokService.getLocalizedDatasourceEntries({
@@ -417,29 +416,20 @@ StoryblokEntryState
             globalContent: globalContentEntries,
           });
           this.loadNavigation(story.lang);
-          this.loadLanguages();
         },
       );
     }
   }
 
   private async loadNavigation(lang?: string): Promise<void> {
-    const queryOptions = {
-      ...(lang !== 'default' && { starts_with: `${lang}/*` }),
-    };
-
     const allStories = await this.storyblokClient.getAll(
       'cdn/stories',
-      queryOptions,
+      {
+        excluding_slugs: '*/global/*, */category/*, */article/*',
+      },
     );
     const tree = await NavigationService.getNavigation(allStories, lang);
-    const contact = await NavigationService.getContactPage(lang);
 
-    this.setState({ navigation: tree, contact });
-  }
-
-  private async loadLanguages(): Promise<void> {
-    const languages = await LanguageService.getLanguages();
-    this.setState({ languages });
+    this.setState({ navigation: tree });
   }
 }

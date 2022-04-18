@@ -56,7 +56,7 @@ export const BuildService = {
 
   queryContent: (
     page = 1,
-    perPage = 100,
+    perPage = 25,
     language,
     resolveRelations = StoryblokService.getConfig().options.resolveRelations,
     resolveLinks = StoryblokService.getConfig().options.resolveLinks,

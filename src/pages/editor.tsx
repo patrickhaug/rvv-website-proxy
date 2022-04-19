@@ -6,33 +6,33 @@ import {
   DomService, StoryblokService, NavigationService, StoryblokDatasourceEntry, calculateReadingTime,
 } from '../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../templates/default';
-import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
-import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
+import { rvvCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { rvvUserSwitchModal } from '../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../components/custom/google-tag-manager';
-import { RcmIEModal } from '../components/custom/ie-modal';
+import { rvvIEModal } from '../components/custom/ie-modal';
 import { markupFromRichtextField } from '../components/custom/richtext';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
-const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
-const Navigation = getComponent('rcm-navigation') as React.ElementType;
-const Footer = getComponent('rcm-footer') as React.ElementType;
-const Container = 'rcm-layout-container' as React.ElementType;
+const rvvGlobalConfig = getComponent('rvv-global-config') as React.ElementType;
+const rvvGlobalContent = getComponent('rvv-global-content') as React.ElementType;
+const Navigation = getComponent('rvv-navigation') as React.ElementType;
+const Footer = getComponent('rvv-footer') as React.ElementType;
+const Container = 'rvv-layout-container' as React.ElementType;
 
-const Article = 'rcm-layout-article' as React.ElementType;
-const FundsListPage = 'rcm-layout-funds' as React.ElementType;
-const FundsDetail = 'rcm-layout-fund' as React.ElementType;
-const Articles = 'rcm-layout-articles' as React.ElementType;
-const ContactButton = 'rcm-contact-button' as React.ElementType;
-const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
-const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
-const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
-const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
-const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
-const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
-const RcmNavigationSalzburg = 'rcm-navigation-salzburg' as React.ElementType;
-const LicensorNotice = 'rcm-layout-licensor-notice' as React.ElementType;
+const Article = 'rvv-layout-article' as React.ElementType;
+const FundsListPage = 'rvv-layout-funds' as React.ElementType;
+const FundsDetail = 'rvv-layout-fund' as React.ElementType;
+const Articles = 'rvv-layout-articles' as React.ElementType;
+const ContactButton = 'rvv-contact-button' as React.ElementType;
+const DedicatedContainer = 'rvv-dedicated-container' as React.ElementType;
+const FundsPrices = 'rvv-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rvv-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rvv-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rvv-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rvv-disclaimer-container' as React.ElementType;
+const rvvNavigationSalzburg = 'rvv-navigation-salzburg' as React.ElementType;
+const LicensorNotice = 'rvv-layout-licensor-notice' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -66,7 +66,7 @@ StoryblokEntryState
     });
     loadStoryblokBridge(this.handleStoryblokLoad);
 
-    window.addEventListener('rcmLoginComplete', this.handleLogin);
+    window.addEventListener('rvvLoginComplete', this.handleLogin);
 
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
@@ -134,12 +134,12 @@ StoryblokEntryState
         (item: SbEditableContent) => item.component === 'articles',
       );
       if (nestableArticles) {
-        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.component = 'rvv-layout-articles';
       }
     }
 
     const getIntro = (intro: any) => (intro ? React.createElement(
-      'rcm-richtext',
+      'rvv-richtext',
       {
         // eslint-disable-next-line no-underscore-dangle
         slot: 'intro',
@@ -160,26 +160,26 @@ StoryblokEntryState
         <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
-        <RcmCountrySwitchModal
+        <rvvCountrySwitchModal
           globalContent={globalContent}
-        ></RcmCountrySwitchModal>
-        <RcmUserSwitchModal
+        ></rvvCountrySwitchModal>
+        <rvvUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
-        ></RcmUserSwitchModal>
-        <RcmIEModal
+        ></rvvUserSwitchModal>
+        <rvvIEModal
           globalContent={globalContent}
           show={showIEModal}
-        ></RcmIEModal>
-        <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent
+        ></rvvIEModal>
+        <rvvGlobalConfig {...globalConfig}></rvvGlobalConfig>
+        <rvvGlobalContent
           globalContent={JSON.stringify(globalContent)}
-        ></RcmGlobalContent>
+        ></rvvGlobalContent>
         {globalConfig.locale === 'salzburg'
-          ? <RcmNavigationSalzburg>
-          </RcmNavigationSalzburg>
+          ? <rvvNavigationSalzburg>
+          </rvvNavigationSalzburg>
           : <Navigation
             tree={navigation}
             getComponent={getComponent}

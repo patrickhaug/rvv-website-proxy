@@ -45,5 +45,5 @@ const MockedFundsDetails = (): JSX.Element => {
 };
 
 export const mockedFundsDetails = {
-  'rcm-mocked-funds-details': MockedFundsDetails,
+  'rvv-mocked-funds-details': MockedFundsDetails,
 };

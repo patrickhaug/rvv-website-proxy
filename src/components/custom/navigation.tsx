@@ -11,7 +11,7 @@ interface NavigationProps extends Props {
   alternates: string;
 }
 
-const Navigation = 'rcm-navigation' as React.ElementType;
+const Navigation = 'rvv-navigation' as React.ElementType;
 
 const cleanSlug = (slug: string) => {
   const slugs = slug.split('/');
@@ -59,7 +59,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
   return currentTree;
 }
 
-export const RcmNavigation = (props: NavigationProps): JSX.Element => {
+export const rvvNavigation = (props: NavigationProps): JSX.Element => {
   const {
     tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug, alternates,
   } = props;

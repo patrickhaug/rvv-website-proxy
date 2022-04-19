@@ -5,9 +5,9 @@ import { GlobalContent } from '../../services';
 // build time (node context) does not have document defined.
 const modal = typeof document !== 'undefined' ? document.getElementById('global-modal') : null;
 
-const Modal = 'rcm-ie-modal' as React.ElementType;
+const Modal = 'rvv-ie-modal' as React.ElementType;
 
-export const RcmIEModal = ({
+export const rvvIEModal = ({
   globalContent,
   show,
 }: {

@@ -45,7 +45,7 @@ const MockedFundsList = ({ blok, ...rest }: AnyProps): JSX.Element => {
   return Default({
     blok: {
       ...blok,
-      component: 'rcm-responsive-table',
+      component: 'rvv-responsive-table',
       table: undefined,
       headers: JSON.stringify(headers),
       rows: JSON.stringify(rows),
@@ -57,5 +57,5 @@ const MockedFundsList = ({ blok, ...rest }: AnyProps): JSX.Element => {
 };
 
 export const mockedFundsList = {
-  'rcm-mocked-funds-list': MockedFundsList,
+  'rvv-mocked-funds-list': MockedFundsList,
 };

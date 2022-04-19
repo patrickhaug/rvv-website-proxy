@@ -1,9 +1,9 @@
 import React, { ReactType, useEffect } from 'react';
 import { GlobalConfigProps, StringService, LanguageService } from '../../services';
 
-const CustomComponent = 'rcm-global-config' as ReactType;
+const CustomComponent = 'rvv-global-config' as ReactType;
 
-export const RcmGlobalConfig = (props: GlobalConfigProps): JSX.Element => {
+export const rvvGlobalConfig = (props: GlobalConfigProps): JSX.Element => {
   useEffect(() => {
     document.documentElement.lang = props.locale || LanguageService.defaultLocale;
   });

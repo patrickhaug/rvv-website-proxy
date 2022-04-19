@@ -7,7 +7,7 @@ const calculateReadingTime = (article) => {
     const slottedText = (_a = article.content.body) === null || _a === void 0 ? void 0 : _a.reduce((totalText, comp) => {
         var _a;
         if (comp.text) {
-            if (comp.component === 'rcm-richtext') {
+            if (comp.component === 'rvv-richtext') {
                 const richtext = (_a = comp.text.content) === null || _a === void 0 ? void 0 : _a.reduce((richtextTotal, content) => {
                     var _a;
                     const richtextElementsText = (_a = content.content) === null || _a === void 0 ? void 0 : _a.reduce((total, c) => (c.text ? total.concat(' ', c.text) : total), '');

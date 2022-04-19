@@ -2,9 +2,9 @@
 
 declare namespace JSX {
   interface IntrinsicElements {
-    'rcm-form': unknown;
-    'rcm-input': unknown;
-    'rcm-dropdown': unknown;
-    'rcm-select': unknown;
+    'rvv-form': unknown;
+    'rvv-input': unknown;
+    'rvv-dropdown': unknown;
+    'rvv-select': unknown;
   }
 }

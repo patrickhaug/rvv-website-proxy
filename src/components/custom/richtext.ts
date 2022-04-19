@@ -17,7 +17,7 @@ interface LinkComponentProps {
 const rootAlias = 'home';
 
 const componentPropRenderer = {
-  'rcm-text-link': (blok: LinkComponentProps): string => {
+  'rvv-text-link': (blok: LinkComponentProps): string => {
     const { cached_url, anchor, url } = blok.link;
     const parsedLink = url || `/${cached_url.replace(rootAlias, '')}${anchor ? `#${anchor}` : ''}`.replace('//', '/');
     return (
@@ -37,8 +37,8 @@ storyblokClient.setComponentResolver((component, blok): string => (
 /**
  * Storyblok's richtext editor always forces blok level components to close the previous "tag".
  *
- * This means we need to combine the <p> tags surrounding the rcm-text-link into the same one,
- * with rcm-text-link as their child
+ * This means we need to combine the <p> tags surrounding the rvv-text-link into the same one,
+ * with rvv-text-link as their child
  *
  * In order to maximize reusability of Storyblok's richTextResolver,
  * we use pattern matching and work directly on the "stringified markup" output by their tools.
@@ -47,8 +47,8 @@ storyblokClient.setComponentResolver((component, blok): string => (
  * by inserting 2 carriage returns, instead of 1, after a paragraph.
  */
 const forceLinksInsideParagraphs = (markupString: string): string => markupString
-  .replace(/<\/p><rcm-text-link/gm, ' <rcm-text-link')
-  .replace(/<\/rcm-text-link><p>/gm, '</rcm-text-link> ')
+  .replace(/<\/p><rvv-text-link/gm, ' <rvv-text-link')
+  .replace(/<\/rvv-text-link><p>/gm, '</rvv-text-link> ')
   .replace(/<p><\/p>/, '');
 
 /**
@@ -63,8 +63,8 @@ export const markupFromRichtextField = (storyblokHtmlSchema: Richtext): string =
   forceLinksInsideParagraphs(storyblokClient.richTextResolver.render(storyblokHtmlSchema)),
 );
 
-export const RcmRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
-  'rcm-richtext',
+export const rvvRichtext = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
+  'rvv-richtext',
   {
     // eslint-disable-next-line no-underscore-dangle
     uid: blok._uid,

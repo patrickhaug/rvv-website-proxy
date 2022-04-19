@@ -14,9 +14,9 @@ import {
   calculateReadingTime,
 } from '../services';
 import { SEO } from '../components/custom/seo';
-import { RcmCountrySwitchModal } from '../components/custom/country-switch-modal';
-import { RcmUserSwitchModal } from '../components/custom/user-switch-modal';
-import { RcmIEModal } from '../components/custom/ie-modal';
+import { rvvCountrySwitchModal } from '../components/custom/country-switch-modal';
+import { rvvUserSwitchModal } from '../components/custom/user-switch-modal';
+import { rvvIEModal } from '../components/custom/ie-modal';
 import { markupFromRichtextField } from '../components/custom/richtext';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
@@ -60,24 +60,24 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
   };
 };
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
-const RcmGlobalContent = getComponent('rcm-global-content') as React.ElementType;
-const Navigation = getComponent('rcm-navigation') as React.ElementType;
-const Footer = getComponent('rcm-footer') as React.ElementType;
-const Article = 'rcm-layout-article' as React.ElementType;
-const Container = 'rcm-layout-container' as React.ElementType;
-const FundsList = 'rcm-layout-funds' as React.ElementType;
-const FundsDetail = 'rcm-layout-fund' as React.ElementType;
-const Articles = 'rcm-layout-articles' as React.ElementType;
-const ContactButton = 'rcm-contact-button' as React.ElementType;
-const DedicatedContainer = 'rcm-dedicated-container' as React.ElementType;
-const FundsPrices = 'rcm-layout-fundsprices' as React.ElementType;
-const FundsDocuments = 'rcm-layout-fundsdownloads' as React.ElementType;
-const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
-const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
-const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
-const RcmNavigationSalzburg = 'rcm-navigation-salzburg' as React.ElementType;
-const LicensorNotice = 'rcm-layout-licensor-notice' as React.ElementType;
+const rvvGlobalConfig = getComponent('rvv-global-config') as React.ElementType;
+const rvvGlobalContent = getComponent('rvv-global-content') as React.ElementType;
+const Navigation = getComponent('rvv-navigation') as React.ElementType;
+const Footer = getComponent('rvv-footer') as React.ElementType;
+const Article = 'rvv-layout-article' as React.ElementType;
+const Container = 'rvv-layout-container' as React.ElementType;
+const FundsList = 'rvv-layout-funds' as React.ElementType;
+const FundsDetail = 'rvv-layout-fund' as React.ElementType;
+const Articles = 'rvv-layout-articles' as React.ElementType;
+const ContactButton = 'rvv-contact-button' as React.ElementType;
+const DedicatedContainer = 'rvv-dedicated-container' as React.ElementType;
+const FundsPrices = 'rvv-layout-fundsprices' as React.ElementType;
+const FundsDocuments = 'rvv-layout-fundsdownloads' as React.ElementType;
+const FundFusion = 'rvv-layout-fundsfusions' as React.ElementType;
+const FundsMandatory = 'rvv-layout-fundsmandatory' as React.ElementType;
+const Disclaimer = 'rvv-disclaimer-container' as React.ElementType;
+const rvvNavigationSalzburg = 'rvv-navigation-salzburg' as React.ElementType;
+const LicensorNotice = 'rvv-layout-licensor-notice' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<
@@ -100,7 +100,7 @@ StoryblokEntryState
 
   public componentDidMount(): void {
     this.maskUrl();
-    window.addEventListener('rcmLoginComplete', () => StoryblokService.redirect());
+    window.addEventListener('rvvLoginComplete', () => StoryblokService.redirect());
 
     /** fetch is polyfilled */
     // eslint-disable-next-line compat/compat
@@ -145,12 +145,12 @@ StoryblokEntryState
         (item: SbEditableContent) => item.component === 'articles'
       );
       if (nestableArticles) {
-        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.component = 'rvv-layout-articles';
       }
     }
 
     const getIntro = (intro: any) => (intro ? React.createElement(
-      'rcm-richtext',
+      'rvv-richtext',
       {
         // eslint-disable-next-line no-underscore-dangle
         slot: 'intro',
@@ -176,26 +176,26 @@ StoryblokEntryState
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <RcmCountrySwitchModal
+        <rvvCountrySwitchModal
           globalContent={globalContent}
-        ></RcmCountrySwitchModal>
-        <RcmUserSwitchModal
+        ></rvvCountrySwitchModal>
+        <rvvUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={globalConfig.country}
           inArticle={story.content.component === 'article'}
-        ></RcmUserSwitchModal>
-        <RcmIEModal
+        ></rvvUserSwitchModal>
+        <rvvIEModal
           globalContent={globalContent}
           show={showIEModal}
-        ></RcmIEModal>
-        <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent
+        ></rvvIEModal>
+        <rvvGlobalConfig {...globalConfig}></rvvGlobalConfig>
+        <rvvGlobalContent
           globalContent={JSON.stringify(globalContent)}
-        ></RcmGlobalContent>
+        ></rvvGlobalContent>
         {globalConfig.locale === 'salzburg'
-          ? <RcmNavigationSalzburg>
-          </RcmNavigationSalzburg>
+          ? <rvvNavigationSalzburg>
+          </rvvNavigationSalzburg>
           : <Navigation
             tree={navigation}
             getComponent={getComponent}

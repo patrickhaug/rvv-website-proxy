@@ -3,7 +3,7 @@ const averageWordsPerMinute = 200;
 export const calculateReadingTime = (article): number => {
   const slottedText = article.content.body?.reduce((totalText, comp) => {
     if (comp.text) {
-      if (comp.component === 'rcm-richtext') {
+      if (comp.component === 'rvv-richtext') {
         const richtext = comp.text.content?.reduce((richtextTotal, content) => {
           const richtextElementsText = content.content?.reduce(
             (total, c) => (c.text ? total.concat(' ', c.text) : total),

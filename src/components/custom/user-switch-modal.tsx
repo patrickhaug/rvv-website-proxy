@@ -5,7 +5,7 @@ import { GlobalContent, Country } from '../../services';
 // build time (node context) does not have document defined.
 const modal = typeof document !== 'undefined' ? document.getElementById('global-modal') : null;
 
-const Modal = 'rcm-user-switch-modal' as React.ElementType;
+const Modal = 'rvv-user-switch-modal' as React.ElementType;
 
 const convertUserConfigs = (content: GlobalContent | undefined): {
   value: string;
@@ -20,7 +20,7 @@ const convertUserConfigs = (content: GlobalContent | undefined): {
     description: content.userTypeConfigs[key].description,
   })) : []);
 
-export const RcmUserSwitchModal = ({
+export const rvvUserSwitchModal = ({
   globalContent,
   inArticle,
   country,

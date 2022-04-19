@@ -46,7 +46,7 @@ export const DomService = {
         charSet: 'UTF-8',
         async: 'true',
         defer: 'true',
-        'data-domain-script': `${process.env.GATSBY_RCM_ONETRUST_KEY}`,
+        'data-domain-script': `${process.env.GATSBY_rvv_ONETRUST_KEY}`,
         'data-document-language': 'true',
       };
 
@@ -80,7 +80,7 @@ export const DomService = {
       locale: parsedLocale,
       pageId: `storyblok:${process.env.GATSBY_STORYBLOK_SPACE_API_KEY_NAME}:${pageId}`,
       recaptchaKey: process.env.GATSBY_GOOGLE_RECAPTCHA_KEY,
-      translationUrl: `${process.env.GATSBY_COMPONENTS_LIBRARY_URL}/rcm-component-library/assets/translations/${parsedLocale}.json`,
+      translationUrl: `${process.env.GATSBY_COMPONENTS_LIBRARY_URL}/rvv-component-library/assets/translations/${parsedLocale}.json`,
       twitterHandle: process.env.GATSBY_TWITTER_HANDLE,
       whiteListedDomains: process.env.GATSBY_WHITE_LISTED_DOMAINS,
       storyblokAccessToken: process.env.GATSBY_STORYBLOK_SPACE_API_KEY,

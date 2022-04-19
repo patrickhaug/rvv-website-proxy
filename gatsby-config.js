@@ -11,10 +11,10 @@ require('dotenv').config({
  * in the defined component.
  */
 const autoResolveField = [
-  'rcm-editorial-big-feature.article',
+  'rvv-editorial-big-feature.article',
   'editorial-item.page',
   'article.category',
-  'rcm-disclaimer.disclaimers',
+  'rvv-disclaimer.disclaimers',
 ];
 
 module.exports = {
@@ -103,7 +103,7 @@ module.exports = {
           // Parse the hydrated document and optimize for performance
           afterHydrate: (document) => {
             document
-              .querySelectorAll('style, rcm-offcanvas')
+              .querySelectorAll('style, rvv-offcanvas')
               .forEach((tag) => tag.parentElement.removeChild(tag));
 
             const stylesForHydratedContent = document.createElement('style');

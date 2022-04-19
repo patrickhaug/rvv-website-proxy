@@ -17,7 +17,7 @@ interface LinkComponentProps {
 const rootAlias = 'home';
 
 const componentPropRenderer = {
-  'rcm-text-link': (blok: LinkComponentProps): string => {
+  'rvv-text-link': (blok: LinkComponentProps): string => {
     const { cached_url, anchor, url } = blok.link;
     const parsedLink = url || `/${cached_url.replace(rootAlias, '')}${anchor ? `#${anchor}` : ''}`.replace('//', '/');
     return (
@@ -34,8 +34,8 @@ storyblokClient.setComponentResolver((component, blok): string => (
   `<${component} ${componentPropRenderer[component](blok)}></${component}>`
 ));
 
-export const RcmEditorialTextBlock = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
-  'rcm-editorial-text-block',
+export const rvvEditorialTextBlock = ({ blok, slot }: AnyProps): JSX.Element => React.createElement(
+  'rvv-editorial-text-block',
   {
     // eslint-disable-next-line no-underscore-dangle
     uid: blok._uid,

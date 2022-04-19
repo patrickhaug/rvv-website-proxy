@@ -1,7 +1,7 @@
 import { Default } from '../default';
 import { AnyProps } from '../types';
 
-const RcmResponsiveTable = ({ blok, ...rest }: AnyProps): JSX.Element => {
+const rvvResponsiveTable = ({ blok, ...rest }: AnyProps): JSX.Element => {
   // map headers
   const headersArray = blok.table.thead?.map((tableHeader) => tableHeader.value);
 
@@ -26,5 +26,5 @@ const RcmResponsiveTable = ({ blok, ...rest }: AnyProps): JSX.Element => {
 };
 
 export const responsiveTable = {
-  'rcm-responsive-table': RcmResponsiveTable,
+  'rvv-responsive-table': rvvResponsiveTable,
 };

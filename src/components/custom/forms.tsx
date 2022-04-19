@@ -1,16 +1,16 @@
 import { Default } from '../default';
 import { AnyProps } from '../types';
 
-const RcmFormEmail = ({ blok, ...rest }: AnyProps): JSX.Element => Default({
+const rvvFormEmail = ({ blok, ...rest }: AnyProps): JSX.Element => Default({
   blok: {
     ...blok,
-    component: 'rcm-form',
+    component: 'rvv-form',
     type: 'email',
   },
   ...rest,
 });
 
 export const forms = {
-  'rcm-form-email': RcmFormEmail,
-  'rcm-form': Default,
+  'rvv-form-email': rvvFormEmail,
+  'rvv-form': Default,
 };

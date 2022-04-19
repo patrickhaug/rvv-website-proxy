@@ -10,7 +10,7 @@ interface HTMLProps {
 
 // eslint-disable-next-line import/no-default-export
 export default function HTML({ body, headComponents, postBodyComponents }: HTMLProps): JSX.Element {
-  const src = `${getComponentsURL()}/rcm-component-library/rcm-component-library`;
+  const src = `${getComponentsURL()}/rvv-component-library/rvv-component-library`;
   return (
     <html lang="de">
       <head>

@@ -10,23 +10,23 @@ import {
   Country,
 } from '../../services';
 import { EntryData, StoryDataFromGraphQLQuery } from '../../templates/default';
-import { RcmCountrySwitchModal } from '../../components/custom/country-switch-modal';
-import { RcmUserSwitchModal } from '../../components/custom/user-switch-modal';
+import { rvvCountrySwitchModal } from '../../components/custom/country-switch-modal';
+import { rvvUserSwitchModal } from '../../components/custom/user-switch-modal';
 import { GoogleTagManager } from '../../components/custom/google-tag-manager';
-import { RcmIEModal } from '../../components/custom/ie-modal';
+import { rvvIEModal } from '../../components/custom/ie-modal';
 
 type StoryblokEntryState = EntryData & { showIEModal: boolean };
 
-const RcmGlobalConfig = getComponent('rcm-global-config') as React.ElementType;
-const RcmGlobalContent = getComponent(
-  'rcm-global-content',
+const rvvGlobalConfig = getComponent('rvv-global-config') as React.ElementType;
+const rvvGlobalContent = getComponent(
+  'rvv-global-content',
 ) as React.ElementType;
-const Navigation = getComponent('rcm-navigation') as React.ElementType;
-const Footer = getComponent('rcm-footer') as React.ElementType;
-const Container = 'rcm-layout-container' as React.ElementType;
+const Navigation = getComponent('rvv-navigation') as React.ElementType;
+const Footer = getComponent('rvv-footer') as React.ElementType;
+const Container = 'rvv-layout-container' as React.ElementType;
 
-const FundsDetail = 'rcm-layout-fund' as React.ElementType;
-const ContactButton = 'rcm-contact-button' as React.ElementType;
+const FundsDetail = 'rvv-layout-fund' as React.ElementType;
+const ContactButton = 'rvv-contact-button' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -60,7 +60,7 @@ StoryblokEntryState
     });
     loadStoryblokBridge(this.handleStoryblokLoad);
 
-    window.addEventListener('rcmLoginComplete', this.handleLogin);
+    window.addEventListener('rvvLoginComplete', this.handleLogin);
 
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
@@ -114,7 +114,7 @@ StoryblokEntryState
         (item: SbEditableContent) => item.component === 'articles'
       );
       if (nestableArticles) {
-        nestableArticles.component = 'rcm-layout-articles';
+        nestableArticles.component = 'rvv-layout-articles';
       }
     }
 
@@ -126,23 +126,23 @@ StoryblokEntryState
         <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
-        <RcmCountrySwitchModal
+        <rvvCountrySwitchModal
           globalContent={globalContent}
-        ></RcmCountrySwitchModal>
-        <RcmUserSwitchModal
+        ></rvvCountrySwitchModal>
+        <rvvUserSwitchModal
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           globalContent={globalContent}
           country={countryCode.split('-')[0] as Country}
           inArticle={story.content.component === 'article'}
-        ></RcmUserSwitchModal>
-        <RcmIEModal
+        ></rvvUserSwitchModal>
+        <rvvIEModal
           globalContent={globalContent}
           show={showIEModal}
-        ></RcmIEModal>
-        <RcmGlobalConfig {...globalConfig}></RcmGlobalConfig>
-        <RcmGlobalContent
+        ></rvvIEModal>
+        <rvvGlobalConfig {...globalConfig}></rvvGlobalConfig>
+        <rvvGlobalContent
           globalContent={JSON.stringify(globalContent)}
-        ></RcmGlobalContent>
+        ></rvvGlobalContent>
         {globalConfig.locale !== 'salzburg' && (
           <Navigation
             tree={navigation}

@@ -9,7 +9,7 @@ interface FooterProps extends Props {
   isSalzburg: boolean;
 }
 
-const Footer = 'rcm-footer' as React.ElementType;
+const Footer = 'rvv-footer' as React.ElementType;
 
 function renderTree(leaf: StoryblokNodeTree): { userTypeSlug: string; tree: unknown } {
   // top level
@@ -40,7 +40,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
   return currentTree;
 }
 
-export const RcmFooter = (props: FooterProps): JSX.Element => {
+export const rvvFooter = (props: FooterProps): JSX.Element => {
   const {
     tree, countryCode, userTypeFromSlug, isSalzburg,
   } = props;

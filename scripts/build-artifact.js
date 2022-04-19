@@ -9,7 +9,7 @@ const parser = require('xml2json');
 const glob = require('glob');
 
 const countryFolders = {
-  rcm_generated: {
+  rvv_generated: {
     folders: [
       { from: 'at-de', to: '/' },
       'at-de',
@@ -19,7 +19,7 @@ const countryFolders = {
       'page-data',
       '404',
     ],
-    domain: 'https://rcm.at/',
+    domain: 'https://rvv.at/',
   },
   international_generated: {
     folders: [
@@ -43,7 +43,7 @@ const countryFolders = {
       'sitemap',
       '404',
     ],
-    domain: 'https://international.rcm.at/',
+    domain: 'https://international.rvv.at/',
   },
   salzburg_generated: {
     folders: [
@@ -52,7 +52,7 @@ const countryFolders = {
       'sitemap',
       '404',
     ],
-    domain: 'https://salzburg.rcm.at/',
+    domain: 'https://salzburg.rvv.at/',
   },
 };
 
@@ -144,7 +144,7 @@ async function main() {
       parser.toXml(parsedSitemap)
     );
   }
-  await fs.copy(`${root}/public/[...]`, `${root}/_tmp_/rcm_generated/[...]`);
+  await fs.copy(`${root}/public/[...]`, `${root}/_tmp_/rvv_generated/[...]`);
   await fs.copy(
     `${root}/public/[...]`,
     `${root}/_tmp_/international_generated/[...]`

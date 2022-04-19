@@ -1,31 +1,31 @@
 import { contentEntries } from './content-entries';
-import { RcmGlobalConfig } from './global-config';
-import { RcmGlobalContent } from './global-content';
-import { RcmNavigation } from './navigation';
-import { RcmFooter } from './footer';
+import { rvvGlobalConfig } from './global-config';
+import { rvvGlobalContent } from './global-content';
+import { rvvNavigation } from './navigation';
+import { rvvFooter } from './footer';
 import { gridComponents } from './grid';
-import { RcmRichtext } from './richtext';
-import { RcmLegalText } from './legal-text';
-import { RcmEditorialTextBlock } from './editorial-text-block';
+import { rvvRichtext } from './richtext';
+import { rvvLegalText } from './legal-text';
+import { rvvEditorialTextBlock } from './editorial-text-block';
 import { forms } from './forms';
 import { responsiveTable } from './responsive-table';
 import { mockedFundsList } from './mocked-funds-list';
-import { rcmGenericLinkComponents } from './generic-link';
+import { rvvGenericLinkComponents } from './generic-link';
 import { mockedFundsDetails } from './mocked-funds-details';
 // import { SEO } from './seo';
 
 // eslint-disable-next-line import/no-default-export
 export default {
   ...contentEntries,
-  RcmGlobalConfig,
-  RcmGlobalContent,
+  rvvGlobalConfig,
+  rvvGlobalContent,
   ...gridComponents,
-  RcmNavigation,
-  RcmFooter,
-  RcmRichtext,
-  RcmLegalText,
-  RcmEditorialTextBlock,
-  ...rcmGenericLinkComponents,
+  rvvNavigation,
+  rvvFooter,
+  rvvRichtext,
+  rvvLegalText,
+  rvvEditorialTextBlock,
+  ...rvvGenericLinkComponents,
   ...forms,
   ...responsiveTable,
   ...mockedFundsList,

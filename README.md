@@ -1,6 +1,6 @@
-# RCM Corporate
+# rvv Corporate
 
-This is the frontend for the RCM Corporate Website, built on Storyblok and the [RCM Component Library](https://github.com/virtualidentityag/rcm-component-library).
+This is the frontend for the rvv Corporate Website, built on Storyblok and the [rvv Component Library](https://github.com/virtualidentityag/rvv-component-library).
 
 ## Pre-requisites
 - node >= 14
@@ -27,12 +27,12 @@ There are also a corresponding auto-fix command: `npm run lint:fix`.
 
 ## Environments
 
-Since this repository should be used only as a starting point for a RCM website, you should define your preview and staging environments yourself.
+Since this repository should be used only as a starting point for a rvv website, you should define your preview and staging environments yourself.
 
-- http://preview.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Draft / Staging RCM corporate Website
-- http://live.rcm-corporate-staging.rcm.frontend.live/ - Storyblok Live / Staging RCM corporate Website
-- http://preview.rcm-corporate.rcm.frontend.live/ - Storyblok Draft / latest released RCM corporate Website
-- http://live.rcm-corporate.rcm.frontend.live/ - Storyblok Live / latest released RCM corporate Website
+- http://preview.rvv-staging.rvv.frontend.live/ - Storyblok Draft / Staging rvv corporate Website
+- http://live.rvv-staging.rvv.frontend.live/ - Storyblok Live / Staging rvv corporate Website
+- http://preview.rvv.rvv.frontend.live/ - Storyblok Draft / latest released rvv corporate Website
+- http://live.rvv.rvv.frontend.live/ - Storyblok Live / latest released rvv corporate Website
 
 ## Storyblok attributes
 Below are some guidelines for developing Storyblok content types.
@@ -170,7 +170,7 @@ Master is your main branch. Tags and Releases are created in that branch. It can
 
 ## Notes on creating components
 1. Create your own Storyblok space by duplicating the [staging space](https://app.storyblok.com/#!/me/spaces/104984/dashboard) in order to develop features
-2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/virtualidentityag/rcm-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.
+2. When your feature is ready for staging, add the schema to the website on the [schema configuration repo](https://github.com/virtualidentityag/rvv-storyblok-configuration). Follow the instruction in the readme to apply it to the staging space.
 
 ## Storyblok Testing/Debugging
 To test/debug components in storyblok, run the scripts `build` and `serve:build` here and `build` and `serve:prod-build` in the component library. 

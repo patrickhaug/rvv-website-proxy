@@ -1,7 +1,7 @@
 {
-  "name": "rcm-corporate",
+  "name": "rvv",
   "private": true,
-  "description": "RCM corporate website frontend",
+  "description": "rvv corporate website frontend",
   "version": "1.18.1",
   "engines": {
     "node": ">=14"
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/react-helmet": "6.1.5",
-    "@virtualidentityag/rcm-component-library": "1.28.6",
+    "@virtualidentityag/rvv-component-library": "1.28.6",
     "gatsby": "4.12.1",
     "gatsby-plugin-manifest": "4.12.1",
     "gatsby-plugin-react-helmet": "5.12.1",

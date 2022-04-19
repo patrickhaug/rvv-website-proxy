@@ -6,7 +6,6 @@ import {
   DomService,
   StoryblokService,
   NavigationService,
-  LanguageService,
   StoryblokDatasourceEntry,
   Country,
 } from '../../services';
@@ -251,7 +250,7 @@ StoryblokEntryState
     const countryCode = window.location.pathname.split('/')[1];
     const defaultDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
       cv: timeStamp,
-      per_page: 1000,
+      per_page: 500,
     });
     if (storyblok && storyblokConfig) {
       storyblok.get(
@@ -263,7 +262,7 @@ StoryblokEntryState
           const storyblokDatasourceEntries: StoryblokDatasourceEntry[] = await this.storyblokClient.getAll('cdn/datasource_entries', {
             cv: timeStamp,
             dimension: countryCode,
-            per_page: 1000,
+            per_page: 500,
           });
           const globalContentEntries = StoryblokService.parseDatasourceEntries(
             StoryblokService.getLocalizedDatasourceEntries({
@@ -284,7 +283,6 @@ StoryblokEntryState
             globalContent: globalContentEntries,
           });
           this.loadNavigation(countryCode.split('-')[0]);
-          this.loadLanguages();
         },
       );
     }
@@ -295,6 +293,7 @@ StoryblokEntryState
 
     const queryOptions = {
       ...(lang !== 'default' && { starts_with: `${lang}/*` }),
+      excluding_slugs: '*/global/*, */category/*, */article/*',
     };
 
     const allStories = await this.storyblokClient.getAll(
@@ -305,15 +304,7 @@ StoryblokEntryState
       allStories,
       countryCode.split('-')[1],
     );
-    const contact = await NavigationService.getContactPage(
-      countryCode.split('-')[1],
-    );
 
-    this.setState({ navigation: tree, contact });
-  }
-
-  private async loadLanguages(): Promise<void> {
-    const languages = await LanguageService.getLanguages();
-    this.setState({ languages });
+    this.setState({ navigation: tree });
   }
 }

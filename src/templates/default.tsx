@@ -10,7 +10,6 @@ import {
   StoryblokService,
   NavigationService,
   Language,
-  LanguageService,
   GlobalContent,
   calculateReadingTime,
 } from '../services';
@@ -114,8 +113,6 @@ StoryblokEntryState
     NavigationService.getContactPage(this.state.story.lang).then(
       (contactPage) => this.setState({ contact: contactPage }),
     );
-
-    LanguageService.getLanguages().then((languages) => this.setState({ languages }));
 
     DomService.activateConsentScript();
 

@@ -110,12 +110,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const { total } = preContentFetch.data.storyblok.ContentNodes;
   const { languageCodes } = preContentFetch.data.storyblok.Space;
-  const itemsPerPage = 100;
+  const itemsPerPage = 25;
   const allEntries = [];
   const allQueries = [
-    ...languageCodes.flatMap(
-      (lang) => BuildService.createQuery(graphql, allEntries, total, itemsPerPage, lang),
-    ),
     ...BuildService.createQuery(graphql, allEntries, total, itemsPerPage),
   ];
 

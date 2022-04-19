@@ -33,6 +33,7 @@ const FundFusion = 'rcm-layout-fundsfusions' as React.ElementType;
 const FundsMandatory = 'rcm-layout-fundsmandatory' as React.ElementType;
 const Disclaimer = 'rcm-disclaimer-container' as React.ElementType;
 const RcmNavigationSalzburg = 'rcm-navigation-salzburg' as React.ElementType;
+const LicensorNotice = 'rcm-layout-licensor-notice' as React.ElementType;
 
 const loadStoryblokBridge = (onLoadHandler: EventListener): void => {
   const script = DomService.createElement('script', '', {
@@ -233,11 +234,6 @@ StoryblokEntryState
               {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
             </DedicatedContainer>
           )}
-          {story.content.component === 'courses-and-documents' && (
-            <DedicatedContainer slot='content'>
-              {story.content.body.map((c) => blokToComponent({ blok: c, getComponent }))}
-            </DedicatedContainer>
-          )}
           {story.content.component === 'funds-prices' && (
             <DedicatedContainer slot='content'>
               <FundsPrices
@@ -278,6 +274,11 @@ StoryblokEntryState
               >
                 {getIntro(story.content.intro)}
               </FundsMandatory>
+            </DedicatedContainer>
+          )}
+          {story.content.component === 'licensor-notice' && (
+            <DedicatedContainer slot='content'>
+              <LicensorNotice headline={story.content.headline}/>
             </DedicatedContainer>
           )}
           {story.content.component !== 'article' && (

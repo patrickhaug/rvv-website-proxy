@@ -18,3 +18,4 @@ __exportStar(require("../src/services/browser-detection"), exports);
 __exportStar(require("../src/services/navigation"), exports);
 __exportStar(require("../src/services/storyblok"), exports);
 __exportStar(require("../src/services/reading-time"), exports);
+__exportStar(require("../src/services/build"), exports);

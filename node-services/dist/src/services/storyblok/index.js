@@ -71,7 +71,7 @@ exports.StoryblokService = {
     getUserTypeFromSlug(story) {
         var _a;
         const userType = (_a = story.full_slug) === null || _a === void 0 ? void 0 : _a.split('/')[1];
-        if (userType === 'retail' || userType === 'advanced' || userType === 'institutional') {
+        if (userType === 'retail' || userType === 'institutional') {
             return userType;
         }
         return '';

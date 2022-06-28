@@ -21,7 +21,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
         <meta name="msapplication-navbutton-color" content="#FFFFFF" />
         <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
         {/* Onetrust cookie consent */}
-        <script
+        {/* <script
           src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
           data-document-language="true"
           type="text/javascript"
@@ -35,7 +35,7 @@ export default function HTML({ body, headComponents, postBodyComponents }: HTMLP
           dangerouslySetInnerHTML={{ __html: 'function OptanonWrapper() {}' }}
           defer
         >
-        </script>
+        </script> */}
 
         {/* Optimized stylesheet loading */}
         <link rel="preload" href={`${src}.css`} as="style" />

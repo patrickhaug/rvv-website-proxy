@@ -157,7 +157,7 @@ StoryblokEntryState
     return (
       <StoryblokReact content={story.content}>
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
-        <GoogleTagManager
+        {/* <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
         <rvvCountrySwitchModal
@@ -188,7 +188,7 @@ StoryblokEntryState
             currentCountry={StoryblokService.getCountryCode(story).country}
             currentLanguage={StoryblokService.getCountryCode(story).locale}
             alternates={JSON.stringify(story.alternates)}
-          ></Navigation>}
+          ></Navigation>} */}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
@@ -291,7 +291,7 @@ StoryblokEntryState
             </div>
           )}
         </Container>
-        <ContactButton
+        {/* <ContactButton
           link={globalContent?.contact?.button?.link}
           name={globalContent?.contact?.button?.name}
         ></ContactButton>
@@ -304,14 +304,14 @@ StoryblokEntryState
         ></Footer>
         {/* End Google Tag Manager (noscript) */}
         {/* TODO: Remove GTM from editor view after tracking was tested by Oli */}
-        <noscript>
+        {/* <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
             height='0'
             width='0'
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
-        </noscript>
+        </noscript>  */}
         {/* End Google Tag Manager (noscript) */}
       </StoryblokReact>
     );

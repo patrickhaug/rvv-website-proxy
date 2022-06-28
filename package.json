@@ -7,7 +7,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "npm run compile:node-services && gatsby develop",
+    "start": "gatsby develop",
     "compile:node-services": "tsc --project node-services/",
     "build": "gatsby build --log-pages --write-to-file",
     "deploy": "gatsby-plugin-s3 deploy",

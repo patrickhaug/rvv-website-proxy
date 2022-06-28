@@ -114,7 +114,7 @@ StoryblokEntryState
       (contactPage) => this.setState({ contact: contactPage }),
     );
 
-    DomService.activateConsentScript();
+    // DomService.activateConsentScript();
 
     const ua = window.navigator.userAgent;
     const isIE = ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0;
@@ -167,7 +167,7 @@ StoryblokEntryState
 
     return (
       <>
-        <GoogleTagManager
+        {/* <GoogleTagManager
           googleTagManagerId={globalContent?.gtmId}
         ></GoogleTagManager>
         <SEO
@@ -176,27 +176,8 @@ StoryblokEntryState
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-        <rvvCountrySwitchModal
-          globalContent={globalContent}
-        ></rvvCountrySwitchModal>
-        <rvvUserSwitchModal
-          userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
-          globalContent={globalContent}
-          country={globalConfig.country}
-          inArticle={story.content.component === 'article'}
-        ></rvvUserSwitchModal>
-        <rvvIEModal
-          globalContent={globalContent}
-          show={showIEModal}
-        ></rvvIEModal>
-        <rvvGlobalConfig {...globalConfig}></rvvGlobalConfig>
-        <rvvGlobalContent
-          globalContent={JSON.stringify(globalContent)}
-        ></rvvGlobalContent>
-        {globalConfig.locale === 'salzburg'
-          ? <rvvNavigationSalzburg>
-          </rvvNavigationSalzburg>
-          : <Navigation
+         */}
+          {/* <Navigation
             tree={navigation}
             getComponent={getComponent}
             userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
@@ -204,7 +185,7 @@ StoryblokEntryState
             currentCountry={StoryblokService.getCountryCode(story).country}
             currentLanguage={StoryblokService.getCountryCode(story).locale}
             alternates={JSON.stringify(story.alternates)}
-          ></Navigation>}
+          ></Navigation> */}
         <Container
           kind={`${globalConfig.locale === 'salzburg' ? 'full' : 'normal'}`}
         >
@@ -308,26 +289,26 @@ StoryblokEntryState
             </div>
           )}
         </Container>
-        <ContactButton
+        {/* <ContactButton
           link={globalContent?.contact?.button?.link}
           name={globalContent?.contact?.button?.name}
-        ></ContactButton>
-        <Footer
+        ></ContactButton> */}
+        {/* <Footer
           tree={navigation}
           getComponent={getComponent}
           userTypeFromSlug={StoryblokService.getUserTypeFromSlug(story)}
           countryCode={StoryblokService.getCountryCode(story).countryCode}
           isSalzburg={globalConfig.locale === 'salzburg'}
-        ></Footer>
+        ></Footer> */}
         {/* End Google Tag Manager (noscript) */}
-        <noscript>
+        {/* <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${globalContent?.gtmId}`}
             height='0'
             width='0'
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
-        </noscript>
+        </noscript> */}
         {/* End Google Tag Manager (noscript) */}
       </>
     );

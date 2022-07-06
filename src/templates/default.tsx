@@ -79,6 +79,8 @@ const Disclaimer = 'rvv-disclaimer-container' as React.ElementType;
 const rvvNavigationSalzburg = 'rvv-navigation-salzburg' as React.ElementType;
 const LicensorNotice = 'rvv-layout-licensor-notice' as React.ElementType;
 
+const RvvPageOverview = 'rvv-page-overview' as React.ElementType;
+
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<
 StoryblokEntryProps,
@@ -165,6 +167,7 @@ StoryblokEntryState
       },
     ) : '');
 
+    console.log(story)
     return (
       <>
         {/* <GoogleTagManager
@@ -277,6 +280,11 @@ StoryblokEntryState
             <DedicatedContainer slot='content'>
               <LicensorNotice headline={story.content.headline} />
             </DedicatedContainer>
+          )}
+          {story.content.component === 'rvv-page-overview' && (
+              <div slot='content'>
+                <RvvPageOverview>{blokToComponent({ blok: story.content.body, getComponent })}</RvvPageOverview>
+              </div>
           )}
           {story.content.component !== 'article' && (
             <div slot='content'>

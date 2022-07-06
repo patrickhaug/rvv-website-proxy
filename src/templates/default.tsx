@@ -283,7 +283,7 @@ StoryblokEntryState
           )}
           {story.content.component === 'rvv-page-overview' && (
               <div slot='content'>
-                <RvvPageOverview>{blokToComponent({ blok: story.content.body, getComponent })}</RvvPageOverview>
+                <RvvPageOverview >{blokToComponent({ blok: story.content, getComponent })}</RvvPageOverview>
               </div>
           )}
           {story.content.component !== 'article' && (

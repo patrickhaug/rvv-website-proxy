@@ -7,7 +7,6 @@ interface NavigationProps extends Props {
   currentCountry: string;
   currentLanguage: string;
   countryCode: string;
-  userTypeFromSlug: 'institutional' | 'retail';
   alternates: string;
 }
 
@@ -26,25 +25,45 @@ function renderTree(leaf: StoryblokNodeTree): {
   tree: unknown;
 } {
   // top level
-  const tree = leaf.children.map((e: StoryblokNodeTree) => {
-    if (e.is_folder) {
-      const tabEntry = {
-        text: e.name,
-        href: cleanSlug(e.real_path),
-        children: [],
-      };
-      e.children.forEach((c) => {
-        if (!c.page?.content?.hide_in_navigation) {
-          tabEntry.children.push({
-            text: c.page?.content?.navigation_title || c.name,
-            href: cleanSlug(c.real_path),
-          });
-        }
-      });
-      return tabEntry;
-    }
-    return { text: '', href: '' };
-  });
+
+  const tree = [];
+
+  if (leaf.is_folder) {
+    const tabEntry = {
+      text: leaf.name,
+      href: cleanSlug(leaf.real_path),
+      children: [],
+    };
+    leaf.children.forEach((c) => {
+      if (!c.page?.content?.hide_in_navigation) {
+        tabEntry.children.push({
+          text: c.page?.content?.navigation_title || c.name,
+          href: cleanSlug(c.real_path),
+        });
+      }
+    });
+    tree.push(tabEntry);
+  }
+
+  // const tree = leaf.children.map((e: StoryblokNodeTree) => {
+  //   if (e.is_folder) {
+  //     const tabEntry = {
+  //       text: e.name,
+  //       href: cleanSlug(e.real_path),
+  //       children: [],
+  //     };
+  //     e.children.forEach((c) => {
+  //       if (!c.page?.content?.hide_in_navigation) {
+  //         tabEntry.children.push({
+  //           text: c.page?.content?.navigation_title || c.name,
+  //           href: cleanSlug(c.real_path),
+  //         });
+  //       }
+  //     });
+  //     return tabEntry;
+  //   }
+  //   return { text: '', href: '' };
+  // });
   return {
     userTypeSlug: leaf.slug ? leaf.slug : leaf.real_path.substring(1),
     tree,
@@ -61,7 +80,7 @@ function getCurrentTree(tree: Map<string, any>, lang = 'at-de'): unknown[] {
 
 export const rvvNavigation = (props: NavigationProps): JSX.Element => {
   const {
-    tree, currentCountry, currentLanguage, countryCode, userTypeFromSlug, alternates,
+    tree, currentCountry, currentLanguage, countryCode, alternates,
   } = props;
 
   if (!tree) {
@@ -77,6 +96,7 @@ export const rvvNavigation = (props: NavigationProps): JSX.Element => {
     }
   });
   const currentTree = getCurrentTree(langMap, countryCode);
+
   const items = currentTree ? currentTree.map(renderTree) : [];
 
   // We need the custom component, otherwise jsx does not render the attributes
@@ -85,7 +105,6 @@ export const rvvNavigation = (props: NavigationProps): JSX.Element => {
       tab-entries={JSON.stringify(items)}
       current-language={currentLanguage}
       current-country={currentCountry}
-      user-type-from-slug={userTypeFromSlug}
       country-code={countryCode}
       alternates={alternates}
     >

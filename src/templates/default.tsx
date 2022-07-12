@@ -11,7 +11,7 @@ import {
   Language,
   GlobalContent,
 } from '../services';
-// import { SEO } from '../components/custom/seo';
+import { SEO } from '../components/custom/seo';
 // import { markupFromRichtextField } from '../components/custom/richtext';
 
 export interface StoryDataFromGraphQLQuery extends StoryData {
@@ -56,12 +56,12 @@ const parseEntryData = ({ pageContext }: StoryblokEntryProps): StoryblokEntrySta
 };
 
 // Datasources
-// const rvvGlobalConfig = getComponent('rvv-global-config') as React.ElementType;
-// const rvvGlobalContent = getComponent('rvv-global-content') as React.ElementType;
+const RvvGlobalConfig = getComponent('rvv-global-config') as React.ElementType;
+const RvvGlobalContent = getComponent('rvv-global-content') as React.ElementType;
 const Navigation = getComponent('rvv-navigation') as React.ElementType;
 const Footer = getComponent('rvv-footer') as React.ElementType;
 const Container = 'rvv-layout-container' as React.ElementType;
-// const ContactButton = 'rvv-contact-button' as React.ElementType;
+const ContactButton = 'rvv-contact-button' as React.ElementType;
 
 // eslint-disable-next-line import/no-default-export
 export default class StoryblokEntry extends Component<
@@ -105,7 +105,7 @@ StoryblokEntryState
 
   public render(): JSX.Element {
     const {
-      story, navigation,
+      story, navigation, globalContent, showIEModal, ...globalConfig
     } = this.state;
 
     // const getIntro = (intro: any) => (intro ? React.createElement(
@@ -126,14 +126,16 @@ StoryblokEntryState
 
     return (
       <>
-        {/*
         <SEO
           {...story.content.meta_tags}
           lang={StoryblokService.getCountryCode(story).locale}
           slug={story.full_slug}
           authorized_roles={story.content.authorized_roles}
         ></SEO>
-         */}
+        <RvvGlobalConfig {...globalConfig}></RvvGlobalConfig>
+        <RvvGlobalContent
+          globalContent={JSON.stringify(globalContent)}
+        ></RvvGlobalContent>
         <Navigation
           tree={navigation}
           getComponent={getComponent}
@@ -149,10 +151,10 @@ StoryblokEntryState
             {blokToComponent({ blok: story.content, getComponent })}
           </div>
         </Container>
-        {/* <ContactButton
+        <ContactButton
           link={globalContent?.contact?.button?.link}
           name={globalContent?.contact?.button?.name}
-        ></ContactButton> */}
+        ></ContactButton>
         <Footer
           tree={navigation}
           getComponent={getComponent}
